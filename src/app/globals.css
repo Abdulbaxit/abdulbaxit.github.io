@@ -1,0 +1,2205 @@
+@import "tailwindcss";
+
+/*-----------------------------------------------------------------------*\
+  Abdul Basit — portfolio
+  Layout, type and colour follow the kenjimmy.xyz homepage: a white card
+  on warm paper, Roboto, coral accent.
+\*-----------------------------------------------------------------------*/
+
+@theme {
+  --color-prime: #e45447;
+  --color-prime-soft: #f3877e;
+  --color-prime-light: #d8c7b8;
+  --color-paper: #f2f0ee;
+  --color-card: #ffffff;
+  --color-ink: #58595b;
+  --color-dark: #2b2929;
+  --color-gold: #e29d51;
+  --color-secondary: #607393;
+  --color-night: #0d1017;
+
+  --ease-spring: cubic-bezier(0.22, 1.4, 0.36, 1);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /*
+    Width of the white card and the footer (max-w-shell). Leaves 70% of
+    the side space a 72rem card did, at every screen width:
+      100vw - 0.7 × (100vw - 72rem)  =  50.4rem + 30vw
+    In general, for N% less side space: (72 × (1 - N/100))rem + N vw.
+  */
+  --container-shell: calc(50.4rem + 30vw);
+}
+
+/* --font-roboto is set on <html> by next/font in layout.tsx. */
+@theme inline {
+  --font-sans: var(--font-roboto), ui-sans-serif, system-ui, sans-serif;
+}
+
+/*
+  Light and dark both paint through these. A new surface only needs
+  defining in the two blocks below.
+*/
+:root {
+  --surface-page: var(--color-card);
+  --surface-shell: var(--color-paper);
+  --surface-card: var(--color-card);
+  --surface-raised: var(--color-paper);
+  --surface-tile: var(--color-card);
+  --surface-diagram: #f7f6f4;
+  --text-body: var(--color-ink);
+  --text-strong: var(--color-dark);
+  --text-muted: #6b7280;
+  --rule: rgba(88, 89, 91, 0.16);
+  --portrait-bg: radial-gradient(circle at 38% 30%, #efeae4, #d5cec4 72%);
+  --callout-bg: var(--color-dark);
+  --callout-text: var(--color-paper);
+  --dock-bg: rgba(255, 255, 255, 0.82);
+  --dock-border: rgba(88, 89, 91, 0.14);
+  --dock-hover: rgba(88, 89, 91, 0.09);
+  color-scheme: light;
+}
+
+.dark {
+  --surface-page: var(--color-night);
+  --surface-shell: var(--color-night);
+  --surface-card: #14171d;
+  --surface-raised: #1b1f26;
+  --surface-tile: #1b1f26;
+  --surface-diagram: #eef0f2;
+  --text-body: var(--color-paper);
+  --text-strong: var(--color-paper);
+  --text-muted: #9aa3af;
+  --rule: rgba(242, 240, 238, 0.14);
+  /* Warm and a step lighter than the card, so black hair and the black
+     shirt in the portrait separate from the disc behind them. */
+  --portrait-bg: radial-gradient(circle at 38% 30%, #5a4f4a, #2e2826 74%);
+  /* The bubble inverts, as it does in light mode, instead of sinking
+     into the dark card. */
+  --callout-bg: var(--color-paper);
+  --callout-text: var(--color-dark);
+  --dock-bg: rgba(22, 25, 31, 0.86);
+  --dock-border: rgba(242, 240, 238, 0.12);
+  --dock-hover: rgba(242, 240, 238, 0.1);
+  /* Cal.com reads color-scheme, not the class, to pick its theme. */
+  color-scheme: dark;
+}
+
+/*
+  Theme switch (ThemeToggle.tsx). The default cross-fade is replaced by a
+  circle that grows from the toggle with a 56px feathered edge: the new
+  snapshot is masked by a radial gradient whose radius, --vt-r, script
+  animates. --vt-r is registered so it can be animated at all; --vt-x and
+  --vt-y (the button's centre) are set on <html> and inherited.
+*/
+@property --vt-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  -webkit-mask-image: radial-gradient(
+    circle at var(--vt-x, 50%) var(--vt-y, 50%),
+    #000 calc(var(--vt-r) - 56px),
+    transparent var(--vt-r)
+  );
+  mask-image: radial-gradient(
+    circle at var(--vt-x, 50%) var(--vt-y, 50%),
+    #000 calc(var(--vt-r) - 56px),
+    transparent var(--vt-r)
+  );
+}
+
+/*
+  The page's own colour transitions are switched off for the switch, so
+  the live page lands on its final colours at once and matches the new
+  snapshot exactly when the snapshots are removed.
+*/
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+
+/* While the page is a still snapshot, show the live native cursor. */
+.theme-switching .cursor-dot,
+.theme-switching .cursor-ring {
+  visibility: hidden;
+}
+
+.theme-switching.has-cursor,
+.theme-switching.has-cursor * {
+  cursor: auto !important;
+}
+
+/* Fallback without View Transitions: colours cross-fade instead. */
+.theme-fade,
+.theme-fade *,
+.theme-fade *::before,
+.theme-fade *::after {
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease,
+    border-color 0.45s ease,
+    fill 0.45s ease,
+    stroke 0.45s ease !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  background: var(--surface-page);
+  color: var(--text-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-prime);
+  color: var(--color-paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-prime);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.skip {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 200;
+  padding: 10px 18px;
+  background: var(--color-prime);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  transition: top 0.15s ease;
+}
+.skip:focus {
+  top: 12px;
+}
+
+.svg-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  fill: currentColor;
+}
+
+
+/*-----------------------------------*\
+  #SHELL
+\*-----------------------------------*/
+
+/* White edge to edge on phones; the paper only shows around the card. */
+.page-bg {
+  background: var(--surface-card);
+}
+
+@media (min-width: 768px) {
+  .page-bg {
+    background: var(--surface-shell);
+  }
+}
+
+.mark {
+  display: inline-block;
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  padding-bottom: 0.5rem;
+  color: var(--text-body);
+  /* The footer column is uppercase; the wordmark stays "ab." */
+  text-transform: none;
+}
+.mark span {
+  color: var(--color-prime);
+}
+
+.f-link {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s,
+    transform 0.2s;
+}
+.f-link:hover,
+.f-link:focus-visible {
+  background-color: var(--color-prime);
+  color: var(--color-paper);
+  box-shadow: 0 1rem 2rem rgba(43, 41, 41, 0.4);
+  transform: rotate(-5deg) scale(1.1);
+}
+
+.kj-border {
+  position: relative;
+  height: 0.2rem;
+  width: 8rem;
+  background: var(--color-prime);
+  margin-top: 1rem;
+}
+.kj-border::before {
+  content: "";
+  position: absolute;
+  top: -0.2rem;
+  left: -0.2rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--color-prime);
+}
+
+.color-bar {
+  display: flex;
+  height: 0.75rem;
+  margin-top: 1.25rem;
+}
+.color-bar > * {
+  height: 100%;
+  width: 25%;
+}
+
+
+/*-----------------------------------*\
+  #HERO ENTRANCE
+  Each element carries its own delay in --d. Nothing waits on a loader,
+  so the hero has settled about a second after first paint.
+\*-----------------------------------*/
+
+.callout {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  width: 80px;
+  padding: 10px;
+  margin: 25px;
+  border: 1px solid var(--callout-bg);
+  border-radius: 3px;
+  background: var(--callout-bg);
+  color: var(--callout-text);
+  font-size: 16px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.callout::before {
+  content: "";
+  position: absolute;
+  right: 7px;
+  bottom: -20px;
+  width: 0;
+  height: 0;
+  border: 0.8em solid transparent;
+  border-top: 10px solid var(--callout-bg);
+}
+
+.letter {
+  display: inline-block;
+  line-height: 1;
+  opacity: 0;
+  animation: letter-in 0.42s var(--ease-spring) both;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes letter-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em) rotate(-6deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  opacity: 0;
+  animation: rise-in 0.6s var(--ease-out-soft) both;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.pop {
+  opacity: 0;
+  animation: pop-in 0.5s var(--ease-spring) both;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+/*-----------------------------------*\
+  #HERO LAYOUT
+  The copy column is sized by its own measure and the medallion takes the
+  smaller share beside it.
+\*-----------------------------------*/
+
+.hero {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 3rem;
+  }
+}
+
+.hero__copy {
+  min-width: 0;
+}
+
+.hero__name {
+  font-size: clamp(2.75rem, 9vw, 4rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+}
+
+.hero__role {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-strong);
+}
+
+.hero__dot {
+  color: var(--color-prime);
+}
+
+/* When the role line wraps, the separator would be stranded at the end
+   of the first line. */
+@media (max-width: 520px) {
+  .hero__dot {
+    display: none;
+  }
+}
+
+/* Availability badge: a pill that hugs its text, centred on phones. */
+.hero__status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  margin: 0 auto 1rem;
+  padding: 5px 12px 5px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-strong);
+}
+
+@media (min-width: 768px) {
+  .hero__status {
+    margin-left: 0;
+  }
+}
+
+/* A green dot with a ring that breathes out from it. */
+.hero__pulse {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #22a55a;
+}
+
+.hero__pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  animation: status-ping 2s ease-out infinite;
+}
+
+@keyframes status-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  80%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.hero__location {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.hero__tagline {
+  max-width: 55ch;
+  margin-top: 1.25rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.hero__stack {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.hero__stack li {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 5px 11px;
+}
+
+.hero__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.hero__figure {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .hero__role,
+  .hero__stack,
+  .hero__cta {
+    justify-content: flex-start;
+  }
+
+  .hero__tagline {
+    text-align: left;
+  }
+
+  .hero__cta {
+    flex-direction: row;
+    align-items: center;
+    gap: 1.75rem;
+  }
+}
+
+
+/*-----------------------------------*\
+  #EMAIL DISC
+\*-----------------------------------*/
+
+.talk-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Outer ring is the lighter coral; ::before lays the darker disc on top
+   at 68% of the diameter, so the two tones stay concentric at any size. */
+.talk {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 132px;
+  width: 132px;
+  border-radius: 50%;
+  background: var(--color-prime-soft);
+  color: #fff;
+  transition: transform 0.35s var(--ease-out-soft);
+}
+
+button.talk {
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.talk::before {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  background: #cc5449;
+}
+
+.talk:hover,
+.talk:focus-visible {
+  transform: scale(1.06);
+}
+
+.talk__text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 21px;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+
+/* the second line sits in from the first */
+.talk__l2 {
+  margin-left: 1.15em;
+}
+
+/* One pulse on entry, then again only while the pointer is on the disc.
+   `forwards` from opacity 0 so a slow first paint can't leave the ring
+   frozen at full size over the tagline. */
+.talk-pulse {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  height: 152px;
+  width: 152px;
+  margin: -76px 0 0 -76px;
+  border-radius: 50%;
+  background: var(--color-prime);
+  opacity: 0;
+  transform: scale(0);
+  pointer-events: none;
+  animation: pulse-out 1.6s ease-out 1.4s forwards;
+}
+
+.talk-wrapper:hover .talk-pulse,
+.talk-wrapper:focus-within .talk-pulse {
+  animation: pulse-out 1.8s ease-out 0.2s infinite;
+}
+
+@keyframes pulse-out {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+
+/*-----------------------------------*\
+  #CONTACT PANEL
+  The disc opens these reasons, each of which prefills a subject and a
+  starter body, with copy-to-clipboard as the fallback when mailto: goes
+  nowhere. It stays in the DOM so it can animate both ways; `inert` and
+  `visibility` keep a closed panel out of reach.
+\*-----------------------------------*/
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* Top-aligned: the closed panel still takes its height, and centring the
+   disc against it left a gap under the stack chips. */
+@media (min-width: 640px) {
+  .contact {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.75rem;
+  }
+}
+
+.contact__panel {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.4rem);
+  transition:
+    opacity 0.22s var(--ease-out-soft),
+    transform 0.28s var(--ease-out-soft),
+    visibility 0s linear 0.28s;
+}
+
+.contact__panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  /* No delay on the way in: visibility must flip before the fade starts. */
+  transition:
+    opacity 0.22s var(--ease-out-soft),
+    transform 0.28s var(--ease-spring),
+    visibility 0s;
+}
+
+/*
+  Stacked under the disc on phones, a closed panel would still hold its
+  full height as a blank gap above the medallion. There it collapses and
+  opens like an accordion. The padding (offset by the negative margin)
+  leaves room for focus rings that overflow would otherwise clip.
+*/
+@media (max-width: 639px) {
+  .contact__panel {
+    max-height: 0;
+    overflow: hidden;
+    margin: 0 -6px;
+    padding: 0 6px;
+    transition:
+      max-height 0.3s var(--ease-out-soft),
+      opacity 0.22s var(--ease-out-soft),
+      transform 0.28s var(--ease-out-soft),
+      visibility 0s linear 0.3s;
+  }
+
+  .contact__panel.is-open {
+    max-height: 24rem;
+    padding-bottom: 6px;
+    transition:
+      max-height 0.35s var(--ease-out-soft),
+      opacity 0.22s var(--ease-out-soft),
+      transform 0.28s var(--ease-spring),
+      visibility 0s;
+  }
+}
+
+.contact__prompt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+
+.contact__reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.contact__reason {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-width: 13rem;
+  padding: 0.5rem 0.85rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-strong);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.contact__reason span {
+  color: var(--text-muted);
+  transition: transform 0.2s var(--ease-out-soft), color 0.2s ease;
+}
+
+.contact__reason:hover,
+.contact__reason:focus-visible {
+  border-color: var(--color-prime);
+  color: var(--color-prime);
+}
+
+.contact__reason:hover span,
+.contact__reason:focus-visible span {
+  color: var(--color-prime);
+  transform: translateX(3px);
+}
+
+.contact__alt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.85rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--rule);
+}
+
+.contact__alt-link {
+  font-size: 12px;
+  color: var(--text-muted);
+  border-bottom: 1px solid transparent;
+  align-self: flex-start;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.contact__alt-link:hover,
+.contact__alt-link:focus-visible {
+  color: var(--color-prime);
+  border-bottom-color: var(--color-prime);
+}
+
+.contact__copy {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.contact__address {
+  border-bottom: 1px dashed var(--rule);
+}
+
+.contact__copy-state {
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 10px;
+  color: var(--color-prime);
+}
+
+@media (min-width: 640px) {
+  .contact__prompt,
+  .contact__copy {
+    text-align: left;
+  }
+}
+
+
+/*-----------------------------------*\
+  #MEDALLION
+  The portrait cropped to a circle on a soft disc. On hover (mouse only)
+  it tilts toward the pointer, lifts, and a coral ring spins up around
+  it. Medallion.tsx supplies --px / --py, the pointer's position from -1
+  to 1; everything else is here. The stage measures and is never
+  transformed; the tilt element moves.
+\*-----------------------------------*/
+
+.medallion-stage {
+  --px: 0;
+  --py: 0;
+  width: fit-content;
+  margin-inline: auto;
+  /* Hover area reaches past the ring, so the edge doesn't flicker. */
+  padding: 16px;
+}
+
+.medallion-tilt {
+  position: relative;
+  border-radius: 50%;
+  /* Leaving: spring back to rest with a slight overshoot. */
+  transition: transform 0.8s var(--ease-spring);
+}
+
+/* The ring: a conic gradient masked down to a 3px band outside the circle. */
+.medallion-tilt::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--color-prime),
+    var(--color-gold),
+    transparent 35%,
+    transparent 50%,
+    var(--color-prime-soft),
+    var(--color-prime)
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+  opacity: 0;
+  scale: 0.94;
+  transition: opacity 0.4s ease, scale 0.6s var(--ease-spring);
+  animation: medallion-spin 7s linear infinite;
+  animation-play-state: paused;
+  pointer-events: none;
+}
+
+@keyframes medallion-spin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+.medallion {
+  position: relative;
+  width: min(260px, 62vw);
+  aspect-ratio: 1;
+  margin-inline: auto;
+  border-radius: 50%;
+  background: var(--portrait-bg);
+  display: flex;
+  overflow: hidden;
+  transition: box-shadow 0.5s ease;
+}
+
+@media (min-width: 1280px) {
+  .medallion {
+    width: 300px;
+  }
+}
+
+/* The object-position bias keeps the face centred when the circle crops
+   the sides. */
+.medallion__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 42%;
+  display: block;
+  transition: transform 0.6s var(--ease-out-soft);
+}
+
+/* A soft light that follows the pointer across the portrait. */
+.medallion__shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at calc(50% + var(--px) * 35%) calc(50% + var(--py) * 35%),
+    rgba(255, 255, 255, 0.45),
+    transparent 55%
+  );
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .medallion-stage:hover .medallion-tilt {
+    transform: perspective(900px) rotateX(calc(var(--py) * -9deg))
+      rotateY(calc(var(--px) * 9deg)) translateY(-6px) scale(1.035);
+    /* While hovering, track the pointer closely. */
+    transition: transform 0.18s ease-out;
+  }
+
+  .medallion-stage:hover .medallion-tilt::before {
+    opacity: 1;
+    scale: 1;
+    animation-play-state: running;
+  }
+
+  .medallion-stage:hover .medallion {
+    box-shadow: 0 30px 50px -22px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Parallax: the portrait drifts against the tilt, inside the circle. */
+  .medallion-stage:hover .medallion__img {
+    transform: translate(calc(var(--px) * -8px), calc(var(--py) * -8px)) scale(1.07);
+  }
+
+  .medallion-stage:hover .medallion__shine {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .medallion-stage:hover .medallion-tilt,
+  .medallion-stage:hover .medallion__img {
+    transform: none;
+  }
+}
+
+.medallion__initials {
+  margin: auto;
+  font-size: clamp(4rem, 18vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: var(--color-prime);
+  user-select: none;
+}
+
+
+/*-----------------------------------*\
+  #SVG BUTTON
+  A coral disc at rest that grows into a pill behind the label on hover.
+  --pill is set per button from the label's measured width.
+\*-----------------------------------*/
+
+.svg-btn {
+  display: inline-block;
+  font-weight: 700;
+}
+.svg-btn svg {
+  display: block;
+  overflow: visible;
+}
+.svg-btn rect {
+  transition: width 0.4s var(--ease-spring), fill 0.4s ease, opacity 0.4s ease;
+}
+.svg-btn text {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  fill: var(--text-strong);
+  transition: fill 0.2s linear;
+}
+.svg-btn:hover rect,
+.svg-btn:focus-visible rect {
+  width: var(--pill, 160px);
+  fill: var(--color-prime);
+  opacity: 0.9;
+}
+.svg-btn:hover text,
+.svg-btn:focus-visible text {
+  fill: var(--color-paper);
+}
+
+
+/*-----------------------------------*\
+  #SKILLS SCENE
+\*-----------------------------------*/
+
+/*
+  A fixed-proportion stage. Each layer's SVG is cropped to its own
+  artwork, so left/width (% of stage width) and top (% of stage height)
+  place exactly what is drawn, and the scene scales as one piece: it can
+  no longer outgrow the panel when the column gets wider.
+
+  Layout: desk along the bottom, monitor centred above it, the figure in
+  front. The floating windows get their own columns either side of the
+  monitor, above the desk, so they never cover the figure or the screen:
+  4 and 6 on the left, 5 and 7 on the right, which is also the side each
+  slides in from.
+*/
+.illustration {
+  position: relative;
+  width: calc(100% - 3rem);
+  max-width: 34rem;
+  aspect-ratio: 100 / 82;
+  margin: 1.5rem auto;
+  align-self: center;
+  isolation: isolate;
+}
+
+.illustration__img {
+  position: absolute;
+  height: auto;
+  will-change: transform, opacity;
+}
+
+/* figure */
+.illustration__img--1 {
+  left: 39.3%;
+  top: 42.3%;
+  width: 21.4%;
+  z-index: 5;
+  transform-origin: 50% 95%;
+}
+/* desk */
+.illustration__img--2 { left: 19%;   top: 58.5%; width: 62%;   z-index: 2; }
+/* monitor: its bottom clears the top of the desk, so the mug shows */
+.illustration__img--3 { left: 28.2%; top: 21.5%; width: 43.7%; z-index: 3; }
+/* floating windows */
+.illustration__img--4 { left: 1%;    top: 3.7%;  width: 24.8%; z-index: 6; }
+.illustration__img--6 { left: 5%;    top: 29.9%; width: 17.5%; z-index: 6; }
+.illustration__img--5 { left: 76%;   top: 2.4%;  width: 19.9%; z-index: 6; }
+.illustration__img--7 { left: 79%;   top: 42.1%; width: 12.6%; z-index: 6; }
+
+/*
+  Unpinned (below 1024px): the scene assembles once as it scrolls into
+  view, in the same order as the pinned version. Skills.tsx adds
+  .will-reveal (never under reduced motion), then .is-visible on entry.
+  Offsets are vertical only, so nothing slides past the screen edge.
+*/
+html:not(.js-skills-pin) .illustration.will-reveal .illustration__img {
+  opacity: 0;
+}
+
+html:not(.js-skills-pin) .illustration.is-visible .illustration__img {
+  animation: layer-in 0.6s var(--ease-out-soft) both;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes layer-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--fy, 0), 0) scale(var(--fs, 1));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.illustration__img--1 { --fs: 0.6;   --d: 0s; }
+.illustration__img--2 { --fy: -24px; --d: 0.1s; }
+.illustration__img--3 { --fy: -24px; --d: 0.2s; }
+.illustration__img--5 { --fy: 16px;  --d: 0.35s; }
+.illustration__img--6 { --fy: 16px;  --d: 0.45s; }
+.illustration__img--4 { --fy: 16px;  --d: 0.55s; }
+.illustration__img--7 { --fy: 16px;  --d: 0.65s; }
+
+/* Set on <html> by Skills.tsx only while the pinned scene is running. */
+.js-skills-pin .see-project-btn,
+.js-skills-pin .data-1,
+.js-skills-pin .data-2 {
+  opacity: 0;
+}
+
+@media (min-width: 1024px) {
+  /* 1.5 screens of pinned scroll; every beat is a fraction of it. */
+  .js-skills-pin .skills-pin {
+    height: 250vh;
+  }
+
+  .js-skills-pin .skills-sticky {
+    position: sticky;
+    top: 0;
+    margin-top: 0;
+    padding-top: 6rem;
+    padding-bottom: 4rem;
+    background: var(--surface-card);
+  }
+}
+
+
+/*-----------------------------------*\
+  #IMPACT BLOCK
+\*-----------------------------------*/
+
+.impact {
+  padding: 10px 4px 0;
+}
+
+.impact__kicker {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 18px;
+}
+
+.impact__row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.impact__row:last-child {
+  border-bottom: 0;
+}
+
+.impact__n {
+  flex: 0 0 auto;
+  min-width: 92px;
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-prime);
+  font-variant-numeric: tabular-nums;
+}
+
+.impact__n span {
+  font-size: 0.45em;
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+.impact__l {
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+@media (max-width: 767px) {
+  .impact__n {
+    min-width: 74px;
+    font-size: 32px;
+  }
+}
+
+
+/*-----------------------------------*\
+  #RECOMMENDATIONS
+\*-----------------------------------*/
+
+.quotes {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .quotes {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+}
+
+.quote {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  background: var(--surface-raised);
+}
+
+/* A coral opening mark instead of a quote glyph in the text. */
+.quote__text {
+  position: relative;
+  padding-top: 1.25rem;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-strong);
+}
+
+.quote__text::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2rem;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--color-prime);
+}
+
+.quote__who {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.quote__name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+a.quote__name:hover,
+a.quote__name:focus-visible {
+  color: var(--color-prime);
+}
+
+.quote__role {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+
+/*-----------------------------------*\
+  #GITHUB
+  The heatmap is fluid: 53 equal columns that shrink with the card, so it
+  fits a phone without scrolling sideways.
+\*-----------------------------------*/
+
+.gh-graph {
+  margin-top: 2.5rem;
+}
+
+.gh-graph__grid {
+  display: grid;
+  grid-template-rows: auto repeat(7, auto);
+  gap: 3px;
+}
+
+.gh-graph__month {
+  margin-bottom: 4px;
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.gh-graph__day {
+  display: block;
+  aspect-ratio: 1;
+  min-width: 0;
+  border-radius: 2px;
+  background: var(--rule);
+}
+
+.gh-graph__day[data-level="1"] { background: color-mix(in srgb, var(--color-prime) 30%, transparent); }
+.gh-graph__day[data-level="2"] { background: color-mix(in srgb, var(--color-prime) 55%, transparent); }
+.gh-graph__day[data-level="3"] { background: color-mix(in srgb, var(--color-prime) 78%, transparent); }
+.gh-graph__day[data-level="4"] { background: var(--color-prime); }
+
+.gh-graph__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.gh-graph__scale {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.gh-graph__scale .gh-graph__day {
+  width: 11px;
+  margin: 0 1px;
+}
+
+
+/*-----------------------------------*\
+  #NOTES
+  The list on the home page, then the reading page at /notes/<slug>/.
+\*-----------------------------------*/
+
+.note-list {
+  margin-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+
+.note-list li {
+  border-bottom: 1px solid var(--rule);
+}
+
+.note-row {
+  position: relative;
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.5rem 2.5rem 1.5rem 0.25rem;
+  transition: padding-left 0.3s var(--ease-out-soft);
+}
+
+/* A coral rule wipes across the row on hover. */
+.note-row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--color-prime);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out-soft);
+}
+
+.note-row:hover::after,
+.note-row:focus-visible::after {
+  transform: scaleX(1);
+}
+
+@media (min-width: 768px) {
+  .note-row:hover,
+  .note-row:focus-visible {
+    padding-left: 0.75rem;
+  }
+}
+
+.note-row__meta {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.note-row__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-strong);
+}
+
+.note-row__desc {
+  max-width: 68ch;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.note-row__arrow {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  translate: 0 -50%;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  transition: transform 0.3s var(--ease-out-soft), color 0.3s ease;
+}
+
+.note-row:hover .note-row__arrow,
+.note-row:focus-visible .note-row__arrow {
+  transform: translateX(4px);
+  color: var(--color-prime);
+}
+
+/* Reading page */
+
+.note__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.note__tag {
+  padding: 3px 9px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  font-size: 10px;
+}
+
+.note__title {
+  margin-top: 1rem;
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text-strong);
+}
+
+.note__lede {
+  max-width: 62ch;
+  margin-top: 1.5rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--text-strong);
+}
+
+.prose {
+  max-width: 68ch;
+  margin-top: 2.5rem;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.prose > * + * {
+  margin-top: 1.1rem;
+}
+
+.prose h2 {
+  margin-top: 2.5rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-strong);
+}
+
+.prose ul {
+  padding-left: 1.1rem;
+}
+
+.prose li {
+  position: relative;
+}
+
+.prose li + li {
+  margin-top: 0.5rem;
+}
+
+.prose li::before {
+  content: "";
+  position: absolute;
+  left: -1.1rem;
+  top: 0.72em;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--color-prime);
+}
+
+.prose__code-inline {
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--surface-raised);
+  font-size: 0.9em;
+}
+
+.prose__code {
+  overflow-x: auto;
+  padding: 1rem 1.25rem;
+  border-radius: 0.5rem;
+  background: var(--color-night);
+  color: var(--color-paper);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.note__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 68ch;
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+
+/* Contact: the local clock under the email address. */
+.local-time {
+  min-height: 3rem;
+  margin-top: 0.75rem;
+  font-size: 13px;
+  line-height: 1.5rem;
+  color: var(--text-muted);
+}
+
+
+/*-----------------------------------*\
+  #INTERACTIVE DIAGRAMS
+  InteractiveDiagram.tsx. Colours match the original drawings; the
+  diagram canvas stays light in dark mode, like the cards around it.
+\*-----------------------------------*/
+
+.dg__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-sans);
+}
+
+.dg-bg { fill: #f7f6f4; }
+
+.dg-label--kicker {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  fill: #58595b;
+}
+
+.dg-label--caption {
+  font-size: 15px;
+  fill: #58595b;
+}
+
+.dg-node {
+  cursor: pointer;
+  outline: none;
+  transition: opacity 0.25s ease;
+}
+
+.dg-box { fill: #fff; stroke: #dcd8d3; }
+.dg-title { font-weight: 700; fill: #2b2929; }
+.dg-line { fill: #58595b; }
+.dg-kicker { font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; fill: #58595b; }
+
+.dg-node--accent .dg-box { fill: #e45447; stroke: none; }
+.dg-node--accent .dg-title { fill: #fff; }
+.dg-node--accent .dg-line { fill: #ffd9d5; }
+
+.dg-node--note .dg-box { fill: #efedea; stroke-dasharray: 5 4; }
+.dg-node--note .dg-line { fill: #2b2929; }
+
+/* The ring marks the box being read or the current step. */
+.dg-ring {
+  fill: none;
+  stroke: var(--color-prime);
+  stroke-width: 2.5;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.dg-node.is-on .dg-ring,
+.dg-node:focus-visible .dg-ring {
+  opacity: 1;
+}
+
+.dg-edge {
+  fill: none;
+  stroke: #58595b;
+  stroke-width: 2;
+  transition: stroke 0.25s ease, opacity 0.25s ease;
+}
+
+.dg-edge--accent { stroke: #e45447; stroke-width: 2.5; }
+.dg-edge--faint { stroke-width: 1.6; opacity: 0.55; }
+.dg-edge--dashed { stroke-dasharray: 5 4; }
+
+.dg-arrow--muted { fill: #58595b; }
+.dg-arrow--prime { fill: #e45447; }
+
+/* While something is active, everything else steps back. */
+.dg.is-focused .dg-node:not(.is-on):not(.is-done) { opacity: 0.4; }
+.dg.is-focused .dg-edge:not(.is-on):not(.is-done) { opacity: 0.3; }
+
+.dg-edge.is-done {
+  stroke: #e45447;
+  opacity: 1;
+}
+
+/* The arrow being travelled: dashes that run along it like data. */
+.dg-edge.is-on {
+  stroke: #e45447;
+  stroke-width: 3;
+  stroke-dasharray: 7 5;
+  opacity: 1;
+  animation: dg-flow 0.5s linear infinite;
+}
+
+@keyframes dg-flow {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+
+.dg-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.6rem 0.85rem;
+  padding: 12px 16px;
+  border-top: 1px solid var(--rule);
+}
+
+.dg-play {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 5px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-strong);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.dg-play span {
+  font-size: 9px;
+  color: var(--color-prime);
+}
+
+.dg-play:hover,
+.dg-play:focus-visible,
+.dg-play[aria-pressed="true"] {
+  border-color: var(--color-prime);
+  color: var(--color-prime);
+}
+
+/* Three lines reserved, so the card doesn't jump as captions change. */
+.dg-caption {
+  flex: 1 1 14rem;
+  min-height: 4.1em;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.dg-caption strong { color: var(--text-strong); }
+
+.dg-caption__step {
+  margin-right: 0.5rem;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-prime);
+  font-variant-numeric: tabular-nums;
+}
+
+.proj__visit {
+  flex: none;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-strong);
+  border-bottom: 1px solid var(--color-prime);
+}
+
+.proj__visit:hover,
+.proj__visit:focus-visible {
+  color: var(--color-prime);
+}
+
+
+/*-----------------------------------*\
+  #EXPERIENCE
+  A rail down the left of each employer's roles, with a marker per role.
+  Roles still running ("… — present") are filled in the accent, so the
+  eye lands on what is current first.
+\*-----------------------------------*/
+
+.tl {
+  margin-top: 2.5rem;
+}
+
+.tl__job + .tl__job {
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.tl__company {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-strong);
+}
+
+.tl__link {
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.tl__link:hover,
+.tl__link:focus-visible {
+  color: var(--color-prime);
+  border-bottom-color: var(--color-prime);
+}
+
+.tl__terms {
+  margin-top: 0.3rem;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.tl__roles {
+  margin-top: 1.25rem;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--rule);
+}
+
+.tl__role {
+  position: relative;
+  padding-bottom: 2rem;
+}
+
+.tl__role:last-child {
+  padding-bottom: 0;
+}
+
+/* The marker straddles the 1px rail: half its width past the padding. */
+.tl__role::before {
+  content: "";
+  position: absolute;
+  left: calc(-1.5rem - 5px);
+  top: 0.35rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--surface-card);
+  border: 2px solid var(--rule);
+}
+
+.tl__role--current::before {
+  background: var(--color-prime);
+  border-color: var(--color-prime);
+}
+
+.tl__period {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tl__role--current .tl__period {
+  color: var(--color-prime);
+}
+
+.tl__title {
+  margin-top: 0.2rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.tl__summary {
+  max-width: 68ch;
+  margin-top: 0.5rem;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.tl__points {
+  margin-top: 0.85rem;
+}
+
+.tl__points li {
+  position: relative;
+  max-width: 68ch;
+  padding-left: 1rem;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.tl__points li + li {
+  margin-top: 0.5rem;
+}
+
+.tl__points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-prime);
+}
+
+@media (min-width: 768px) {
+  .tl__roles {
+    padding-left: 2rem;
+  }
+  .tl__role::before {
+    left: calc(-2rem - 5px);
+  }
+}
+
+
+/*-----------------------------------*\
+  #PROJECT CARDS
+\*-----------------------------------*/
+
+/*
+  A column, so when a row's other card is taller (diagram cards carry a
+  caption row) the gradient art grows to match instead of leaving a gap
+  under the title bar.
+*/
+.proj {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: var(--surface-tile);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 12px 44px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+a.proj:hover,
+a.proj:focus-visible {
+  transform: translateY(-5px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06), 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* Badge is absolute and the copy centred, so gradient tiles read as
+   evenly filled as the diagram cards beside them. */
+.proj__media {
+  position: relative;
+  flex: 1 0 auto;
+  aspect-ratio: 16 / 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 22px;
+}
+
+/* White measures at least 4.9:1 on the lightest end of all three
+   gradients. */
+.proj__blurb {
+  max-width: 42ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #fff;
+}
+
+.proj__media--diagram {
+  background: var(--surface-diagram);
+  padding: 0;
+}
+
+.proj__tag {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  padding: 5px 11px;
+}
+
+.proj__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 16px 20px 18px;
+  border-top: 1px solid var(--rule);
+}
+
+.proj__name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.proj__stack {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+
+/*-----------------------------------*\
+  #DOCK
+  Replaces the top nav bar. Fixed to the bottom of the viewport, so it
+  stays reachable without occupying layout.
+\*-----------------------------------*/
+
+.dock {
+  position: fixed;
+  z-index: 60;
+  /* Magnified icons and their tooltips rise above the pill. */
+  overflow: visible;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  max-width: calc(100vw - 1.5rem);
+}
+
+.dock__list {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  /* Headroom so a magnified icon grows inside the pill. */
+  padding: 0.85rem 0.55rem;
+  border-radius: 999px;
+  background: var(--dock-bg);
+  border: 1px solid var(--dock-border);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 12px 32px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+}
+
+/*
+  --mag is written per item by useDockMagnify from the pointer's distance
+  to that item's centre. It defaults to 1, so with JS off, on touch, or
+  under reduced motion the dock sits at rest.
+*/
+.dock__item {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transform: scale(var(--mag, 1));
+  transform-origin: center center;
+  /* Short, because the pointer already moves continuously. */
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.12s ease-out;
+}
+
+.dock__item:hover {
+  color: var(--text-strong);
+}
+
+/* Keyboard users get no magnification, so the focus state must read. */
+.dock__item:focus-visible {
+  color: var(--text-strong);
+  background: var(--dock-hover);
+}
+
+/* The current section: must read even when the pointer is elsewhere. */
+.dock__item[data-active] {
+  color: var(--color-prime);
+}
+
+.dock__item[data-active]::after {
+  content: "";
+  position: absolute;
+  bottom: 0.3rem;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--color-prime);
+}
+
+.dock__icon {
+  font-size: 1.05rem;
+}
+
+/* Counter-scaled, or the label would grow with its magnified parent. */
+.dock__tip {
+  position: absolute;
+  bottom: calc(100% + 0.9rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(0.25rem) scale(calc(1 / var(--mag, 1)));
+  padding: 0.25rem 0.55rem;
+  border-radius: 0.4rem;
+  background: var(--surface-card);
+  border: 1px solid var(--dock-border);
+  color: var(--text-strong);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s 0.18s;
+}
+
+.dock__item:hover .dock__tip,
+.dock__item:focus-visible .dock__tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(calc(1 / var(--mag, 1)));
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s;
+}
+
+.dock__sep {
+  width: 1px;
+  height: 1.4rem;
+  margin-inline: 0.35rem;
+  background: var(--dock-border);
+}
+
+.dock__book {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 2.6rem;
+  padding-inline: 0.95rem;
+  border-radius: 999px;
+  background: var(--color-prime);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease-out-soft), filter 0.2s ease;
+}
+
+.dock__book:hover,
+.dock__book:focus-visible {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+}
+
+/* Below ~30rem the booking label costs more than it earns. */
+@media (max-width: 30rem) {
+  .dock__list {
+    gap: 0;
+    padding: 0.35rem;
+  }
+  .dock__item {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+  .dock__book {
+    height: 2.35rem;
+    padding-inline: 0.7rem;
+  }
+  .dock__book span {
+    display: none;
+  }
+  .dock__sep {
+    margin-inline: 0.2rem;
+  }
+}
+
+/* The dock floats over the page, so the footer needs room to clear it. */
+.dock-offset {
+  padding-bottom: 6rem;
+}
+
+/*
+  Cal.com modal. In dark mode the browser's default opaque-white iframe
+  canvas showed as a band around the calendar; transparent lets Cal's own
+  backdrop through.
+*/
+cal-modal-box iframe.cal-embed {
+  background: transparent !important;
+  color-scheme: normal;
+}
+
+
+/*-----------------------------------*\
+  #CURSOR
+  Cursor.tsx. The dot sits exactly at the pointer; the ring trails it.
+  Script positions them with the `translate` property and CSS sizes them
+  with `scale`. Browsers apply translate before scale, so the size
+  changes around the cursor's own centre. Using `transform` for the
+  position would put it after scale, and scale the position too.
+  `transform` carries only the ring's motion stretch, which is applied
+  first and so stays centred as well. The ring takes the text colour,
+  not coral, so it still shows over coral buttons.
+\*-----------------------------------*/
+
+.has-cursor,
+.has-cursor * {
+  cursor: none !important;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  will-change: translate, transform;
+  transition:
+    opacity 0.3s ease,
+    scale 0.45s var(--ease-out-soft),
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  background: var(--color-prime);
+}
+
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1.5px solid color-mix(in srgb, var(--text-strong) 45%, transparent);
+}
+
+.cursor-visible .cursor-dot,
+.cursor-visible .cursor-ring {
+  opacity: 1;
+}
+
+/* Over something clickable: the ring swells and fills, the dot recedes. */
+.cursor-link .cursor-ring {
+  scale: 1.6;
+  border-color: var(--text-strong);
+  background: color-mix(in srgb, var(--color-prime) 14%, transparent);
+}
+
+.cursor-link .cursor-dot {
+  scale: 0.5;
+}
+
+.cursor-down .cursor-ring {
+  scale: 0.8;
+}
+
+.cursor-link.cursor-down .cursor-ring {
+  scale: 1.3;
+}
+
+@media print {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+
+
+/*-----------------------------------*\
+  #REDUCED MOTION
+\*-----------------------------------*/
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .letter,
+  .rise,
+  .pop {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .talk-pulse {
+    display: none;
+  }
+}
+
+
+/*-----------------------------------*\
+  #PRINT
+\*-----------------------------------*/
+
+@media print {
+  .dock,
+  .talk-wrapper,
+  .skip {
+    display: none !important;
+  }
+  .page-bg {
+    background: #fff;
+  }
+}
