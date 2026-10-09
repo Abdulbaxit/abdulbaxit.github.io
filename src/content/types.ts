@@ -66,6 +66,8 @@ export interface Profile {
   replyNote: string | null;
   /** GitHub username for the activity section. Null hides the section. */
   github: string | null;
+  /** Tools for the scrolling strip under the hero. Empty hides it. */
+  toolbelt: string[];
 }
 
 /** A quote from someone you've worked with. Only add ones you have permission to use. */

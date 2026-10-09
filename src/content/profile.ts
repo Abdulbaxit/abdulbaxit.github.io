@@ -78,6 +78,12 @@ export const profile: Profile = {
   timeZone: "Asia/Karachi",
   replyNote: "I usually reply within a day",
   github: "Abdulbaxit",
+  // From the CV's skills. Order is the order they scroll past.
+  toolbelt: [
+    "Python", "FastAPI", "TypeScript", "Next.js", "React", "PostgreSQL",
+    "SQLAlchemy", "Celery", "RabbitMQ", "Redis", "Docker", "GitHub Actions",
+    "AWS", "Gemini", "LangChain", "RAG", "n8n", "Supabase", "Drizzle", "Tailwind",
+  ],
 };
 
 /**

@@ -87,6 +87,7 @@ export function BookButton() {
   return (
     <a
       className="dock__book"
+      data-magnetic="0.3"
       href={href}
       target="_blank"
       rel="noopener noreferrer"

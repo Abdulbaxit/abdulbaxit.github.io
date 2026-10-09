@@ -1,5 +1,5 @@
-import { Fragment } from "react";
 import { ContactDisc } from "./ContactDisc";
+import { HeroName } from "./HeroName";
 import { Medallion } from "./Medallion";
 import { profile } from "@/content/profile";
 
@@ -8,18 +8,6 @@ import { profile } from "@/content/profile";
  * in place about a second after first paint, with no loader in front of it.
  */
 export function Hero() {
-  // Each letter's delay continues from the last line's, so the name
-  // types out as one run across both lines.
-  const lines = profile.nameLines.map((line, li) => {
-    const before = profile.nameLines
-      .slice(0, li)
-      .reduce((sum, l) => sum + l.length, 0);
-    return Array.from(line).map((char, ci) => ({
-      char,
-      delay: 0.3 + (before + ci) * 0.04,
-    }));
-  });
-
   return (
     <header id="home" className="hero mt-8 md:mt-12">
       <div className="hero__copy">
@@ -31,36 +19,7 @@ export function Hero() {
             It&rsquo;s me
           </div>
 
-          <h1
-            className="hero__name"
-            aria-label={profile.name}
-            style={{ color: "var(--text-strong)" }}
-          >
-            {/*
-              The space between lines is invisible (the lines are blocks)
-              but keeps the heading's text "Abdul Basit" for search
-              engines, rather than "AbdulBasit".
-            */}
-            {lines.map((letters, li) => (
-              <Fragment key={li}>
-                {li > 0 && " "}
-                <span className="block">
-                  {letters.map(({ char, delay }, ci) => (
-                    <span
-                      key={ci}
-                      className="letter"
-                      aria-hidden="true"
-                      style={
-                        { "--d": `${delay.toFixed(2)}s` } as React.CSSProperties
-                      }
-                    >
-                      {char}
-                    </span>
-                  ))}
-                </span>
-              </Fragment>
-            ))}
-          </h1>
+          <HeroName name={profile.name} lines={profile.nameLines} />
         </div>
 
         {profile.availability && (

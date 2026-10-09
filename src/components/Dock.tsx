@@ -88,6 +88,7 @@ export function Dock() {
               href={item.href}
               className="dock__item"
               data-magnify=""
+              data-magnetic="0.2"
               aria-label={item.label}
               aria-current={active === item.id ? "true" : undefined}
               data-active={active === item.id ? "" : undefined}
@@ -105,6 +106,7 @@ export function Dock() {
             <a
               className="dock__item"
               data-magnify=""
+              data-magnetic="0.2"
               href={asset(profile.resumeHref)}
               download
               aria-label="Download resume"

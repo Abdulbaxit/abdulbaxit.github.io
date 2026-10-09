@@ -106,7 +106,7 @@ export function ContactDisc() {
 
   return (
     <div className="contact" ref={wrapRef}>
-      <div className="talk-wrapper">
+      <div className="talk-wrapper" data-magnetic="0.45">
         <button
           ref={discRef}
           type="button"

@@ -271,6 +271,31 @@ body {
   background: var(--color-prime);
 }
 
+/*
+  Underlines draw in from the left as they scroll into view, then the dot
+  pops. Hidden only under .motion-ok, which PageMotion adds when motion is
+  allowed, so without JavaScript or under reduced motion they just show.
+  No transition on the hidden state, so nothing visibly shrinks on load.
+*/
+.motion-ok .kj-border {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.motion-ok .kj-border::before {
+  scale: 0;
+}
+
+.motion-ok .kj-border.is-in {
+  transform: none;
+  transition: transform 0.9s var(--ease-out-soft);
+}
+
+.motion-ok .kj-border.is-in::before {
+  scale: 1;
+  transition: scale 0.45s var(--ease-spring) 0.55s;
+}
+
 .color-bar {
   display: flex;
   height: 0.75rem;
@@ -318,6 +343,9 @@ body {
 
 .letter {
   display: inline-block;
+  /* HeroName sets --w near the pointer; black weight otherwise. */
+  font-weight: var(--w, 900);
+  transition: font-weight 0.3s var(--ease-out-soft);
   line-height: 1;
   opacity: 0;
   animation: letter-in 0.42s var(--ease-spring) both;
@@ -549,6 +577,8 @@ body {
 .talk-wrapper {
   position: relative;
   display: inline-block;
+  /* Magnetic pull (PageMotion): glides toward the pointer and back. */
+  transition: translate 0.35s var(--ease-out-soft);
 }
 
 /* Outer ring is the lighter coral; ::before lays the darker disc on top
@@ -1002,6 +1032,68 @@ button.talk {
 
 
 /*-----------------------------------*\
+  #TOOL STRIP
+  Marquee.tsx. The track holds the list twice and slides by one copy
+  (-50%), so the loop is seamless. Each item is followed by a coral dot,
+  including the last, so the seam between copies matches every gap.
+\*-----------------------------------*/
+
+.marquee {
+  margin-top: 3.5rem;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 45s linear infinite;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__list {
+  display: flex;
+  flex: none;
+}
+
+.marquee__list li {
+  display: flex;
+  align-items: center;
+  padding: 0.9rem 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.marquee__list li:hover {
+  color: var(--text-strong);
+}
+
+.marquee__list li::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  margin: 0 1.6rem;
+  border-radius: 999px;
+  background: var(--color-prime);
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+/*-----------------------------------*\
   #SKILLS SCENE
 \*-----------------------------------*/
 
@@ -1148,7 +1240,8 @@ html:not(.js-skills-pin) .illustration.is-visible .illustration__img {
   font-variant-numeric: tabular-nums;
 }
 
-.impact__n span {
+/* Only the suffix: the number itself is a span too (CountUp). */
+.impact__suffix {
   font-size: 0.45em;
   font-weight: 400;
   margin-left: 2px;
@@ -1713,9 +1806,23 @@ a.quote__name:focus-visible {
 }
 
 .tl__roles {
+  position: relative;
   margin-top: 1.25rem;
   padding-left: 1.5rem;
   border-left: 1px solid var(--rule);
+}
+
+/* The coral fill that draws down the rail as you read (TimelineProgress). */
+.tl__roles::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -1.5px;
+  width: 2px;
+  height: calc(var(--fill, 0) * 100%);
+  border-radius: 2px;
+  background: var(--color-prime);
+  pointer-events: none;
 }
 
 .tl__role {
@@ -1731,6 +1838,8 @@ a.quote__name:focus-visible {
 .tl__role::before {
   content: "";
   position: absolute;
+  /* Above the rail's fill, so the line runs behind the markers. */
+  z-index: 1;
   left: calc(-1.5rem - 5px);
   top: 0.35rem;
   width: 9px;
@@ -1738,6 +1847,13 @@ a.quote__name:focus-visible {
   border-radius: 999px;
   background: var(--surface-card);
   border: 2px solid var(--rule);
+  transition: border-color 0.3s ease, scale 0.4s var(--ease-spring);
+}
+
+/* Reached by the fill: the marker rings coral and pops. */
+.tl__role.is-reached::before {
+  border-color: var(--color-prime);
+  scale: 1.15;
 }
 
 .tl__role--current::before {
@@ -1950,7 +2066,8 @@ a.proj:focus-visible {
   transition:
     color 0.2s ease,
     background-color 0.2s ease,
-    transform 0.12s ease-out;
+    transform 0.12s ease-out,
+    translate 0.3s var(--ease-out-soft);
 }
 
 .dock__item:hover {
@@ -2032,7 +2149,8 @@ a.proj:focus-visible {
   font-weight: 700;
   white-space: nowrap;
   cursor: pointer;
-  transition: transform 0.2s var(--ease-out-soft), filter 0.2s ease;
+  transition: transform 0.2s var(--ease-out-soft), filter 0.2s ease,
+    translate 0.3s var(--ease-out-soft);
 }
 
 .dock__book:hover,
