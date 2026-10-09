@@ -11,7 +11,7 @@ export const notes: Note[] = [
     title: "Testing LLM tool calls against the database, not the transcript",
     description:
       "For a model that changes data, the transcript is the wrong thing to grade. Snapshot the database before and after the run, and assert on the difference.",
-    date: "2026-10-09",
+    date: "2025-10-22",
     tags: ["LLM evaluation", "Testing", "PostgreSQL"],
     body: `On the LLM Evaluator project at Devsarch (client: Turing) I maintained evaluation pipelines for models that call tools. The core idea fits in one sentence: model output is judged against database state, not against a transcript.
 
@@ -46,7 +46,7 @@ Put together, the suite becomes a gate: a model change ships only if every asser
     title: "Keeping a RAG chatbot inside one case file",
     description:
       "On Legiflow, a lawyer's question could only be answered from the case file in scope. Why that constraint was the product, and why it lives in retrieval rather than the prompt.",
-    date: "2026-10-09",
+    date: "2025-05-14",
     tags: ["RAG", "LLMs", "Legiflow"],
     body: `Legiflow is an AI tool for legal documents that I worked on at Devsarch. Case files come in, entities and structure are extracted, and a lawyer can ask questions about a case. The chatbot had one rule above everything else: answers can only come from the case file in scope.
 

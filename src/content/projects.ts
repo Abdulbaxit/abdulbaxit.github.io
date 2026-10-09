@@ -4,9 +4,22 @@ import type { Project } from "./types";
  * The three Voltade apps sit behind a login and belong to the client, so
  * there is nothing publishable to screenshot: they get gradient tiles.
  * The rest show their architecture as an interactive diagram, defined in
- * diagrams.ts.
+ * diagrams.ts. Groups appear in the order their first project does, so
+ * AI systems lead.
  */
 export const projects: Project[] = [
+  {
+    name: "Legiflow",
+    stack: ["FastAPI", "Gemini", "Next.js"],
+    category: "AI systems",
+    visual: { kind: "diagram", diagram: "legiflow" },
+  },
+  {
+    name: "LLM Evaluator",
+    stack: ["FastAPI", "PostgreSQL", "Pytest"],
+    category: "AI systems",
+    visual: { kind: "diagram", diagram: "llm-evaluator" },
+  },
   {
     name: "Happy Fish",
     stack: ["React", "Vite", "PostgreSQL"],
@@ -43,18 +56,6 @@ export const projects: Project[] = [
     category: "Web applications",
     href: "https://implementai.io/",
     visual: { kind: "diagram", diagram: "implementai" },
-  },
-  {
-    name: "Legiflow",
-    stack: ["FastAPI", "Gemini", "Next.js"],
-    category: "AI systems",
-    visual: { kind: "diagram", diagram: "legiflow" },
-  },
-  {
-    name: "LLM Evaluator",
-    stack: ["FastAPI", "PostgreSQL", "Pytest"],
-    category: "AI systems",
-    visual: { kind: "diagram", diagram: "llm-evaluator" },
   },
 ];
 
