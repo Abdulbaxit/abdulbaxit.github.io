@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { Icon } from "./Sprite";
+import { CountUp } from "./CountUp";
 import { impact, statusLines, funFact, readme } from "@/content/profile";
 
 const LINK = /\[([^\]]+)\]\(([^)\s]+)\)/g;
@@ -50,8 +51,10 @@ export function Readme() {
                 {impact.map((stat) => (
                   <li key={stat.label} className="impact__row">
                     <span className="impact__n">
-                      {stat.value}
-                      {stat.suffix && <span>{stat.suffix}</span>}
+                      <CountUp value={stat.value} />
+                      {stat.suffix && (
+                        <span className="impact__suffix">{stat.suffix}</span>
+                      )}
                     </span>
                     <span className="impact__l">{stat.label}</span>
                   </li>

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Sprite } from "@/components/Sprite";
 import { Shell } from "@/components/Shell";
 import { Cursor } from "@/components/Cursor";
+import { PageMotion } from "@/components/PageMotion";
 import { themeInitScript } from "@/components/ThemeToggle";
 import { site, asset, absoluteUrl } from "@/content/site";
 import { profile } from "@/content/profile";
@@ -81,6 +82,7 @@ export default function RootLayout({
         <Sprite />
         <Shell>{children}</Shell>
         <Cursor />
+        <PageMotion />
       </body>
     </html>
   );

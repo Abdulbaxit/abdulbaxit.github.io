@@ -1,4 +1,5 @@
 import { Hero } from "@/components/Hero";
+import { Marquee } from "@/components/Marquee";
 import { Skills } from "@/components/Skills";
 import { Readme } from "@/components/Readme";
 import { Experience } from "@/components/Experience";
@@ -98,6 +99,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Hero />
+      <Marquee />
       <Skills />
       <Readme />
       <Experience />

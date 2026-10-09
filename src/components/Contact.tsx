@@ -5,7 +5,7 @@ import { profile } from "@/content/profile";
 export function Contact() {
   return (
     <section id="contact" className="m-auto mt-12 max-w-xs text-center md:mt-32">
-      <h2 className="text-lg font-bold" style={{ color: "var(--text-strong)" }}>
+      <h2 data-decode className="text-lg font-bold" style={{ color: "var(--text-strong)" }}>
         Keep in touch
       </h2>
       <p className="mt-8 text-sm" style={{ color: "var(--text-muted)" }}>

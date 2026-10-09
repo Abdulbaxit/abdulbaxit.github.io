@@ -39,6 +39,7 @@ export async function GitHubActivity() {
   return (
     <section id="github" className="mt-12 md:mt-32">
       <h2
+        data-decode
         className="text-3xl leading-none font-bold md:text-4xl"
         style={{ color: "var(--text-strong)" }}
       >

@@ -1,3 +1,4 @@
+import { TimelineProgress } from "./TimelineProgress";
 import { experience, isCurrentRole } from "@/content/profile";
 
 /**
@@ -12,6 +13,7 @@ export function Experience() {
   return (
     <section id="experience" className="mt-12 md:mt-32">
       <h2
+        data-decode
         className="text-3xl leading-none font-bold md:text-4xl"
         style={{ color: "var(--text-strong)" }}
       >
@@ -19,6 +21,7 @@ export function Experience() {
       </h2>
       <p className="mt-2 text-lg">Where I&rsquo;ve worked</p>
       <div className="kj-border" />
+      <TimelineProgress />
 
       <ol className="tl">
         {experience.map((job) => (
