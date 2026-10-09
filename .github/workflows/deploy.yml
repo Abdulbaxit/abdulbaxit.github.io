@@ -36,10 +36,12 @@ jobs:
       - name: Build
         # A project repo is served from /<repo>/, a <user>.github.io repo
         # from the root. This derives the right basePath either way, so a
-        # rename of the repo does not silently 404 every asset.
+        # rename of the repo does not silently 404 every asset. Compared in
+        # lowercase: the owner is "Abdulbaxit", the repo "abdulbaxit.github.io".
         run: |
           REPO="${GITHUB_REPOSITORY#*/}"
-          if [ "$REPO" = "${GITHUB_REPOSITORY_OWNER}.github.io" ]; then
+          USER_SITE="$(echo "${GITHUB_REPOSITORY_OWNER}.github.io" | tr '[:upper:]' '[:lower:]')"
+          if [ "$(echo "$REPO" | tr '[:upper:]' '[:lower:]')" = "$USER_SITE" ]; then
             echo "User site: serving from root"
             export NEXT_PUBLIC_BASE_PATH=""
           else
