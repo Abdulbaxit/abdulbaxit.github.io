@@ -3,7 +3,7 @@
 Personal portfolio of Abdul Basit, Software Engineer: AI systems, LLM pipelines,
 and full-stack applications.
 
-**Live:** [abdulbaxit.github.io/portfolio](https://abdulbaxit.github.io/portfolio/)
+**Live:** [abdulbaxit.github.io](https://abdulbaxit.github.io/)
 
 The homepage layout follows the structure of [kenjimmy.xyz](https://kenjimmy.xyz/)
 (white card on warm paper, Roboto, coral accent), with original content, portrait
@@ -79,7 +79,9 @@ the `:root` and `.dark` blocks.
 Every push to `main`, and a daily scheduled run, triggers
 `.github/workflows/deploy.yml`, which builds the static export and publishes
 `./out` to GitHub Pages. The daily run keeps the GitHub section current. The workflow derives the
-base path from the repo name, so this repo serves from `/portfolio/`.
+base path from the repo name. This repo is the user site `abdulbaxit.github.io`,
+so it serves from the root; old `/portfolio/…` links are forwarded by the
+404 page.
 
 One-time setup: **Settings → Pages → Build and deployment → Source: GitHub
 Actions**. With "Deploy from a branch" Pages would serve the source instead of
