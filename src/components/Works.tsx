@@ -73,11 +73,14 @@ function ProjectCard({ project }: { project: Project }) {
 export function Works() {
   return (
     <section id="works" className="mt-12 md:mt-32">
-      <SectionHeading title="My works" subtitle="A few of my past and present projects" />
+      <SectionHeading
+        title="My works"
+        subtitle="A few of my past and present projects"
+      />
 
       {projectsByCategory().map((group) => (
         <div key={group.category}>
-          <h3 className="text-strong mt-6 text-2xl font-bold">
+          <h3 className="mt-6 text-2xl font-bold text-strong">
             {group.category}
           </h3>
           <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">

@@ -50,7 +50,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: site.title,
-    description: "I build AI systems, LLM pipelines and full-stack applications.",
+    description:
+      "I build AI systems, LLM pipelines and full-stack applications.",
     images: [ogImage.url],
   },
 };

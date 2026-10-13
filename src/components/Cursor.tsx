@@ -1,9 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { hasFinePointer, prefersReducedMotion } from "@/lib/motion";
 
 const FOLLOW_SECONDS = 0.11;
 const MAX_STRETCH = 0.18;
+const FULL_STRETCH_SPEED = 3000;
+const MIN_VISIBLE_STRETCH = 1.005;
+const MAX_FRAME_S = 0.05;
+const SETTLED_PX = 0.1;
 
 const INTERACTIVE =
   'a, button, [role="button"], summary, label, input, select, textarea';
@@ -13,11 +18,9 @@ export function Cursor() {
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const still = window.matchMedia("(prefers-reduced-motion: reduce)");
     const dot = dotRef.current;
     const ring = ringRef.current;
-    if (!fine.matches || still.matches || !dot || !ring) return;
+    if (!hasFinePointer() || prefersReducedMotion() || !dot || !ring) return;
 
     const root = document.documentElement;
     root.classList.add("has-cursor");
@@ -31,7 +34,7 @@ export function Cursor() {
     let shown = false;
 
     const follow = (now: number) => {
-      const dt = Math.min((now - last) / 1000, 0.05);
+      const dt = Math.min((now - last) / 1000, MAX_FRAME_S);
       last = now;
       const k = 1 - Math.exp(-dt / FOLLOW_SECONDS);
       const dx = (x - rx) * k;
@@ -40,14 +43,14 @@ export function Cursor() {
       ry += dy;
 
       const speed = dt > 0 ? Math.hypot(dx, dy) / dt : 0;
-      const stretch = 1 + Math.min(speed / 3000, MAX_STRETCH);
+      const stretch = 1 + Math.min(speed / FULL_STRETCH_SPEED, MAX_STRETCH);
       ring.style.translate = `${rx}px ${ry}px`;
       ring.style.transform =
-        stretch > 1.005
+        stretch > MIN_VISIBLE_STRETCH
           ? `rotate(${Math.atan2(dy, dx)}rad) scale(${stretch}, ${1 / stretch})`
           : "";
 
-      const moving = Math.abs(x - rx) + Math.abs(y - ry) > 0.1;
+      const moving = Math.abs(x - rx) + Math.abs(y - ry) > SETTLED_PX;
       frame = moving ? requestAnimationFrame(follow) : 0;
       if (!moving) ring.style.transform = "";
     };
@@ -74,7 +77,10 @@ export function Cursor() {
 
     const onOver = (e: PointerEvent) => {
       const target = e.target instanceof Element ? e.target : null;
-      root.classList.toggle("cursor-link", Boolean(target?.closest(INTERACTIVE)));
+      root.classList.toggle(
+        "cursor-link",
+        Boolean(target?.closest(INTERACTIVE)),
+      );
     };
 
     const onOut = (e: PointerEvent) => {
@@ -99,7 +105,12 @@ export function Cursor() {
       document.removeEventListener("pointerout", onOut);
       window.removeEventListener("pointerdown", onDown);
       window.removeEventListener("pointerup", onUp);
-      root.classList.remove("has-cursor", "cursor-visible", "cursor-link", "cursor-down");
+      root.classList.remove(
+        "has-cursor",
+        "cursor-visible",
+        "cursor-link",
+        "cursor-down",
+      );
     };
   }, []);
 

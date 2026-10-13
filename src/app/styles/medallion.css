@@ -25,11 +25,21 @@
     var(--color-prime-soft),
     var(--color-prime)
   );
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 3px),
+    #000 calc(100% - 2.5px)
+  );
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 3px),
+    #000 calc(100% - 2.5px)
+  );
   opacity: 0;
   scale: 0.94;
-  transition: opacity 0.4s ease, scale 0.6s var(--ease-spring);
+  transition:
+    opacity 0.4s ease,
+    scale 0.6s var(--ease-spring);
   animation: medallion-spin 7s linear infinite;
   animation-play-state: paused;
   pointer-events: none;
@@ -101,7 +111,8 @@
   }
 
   .medallion-stage:hover .medallion__img {
-    transform: translate(calc(var(--px) * -8px), calc(var(--py) * -8px)) scale(1.07);
+    transform: translate(calc(var(--px) * -8px), calc(var(--py) * -8px))
+      scale(1.07);
   }
 
   .medallion-stage:hover .medallion__shine {

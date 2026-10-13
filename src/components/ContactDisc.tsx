@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { profile } from "@/content/profile";
 
+const COPIED_MS = 2000;
+
 export function ContactDisc() {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -76,7 +78,7 @@ export function ContactDisc() {
     }
     setCopied(true);
     if (copyTimer.current) clearTimeout(copyTimer.current);
-    copyTimer.current = setTimeout(() => setCopied(false), 2000);
+    copyTimer.current = setTimeout(() => setCopied(false), COPIED_MS);
   }
 
   return (
@@ -102,7 +104,7 @@ export function ContactDisc() {
       <div
         id="contact-panel"
         ref={panelRef}
-        className={`contact__panel${open ? " is-open" : ""}`}
+        className={`contact__panel${open ? "is-open" : ""}`}
         inert={!open}
       >
         <p className="contact__prompt">What&rsquo;s this about?</p>

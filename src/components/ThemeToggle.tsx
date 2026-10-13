@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import { Icon } from "./Sprite";
+import { prefersReducedMotion } from "@/lib/motion";
 
 export const themeInitScript = `(function(){try{var s=localStorage.getItem("theme");var m=window.matchMedia("(prefers-color-scheme: dark)").matches;if(s==="dark"||(s!=="light"&&m)){document.documentElement.classList.add("dark")}}catch(e){}})();`;
 
@@ -55,8 +56,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
 
   function toggle(e: React.MouseEvent<HTMLButtonElement>) {
     const root = document.documentElement;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
+    if (prefersReducedMotion()) {
       apply();
       return;
     }

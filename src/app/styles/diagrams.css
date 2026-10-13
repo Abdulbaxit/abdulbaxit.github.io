@@ -5,7 +5,9 @@
   font-family: var(--font-sans);
 }
 
-.dg-bg { fill: #f7f6f4; }
+.dg-bg {
+  fill: #f7f6f4;
+}
 
 .dg-label--kicker {
   font-size: 13px;
@@ -26,17 +28,42 @@
   transition: opacity 0.25s ease;
 }
 
-.dg-box { fill: #fff; stroke: #dcd8d3; }
-.dg-title { font-weight: 700; fill: #2b2929; }
-.dg-line { fill: #58595b; }
-.dg-kicker { font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; fill: #58595b; }
+.dg-box {
+  fill: #fff;
+  stroke: #dcd8d3;
+}
+.dg-title {
+  font-weight: 700;
+  fill: #2b2929;
+}
+.dg-line {
+  fill: #58595b;
+}
+.dg-kicker {
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  fill: #58595b;
+}
 
-.dg-node--accent .dg-box { fill: #e45447; stroke: none; }
-.dg-node--accent .dg-title { fill: #fff; }
-.dg-node--accent .dg-line { fill: #ffd9d5; }
+.dg-node--accent .dg-box {
+  fill: #e45447;
+  stroke: none;
+}
+.dg-node--accent .dg-title {
+  fill: #fff;
+}
+.dg-node--accent .dg-line {
+  fill: #ffd9d5;
+}
 
-.dg-node--note .dg-box { fill: #efedea; stroke-dasharray: 5 4; }
-.dg-node--note .dg-line { fill: #2b2929; }
+.dg-node--note .dg-box {
+  fill: #efedea;
+  stroke-dasharray: 5 4;
+}
+.dg-node--note .dg-line {
+  fill: #2b2929;
+}
 
 .dg-ring {
   fill: none;
@@ -55,18 +82,36 @@
   fill: none;
   stroke: #58595b;
   stroke-width: 2;
-  transition: stroke 0.25s ease, opacity 0.25s ease;
+  transition:
+    stroke 0.25s ease,
+    opacity 0.25s ease;
 }
 
-.dg-edge--accent { stroke: #e45447; stroke-width: 2.5; }
-.dg-edge--faint { stroke-width: 1.6; opacity: 0.55; }
-.dg-edge--dashed { stroke-dasharray: 5 4; }
+.dg-edge--accent {
+  stroke: #e45447;
+  stroke-width: 2.5;
+}
+.dg-edge--faint {
+  stroke-width: 1.6;
+  opacity: 0.55;
+}
+.dg-edge--dashed {
+  stroke-dasharray: 5 4;
+}
 
-.dg-arrow--muted { fill: #58595b; }
-.dg-arrow--prime { fill: #e45447; }
+.dg-arrow--muted {
+  fill: #58595b;
+}
+.dg-arrow--prime {
+  fill: #e45447;
+}
 
-.dg.is-focused .dg-node:not(.is-on):not(.is-done) { opacity: 0.4; }
-.dg.is-focused .dg-edge:not(.is-on):not(.is-done) { opacity: 0.3; }
+.dg.is-focused .dg-node:not(.is-on):not(.is-done) {
+  opacity: 0.4;
+}
+.dg.is-focused .dg-edge:not(.is-on):not(.is-done) {
+  opacity: 0.3;
+}
 
 .dg-edge.is-done {
   stroke: #e45447;
@@ -108,7 +153,9 @@
   font-weight: 700;
   color: var(--text-strong);
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .dg-play span {
@@ -130,7 +177,9 @@
   line-height: 1.5;
 }
 
-.dg-caption strong { color: var(--text-strong); }
+.dg-caption strong {
+  color: var(--text-strong);
+}
 
 .dg-caption__step {
   margin-right: 0.5rem;

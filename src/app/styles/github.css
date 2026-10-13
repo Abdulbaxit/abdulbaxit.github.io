@@ -23,10 +23,18 @@
   background: var(--rule);
 }
 
-.gh-graph__day[data-level="1"] { background: color-mix(in srgb, var(--color-prime) 30%, transparent); }
-.gh-graph__day[data-level="2"] { background: color-mix(in srgb, var(--color-prime) 55%, transparent); }
-.gh-graph__day[data-level="3"] { background: color-mix(in srgb, var(--color-prime) 78%, transparent); }
-.gh-graph__day[data-level="4"] { background: var(--color-prime); }
+.gh-graph__day[data-level="1"] {
+  background: color-mix(in srgb, var(--color-prime) 30%, transparent);
+}
+.gh-graph__day[data-level="2"] {
+  background: color-mix(in srgb, var(--color-prime) 55%, transparent);
+}
+.gh-graph__day[data-level="3"] {
+  background: color-mix(in srgb, var(--color-prime) 78%, transparent);
+}
+.gh-graph__day[data-level="4"] {
+  background: var(--color-prime);
+}
 
 .gh-graph__legend {
   display: flex;

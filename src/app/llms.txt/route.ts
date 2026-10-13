@@ -33,14 +33,18 @@ export function GET() {
     "",
     "## Skills",
     "",
-    ...skills.map((s) => `- ${s.title[0].toUpperCase()}${s.title.slice(1)}: ${s.body}`),
+    ...skills.map(
+      (s) => `- ${s.title[0].toUpperCase()}${s.title.slice(1)}: ${s.body}`,
+    ),
     `- Core stack: ${profile.heroStack.join(", ")}`,
     "",
     "## Projects",
     "",
     ...projects.map((p) => {
       const name = p.href ? `[${p.name}](${p.href})` : p.name;
-      const about = p.blurb ?? (p.visual.kind === "diagram" ? diagrams[p.visual.diagram].alt : "");
+      const about =
+        p.blurb ??
+        (p.visual.kind === "diagram" ? diagrams[p.visual.diagram].alt : "");
       return `- ${name} (${p.stack.join(", ")}): ${about}`;
     }),
     "",
@@ -50,7 +54,9 @@ export function GET() {
     lines.push(
       "## Recommendations",
       "",
-      ...recommendations.map((r) => `> "${r.quote}"\n> — ${r.name}, ${r.role}\n`),
+      ...recommendations.map(
+        (r) => `> "${r.quote}"\n> — ${r.name}, ${r.role}\n`,
+      ),
     );
   }
 
@@ -59,7 +65,8 @@ export function GET() {
       "## Notes",
       "",
       ...notes.map(
-        (n) => `- [${n.title}](${absoluteUrl(`/notes/${n.slug}/`)}): ${n.description}`,
+        (n) =>
+          `- [${n.title}](${absoluteUrl(`/notes/${n.slug}/`)}): ${n.description}`,
       ),
       "",
     );
@@ -72,7 +79,9 @@ export function GET() {
     ...profile.socials
       .filter((s) => s.kind !== "email")
       .map((s) => `- [${s.label}](${s.href})`),
-    ...(profile.resumeHref ? [`- [CV (PDF)](${absoluteUrl(profile.resumeHref)})`] : []),
+    ...(profile.resumeHref
+      ? [`- [CV (PDF)](${absoluteUrl(profile.resumeHref)})`]
+      : []),
     `- Email: ${profile.email}`,
     "",
     `_${site.description}_`,

@@ -4,22 +4,38 @@ import { useEffect, useId, useState } from "react";
 import type { Diagram, DiagramNode } from "@/content/diagrams";
 
 const STEP_MS = 1800;
+const LAST_STEP_HOLD = 1.6;
+const TITLE_SIZE = 15;
+const KICKER_SIZE = 13;
+const LINE_SIZE = 12;
+const LINE_SPACING = 6;
+const TITLE_GAP = 8;
+const BASELINE_RATIO = 0.82;
+const RING_GAP = 5;
 
 function layout(n: DiagramNode) {
-  const titleSize = n.kicker ? 13 : (n.titleSize ?? 15);
-  const lineSize = n.lineSize ?? 12;
-  const lineGap = lineSize + 6;
+  const titleSize = n.kicker ? KICKER_SIZE : (n.titleSize ?? TITLE_SIZE);
+  const lineSize = n.lineSize ?? LINE_SIZE;
+  const lineGap = lineSize + LINE_SPACING;
   const lines = n.lines ?? [];
   const hasTitle = n.title !== "";
-  const linesHeight = lines.length ? (lines.length - 1) * lineGap + lineSize : 0;
-  const block = (hasTitle ? titleSize : 0) + (hasTitle && lines.length ? 8 : 0) + linesHeight;
+  const linesHeight = lines.length
+    ? (lines.length - 1) * lineGap + lineSize
+    : 0;
+  const block =
+    (hasTitle ? titleSize : 0) +
+    (hasTitle && lines.length ? TITLE_GAP : 0) +
+    linesHeight;
   const top = n.y + (n.h - block) / 2;
   return {
     titleSize,
     lineSize,
-    titleY: top + titleSize * 0.82,
+    titleY: top + titleSize * BASELINE_RATIO,
     lineY: (i: number) =>
-      top + (hasTitle ? titleSize + 8 : 0) + i * lineGap + lineSize * 0.82,
+      top +
+      (hasTitle ? titleSize + TITLE_GAP : 0) +
+      i * lineGap +
+      lineSize * BASELINE_RATIO,
   };
 }
 
@@ -35,7 +51,7 @@ export function InteractiveDiagram({ diagram }: { diagram: Diagram }) {
     const last = step === flow.length - 1;
     const t = window.setTimeout(
       () => setStep(last ? -1 : step + 1),
-      last ? STEP_MS * 1.6 : STEP_MS,
+      last ? STEP_MS * LAST_STEP_HOLD : STEP_MS,
     );
     return () => window.clearTimeout(t);
   }, [playing, step, flow.length]);
@@ -47,7 +63,8 @@ export function InteractiveDiagram({ diagram }: { diagram: Diagram }) {
   const onEdges = new Set(current?.edges ?? []);
   const activeNode = current?.node ?? hover;
   const focused = activeNode !== null;
-  const hovered = !playing && hover ? diagram.nodes.find((n) => n.id === hover) : null;
+  const hovered =
+    !playing && hover ? diagram.nodes.find((n) => n.id === hover) : null;
 
   function nodeClass(n: DiagramNode) {
     return [
@@ -72,7 +89,7 @@ export function InteractiveDiagram({ diagram }: { diagram: Diagram }) {
   }
 
   return (
-    <div className={`dg${focused ? " is-focused" : ""}`}>
+    <div className={`dg${focused ? "is-focused" : ""}`}>
       <div className="proj__media proj__media--diagram">
         <svg
           className="dg__svg"
@@ -92,7 +109,10 @@ export function InteractiveDiagram({ diagram }: { diagram: Diagram }) {
                 markerHeight="7"
                 orient="auto-start-reverse"
               >
-                <path d="M0 0 10 5 0 10z" className={`dg-arrow dg-arrow--${c}`} />
+                <path
+                  d="M0 0 10 5 0 10z"
+                  className={`dg-arrow dg-arrow--${c}`}
+                />
               </marker>
             ))}
           </defs>
@@ -112,7 +132,8 @@ export function InteractiveDiagram({ diagram }: { diagram: Diagram }) {
           ))}
 
           {diagram.edges.map((e) => {
-            const lit = onEdges.has(e.id) || doneEdges.has(e.id) || e.tone === "accent";
+            const lit =
+              onEdges.has(e.id) || doneEdges.has(e.id) || e.tone === "accent";
             return (
               <path
                 key={e.id}
@@ -148,13 +169,20 @@ export function InteractiveDiagram({ diagram }: { diagram: Diagram }) {
               >
                 <rect
                   className="dg-ring"
-                  x={n.x - 5}
-                  y={n.y - 5}
-                  width={n.w + 10}
-                  height={n.h + 10}
+                  x={n.x - RING_GAP}
+                  y={n.y - RING_GAP}
+                  width={n.w + RING_GAP * 2}
+                  height={n.h + RING_GAP * 2}
                   rx="14"
                 />
-                <rect className="dg-box" x={n.x} y={n.y} width={n.w} height={n.h} rx="10" />
+                <rect
+                  className="dg-box"
+                  x={n.x}
+                  y={n.y}
+                  width={n.w}
+                  height={n.h}
+                  rx="10"
+                />
                 {n.title && (
                   <text
                     x={n.x + n.w / 2}

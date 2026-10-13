@@ -1,10 +1,18 @@
 "use client";
 
 import { Fragment, useEffect, useRef } from "react";
+import {
+  frameThrottle,
+  hasFinePointer,
+  prefersReducedMotion,
+  smoothstep,
+} from "@/lib/motion";
 
 const MIN_WEIGHT = 400;
 const MAX_WEIGHT = 900;
 const RADIUS = 150;
+const TYPE_START_S = 0.3;
+const TYPE_STAGGER_S = 0.04;
 
 export function HeroName({ name, lines }: { name: string; lines: string[] }) {
   const ref = useRef<HTMLHeadingElement>(null);
@@ -13,29 +21,28 @@ export function HeroName({ name, lines }: { name: string; lines: string[] }) {
     const before = lines.slice(0, li).reduce((sum, l) => sum + l.length, 0);
     return Array.from(line).map((char, ci) => ({
       char,
-      delay: 0.3 + (before + ci) * 0.04,
+      delay: TYPE_START_S + (before + ci) * TYPE_STAGGER_S,
     }));
   });
 
   useEffect(() => {
     const h1 = ref.current;
     if (!h1) return;
-    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!fine || still) return;
+    if (!hasFinePointer() || prefersReducedMotion()) return;
 
     const letters = Array.from(h1.querySelectorAll<HTMLElement>(".letter"));
-    let frame = 0;
     let px = 0;
     let py = 0;
 
     const reset = () => letters.forEach((el) => el.style.removeProperty("--w"));
 
     const paint = () => {
-      frame = 0;
       const dists = letters.map((el) => {
         const r = el.getBoundingClientRect();
-        return Math.hypot(px - (r.left + r.width / 2), py - (r.top + r.height / 2));
+        return Math.hypot(
+          px - (r.left + r.width / 2),
+          py - (r.top + r.height / 2),
+        );
       });
       if (Math.min(...dists) > RADIUS) {
         reset();
@@ -43,7 +50,7 @@ export function HeroName({ name, lines }: { name: string; lines: string[] }) {
       }
       letters.forEach((el, i) => {
         const t = Math.max(0, 1 - dists[i] / RADIUS);
-        const eased = t * t * (3 - 2 * t);
+        const eased = smoothstep(t);
         el.style.setProperty(
           "--w",
           String(Math.round(MIN_WEIGHT + (MAX_WEIGHT - MIN_WEIGHT) * eased)),
@@ -51,23 +58,24 @@ export function HeroName({ name, lines }: { name: string; lines: string[] }) {
       });
     };
 
+    const { schedule, cancel } = frameThrottle(paint);
+
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== "mouse") return;
       px = e.clientX;
       py = e.clientY;
-      if (!frame) frame = requestAnimationFrame(paint);
+      schedule();
     };
 
     const onLeave = () => {
-      cancelAnimationFrame(frame);
-      frame = 0;
+      cancel();
       reset();
     };
 
     h1.addEventListener("pointermove", onMove);
     h1.addEventListener("pointerleave", onLeave);
     return () => {
-      cancelAnimationFrame(frame);
+      cancel();
       h1.removeEventListener("pointermove", onMove);
       h1.removeEventListener("pointerleave", onLeave);
       reset();
@@ -75,11 +83,7 @@ export function HeroName({ name, lines }: { name: string; lines: string[] }) {
   }, []);
 
   return (
-    <h1
-      ref={ref}
-      className="hero__name text-strong"
-      aria-label={name}
-    >
+    <h1 ref={ref} className="hero__name text-strong" aria-label={name}>
       {letterLines.map((letters, li) => (
         <Fragment key={li}>
           {li > 0 && " "}

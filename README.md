@@ -12,13 +12,16 @@ and project art.
 ## Tech
 
 Next.js 16 (App Router, static export), React 19, Tailwind CSS 4, TypeScript.
-Deployed to GitHub Pages by GitHub Actions.
+Prettier for formatting, Vitest for tests. Deployed to GitHub Pages by GitHub
+Actions.
 
 ```bash
 npm install
 npm run dev      # http://localhost:3000
 npm run build    # static export into ./out
-npm run lint
+npm run check    # lint, types, formatting and tests
+npm run format   # apply Prettier
+npm test         # tests only
 ```
 
 ## Where the content lives
@@ -26,14 +29,14 @@ npm run lint
 Every fact the site renders comes from `src/content/`. Changing a detail should
 not mean touching a component.
 
-| File | What it holds |
-|---|---|
-| `src/content/site.ts` | Public URL, title, description |
-| `src/content/profile.ts` | Name, role, tagline, email, socials, hero stack, contact reasons, Cal.com link, skills, impact figures, status lines, bio |
-| `src/content/projects.ts` | Works cards, grouped by `category` |
-| `src/content/notes.ts` | Technical notes, each at `/notes/<slug>/` |
-| `src/content/diagrams.ts` | The interactive architecture diagrams on the Works cards |
-| `src/content/types.ts` | The shape of all of the above |
+| File                      | What it holds                                                                                                             |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `src/content/site.ts`     | Public URL, title, description                                                                                            |
+| `src/content/profile.ts`  | Name, role, tagline, email, socials, hero stack, contact reasons, Cal.com link, skills, impact figures, status lines, bio |
+| `src/content/projects.ts` | Works cards, grouped by `category`                                                                                        |
+| `src/content/notes.ts`    | Technical notes, each at `/notes/<slug>/`                                                                                 |
+| `src/content/diagrams.ts` | The interactive architecture diagrams on the Works cards                                                                  |
+| `src/content/types.ts`    | The shape of all of the above                                                                                             |
 
 Also in `profile.ts`: `calLink` (the dock's **Book a call** pill),
 `availability` (the hero badge), `recommendations` (quotes; the section
@@ -69,29 +72,31 @@ variables in `styles/tokens.css`, so a new surface only needs defining in its
 `text-body`, `text-muted`, `bg-surface` and `bg-raised` utilities, and every
 section title goes through `SectionHeading`.
 
-| Token | Value |
-|---|---|
-| Paper | `#f2f0ee` |
-| Card | `#ffffff` |
-| Ink | `#58595b` |
-| Accent | `#e45447` |
-| Gold / secondary | `#e29d51` / `#607393` |
-| Night | `#0d1017` |
-| Type | Self-hosted variable Roboto via `next/font/local`, 16px body |
+| Token            | Value                                                        |
+| ---------------- | ------------------------------------------------------------ |
+| Paper            | `#f2f0ee`                                                    |
+| Card             | `#ffffff`                                                    |
+| Ink              | `#58595b`                                                    |
+| Accent           | `#e45447`                                                    |
+| Gold / secondary | `#e29d51` / `#607393`                                        |
+| Night            | `#0d1017`                                                    |
+| Type             | Self-hosted variable Roboto via `next/font/local`, 16px body |
 
 Motion (decoding headings, magnetic buttons, the name ripple, count-ups, the
 timeline fill, the cursor and the theme reveal) lives in `PageMotion` and the
-small client components beside it. All of it stands down under
-`prefers-reduced-motion`.
+small client components beside it, which share the helpers in
+`src/lib/motion.ts`. All of it stands down under `prefers-reduced-motion`.
 
 ## Deploying
 
 Every push to `main`, and a daily scheduled run, triggers
 `.github/workflows/deploy.yml`, which builds the static export and publishes
-`./out` to GitHub Pages. The daily run keeps the GitHub section current. The workflow derives the
-base path from the repo name. This repo is the user site `abdulbaxit.github.io`,
-so it serves from the root; old `/portfolio/…` links are forwarded by the
-404 page.
+`./out` to GitHub Pages. It runs `npm run check` first, so nothing that fails
+lint, types, formatting or tests is published; pull requests run the same
+checks in `.github/workflows/ci.yml`. The daily run keeps the GitHub section
+current. The workflow derives the base path from the repo name. This repo is
+the user site `abdulbaxit.github.io`, so it serves from the root; old
+`/portfolio/…` links are forwarded by the 404 page.
 
 One-time setup: **Settings → Pages → Build and deployment → Source: GitHub
 Actions**. With "Deploy from a branch" Pages would serve the source instead of

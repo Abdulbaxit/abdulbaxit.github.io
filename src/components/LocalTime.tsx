@@ -2,8 +2,10 @@
 
 import { useSyncExternalStore } from "react";
 
+const TICK_MS = 30_000;
+
 function subscribe(onChange: () => void) {
-  const id = window.setInterval(onChange, 30_000);
+  const id = window.setInterval(onChange, TICK_MS);
   return () => window.clearInterval(id);
 }
 
