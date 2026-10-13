@@ -39,6 +39,14 @@ Also in `profile.ts`: `calLink` (the dock's **Book a call** pill),
 stays hidden while the list is empty, so only add ones you have permission
 to publish) and `github` (the activity section).
 
+Two optional services are switched on in `integrations` in
+`src/content/site.ts`, and stay off while their value is `null`:
+
+- `googleSiteVerification`: the code from Google Search Console's "HTML tag"
+  verification, which adds the `google-site-verification` meta tag.
+- `goatCounter`: your GoatCounter site code (the `name` in
+  `name.goatcounter.com`), which adds its cookie-free visitor counter.
+
 `/llms.txt` is generated from the same content, as a plain summary for AI
 assistants and AI search.
 
@@ -50,6 +58,7 @@ Tool strip    the stack I work with, scrolling under the hero
 Skills        backend / frontend + scroll-assembled illustration
 Readme        impact figures, status lines, fun fact, bio
 Experience    timeline of roles, current ones highlighted
+Education     degree and final-year project
 Works         project cards with interactive architecture diagrams, resume
 Kind words    recommendations (hidden until there are some)
 Notes         short technical write-ups
@@ -101,5 +110,5 @@ the build.
 ## Contact
 
 - **Email:** abasita33@gmail.com
-- **LinkedIn:** [Abdul Basit](https://www.linkedin.com/in/abdul-basit-761062199/)
+- **LinkedIn:** [Abdul Basit](https://www.linkedin.com/in/abdulbasit29/)
 - **GitHub:** [Abdulbaxit](https://github.com/Abdulbaxit)

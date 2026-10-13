@@ -9,10 +9,10 @@ const MARKER_OFFSET_PX = 6;
 export function TimelineProgress() {
   useEffect(() => {
     const rails = Array.from(
-      document.querySelectorAll<HTMLElement>("#experience .tl__roles"),
+      document.querySelectorAll<HTMLElement>(".tl__roles"),
     );
     const roles = Array.from(
-      document.querySelectorAll<HTMLElement>("#experience .tl__role"),
+      document.querySelectorAll<HTMLElement>(".tl__role"),
     );
     if (!rails.length) return;
 

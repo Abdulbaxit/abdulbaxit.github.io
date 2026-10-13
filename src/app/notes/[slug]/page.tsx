@@ -92,7 +92,7 @@ export default async function NotePage({
           ))}
         </p>
         <h1 className="note__title">{note.title}</h1>
-        <div className="kj-border" />
+        <div className="section-rule" />
         <p className="note__lede">{note.description}</p>
       </header>
 

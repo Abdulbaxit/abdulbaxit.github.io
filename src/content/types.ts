@@ -66,6 +66,15 @@ export interface Job {
   roles: Role[];
 }
 
+export interface Education {
+  school: string;
+  href?: string;
+  degree: string;
+  period: string;
+  summary: string;
+  highlights?: string[];
+}
+
 export interface SkillBlock {
   title: string;
   body: string;
