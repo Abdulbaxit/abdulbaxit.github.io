@@ -1,7 +1,3 @@
-/**
- * One inline sprite, referenced by every icon on the page with <use>.
- * Add a <symbol> below and its id here to make a new icon available.
- */
 export const iconIds = [
   "envelope", "file", "user-tie", "sun", "moon", "linkedin", "github",
   "microscope", "users", "seedling", "bolt", "arrow-left",
@@ -10,7 +6,6 @@ export const iconIds = [
 
 export type IconId = (typeof iconIds)[number];
 
-/** The sprite id for a social link's kind; email draws the envelope. */
 export function socialIcon(kind: string): IconId | string {
   return kind === "email" ? "envelope" : kind;
 }
@@ -49,7 +44,6 @@ export function Sprite() {
       <symbol id="i-seedling" viewBox="0 0 512 512"><path fill="currentColor" d="M64 96v64c0 106 86 192 192 192h16v64H80c-8.8 0-16 7.2-16 16s7.2 16 16 16H432c8.8 0 16-7.2 16-16s-7.2-16-16-16H272V352h16c106 0 192-86 192-192V96c0-17.7-14.3-32-32-32H352c-38.6 0-74 12.8-102.1 34.3C226.1 76.8 190.6 64 152 64H96C78.3 64 64 78.3 64 96z" /></symbol>
       <symbol id="i-bolt" viewBox="0 0 384 512"><path fill="currentColor" d="M0 256L28.5 28c2-16 15.6-28 31.8-28H228.9c17.2 0 29.9 16.1 25.8 32.9L230.7 160H297c17.4 0 30.3 16.5 25.7 33.4l-88 304c-4.7 16.2-21.8 24.4-37.4 18.3s-23.3-21.8-18.6-38L225.3 320H159c-17.4 0-30.3-16.5-25.7-33.4L0 256z" /></symbol>
       <symbol id="i-arrow-left" viewBox="0 0 448 512"><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" /></symbol>
-      {/* Dock icons. */}
       <symbol id="i-home" viewBox="0 0 576 512"><path fill="currentColor" d="M303.5 5.7c-9-7.6-22.1-7.6-31.1 0l-264 224c-10.1 8.6-11.3 23.7-2.8 33.8s23.7 11.3 33.8 2.8L64 245.5V432c0 44.2 35.8 80 80 80H432c44.2 0 80-35.8 80-80V245.5l24.5 20.8c10.1 8.6 25.3 7.3 33.8-2.8s7.3-25.3-2.8-33.8l-264-224zM112 432V204.8L288 55.5 464 204.8V432c0 17.7-14.3 32-32 32H368V332c0-24.3-19.7-44-44-44H252c-24.3 0-44 19.7-44 44V464H144c-17.7 0-32-14.3-32-32zm144 32V336h64V464H256z" /></symbol>
       <symbol id="i-briefcase" viewBox="0 0 512 512"><path fill="currentColor" d="M184 48h144c4.4 0 8 3.6 8 8V96H176V56c0-4.4 3.6-8 8-8zm-56 8V96H64C28.7 96 0 124.7 0 160v96H192 320 512V160c0-35.3-28.7-64-64-64H384V56c0-30.9-25.1-56-56-56H184c-30.9 0-56 25.1-56 56zM512 288H320v32c0 17.7-14.3 32-32 32H224c-17.7 0-32-14.3-32-32V288H0V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V288z" /></symbol>
       <symbol id="i-layers" viewBox="0 0 576 512"><path fill="currentColor" d="M264.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 149.8C37.4 145.8 32 137.3 32 128s5.4-17.9 13.9-21.8L264.5 5.2zM476.9 209.6l53.2 24.6c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 277.8C37.4 273.8 32 265.3 32 256s5.4-17.9 13.9-21.8l53.2-24.6 152 70.2c23.4 10.8 50.4 10.8 73.8 0l152-70.2zm-152 198.2l152-70.2 53.2 24.6c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 405.8C37.4 401.8 32 393.3 32 384s5.4-17.9 13.9-21.8l53.2-24.6 152 70.2c23.4 10.8 50.4 10.8 73.8 0z" /></symbol>

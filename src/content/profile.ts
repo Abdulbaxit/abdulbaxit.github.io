@@ -51,11 +51,6 @@ export const profile: Profile = {
         "— ",
     },
   ],
-  /*
-    Cal.com event behind the dock's "Book a call" pill, as
-    "username/event-slug". The 15-minute event is
-    "abdul-basit-jcbhuk/15min". Null hides the pill.
-  */
   calLink: "abdul-basit-jcbhuk/30min",
   calNamespace: "30min",
   resumeHref: "/Abdul%20Basit%20CV.pdf",
@@ -73,12 +68,10 @@ export const profile: Profile = {
     },
     { kind: "email", label: "Email", href: "mailto:abasita33@gmail.com" },
   ],
-  // Public: anyone who visits sees this, current employers included.
   availability: "Open to new opportunities",
   timeZone: "Asia/Karachi",
   replyNote: "I usually reply within a day",
   github: "Abdulbaxit",
-  // From the CV's skills. Order is the order they scroll past.
   toolbelt: [
     "Python", "FastAPI", "TypeScript", "Next.js", "React", "PostgreSQL",
     "SQLAlchemy", "Celery", "RabbitMQ", "Redis", "Docker", "GitHub Actions",
@@ -86,17 +79,6 @@ export const profile: Profile = {
   ],
 };
 
-/**
- * Quotes from colleagues or clients. Empty hides the section. Only add
- * quotes you have the person's permission to publish, e.g.:
- *
- *   {
- *     quote: "Abdul owned the backend end to end ...",
- *     name: "Jane Doe",
- *     role: "Engineering Lead, Techanzy",
- *     href: "https://www.linkedin.com/in/...",
- *   },
- */
 export const recommendations: Recommendation[] = [
   {
     quote:
@@ -112,7 +94,6 @@ export const recommendations: Recommendation[] = [
   },
 ];
 
-/** Employment, current roles first. Dates and details follow the CV. */
 export const experience: Job[] = [
   {
     company: "Techanzy",
@@ -165,7 +146,6 @@ export const experience: Job[] = [
   },
 ];
 
-/** A role still running: its period ends in "present". */
 export function isCurrentRole(role: Role): boolean {
   return /present$/i.test(role.period);
 }
@@ -226,7 +206,6 @@ export const statusLines: StatusLine[] = [
 export const funFact =
   "For seven months I was shipping at two companies at once — Devsarch by day, Voltade on the side. Both went to production 🚀";
 
-/** Paragraphs of the bio. `[text](url)` renders as a link. */
 export const readme: string[] = [
   "I'm a Software Engineer who likes the unglamorous half of the job: the queue that has to drain, the migration that has to be reversible, the endpoint that has to behave the same at 3am. Most of what I've shipped lives in that layer.",
   "At Techanzy I build the backend for [Implement AI](https://implementai.io/) — a production FastAPI platform with async SQLAlchemy, PostgreSQL and Alembic, JWT auth, and Celery/RabbitMQ/Redis background jobs. Before that, at Devsarch, I worked on Legiflow — entity extraction and a chatbot restricted to the case file itself.",

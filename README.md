@@ -47,6 +47,7 @@ assistants and AI search.
 
 ```
 Hero          name, role · location, stack, "Email me" disc, portrait
+Tool strip    the stack I work with, scrolling under the hero
 Skills        backend / frontend + scroll-assembled illustration
 Readme        impact figures, status lines, fun fact, bio
 Experience    timeline of roles, current ones highlighted
@@ -60,9 +61,13 @@ Dock          floating nav: sections, resume, Book a call
 
 ## Design system
 
-Defined once in `src/app/globals.css`. Light and dark both paint through the
-`--surface-*` / `--text-*` variables, so a new surface only needs defining in
-the `:root` and `.dark` blocks.
+`src/app/globals.css` holds the Tailwind theme and imports the rules, which
+live in `src/app/styles/`: one file per part of the page, imported in cascade
+order. Light and dark both paint through the `--surface-*` / `--text-*`
+variables in `styles/tokens.css`, so a new surface only needs defining in its
+`:root` and `.dark` blocks. Components reach them through the `text-strong`,
+`text-body`, `text-muted`, `bg-surface` and `bg-raised` utilities, and every
+section title goes through `SectionHeading`.
 
 | Token | Value |
 |---|---|
@@ -73,6 +78,11 @@ the `:root` and `.dark` blocks.
 | Gold / secondary | `#e29d51` / `#607393` |
 | Night | `#0d1017` |
 | Type | Self-hosted variable Roboto via `next/font/local`, 16px body |
+
+Motion (decoding headings, magnetic buttons, the name ripple, count-ups, the
+timeline fill, the cursor and the theme reveal) lives in `PageMotion` and the
+small client components beside it. All of it stands down under
+`prefers-reduced-motion`.
 
 ## Deploying
 

@@ -2,27 +2,7 @@
 
 import { useEffect, type RefObject } from "react";
 
-/**
- * macOS-style dock magnification.
- *
- * Each item scales by how close the pointer is to its centre, so the
- * hovered icon grows most, its neighbours less, and the falloff makes a
- * wave that travels along the dock. A plain :hover cannot do this,
- * because the effect depends on distance rather than which element the
- * pointer is actually over.
- *
- * Implementation notes:
- *
- * - Item centres are measured once per pointer entry, not per frame.
- *   Reading geometry inside the move handler would force a layout on
- *   every mousemove, and the centres only change when the dock resizes.
- * - Each frame writes one custom property per item and nothing else, so
- *   the browser composites the transform on the GPU. No layout, no paint.
- * - Work is batched into a single rAF, so a burst of mousemove events
- *   collapses to one update per frame.
- */
 const MAX_SCALE = 1.9;
-/** How far the influence reaches, in multiples of an item's width. */
 const REACH = 2.4;
 
 export function useDockMagnify(
@@ -33,8 +13,6 @@ export function useDockMagnify(
     const root = ref.current;
     if (!root || !enabled) return;
 
-    // Coarse pointers have no meaningful hover, and magnification is
-    // exactly the kind of motion reduced-motion asks us to drop.
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
     const still = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (!fine.matches || still.matches) return;
@@ -66,8 +44,6 @@ export function useDockMagnify(
           return;
         }
         const distance = Math.abs(x - centres[i]) / (width * REACH);
-        // Cosine falloff: 1 at the pointer, easing to 0 at the edge of
-        // the reach, which reads smoother than a linear ramp.
         const influence =
           distance >= 1 ? 0 : (Math.cos(distance * Math.PI) + 1) / 2;
         const scale = 1 + (MAX_SCALE - 1) * influence;
@@ -80,8 +56,6 @@ export function useDockMagnify(
     };
 
     const onEnter = () => {
-      // Centres shift as neighbours grow, so this is the honest moment
-      // to measure: the dock is at rest.
       measure();
     };
 

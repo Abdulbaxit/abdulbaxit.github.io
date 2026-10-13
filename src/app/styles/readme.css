@@ -1,0 +1,52 @@
+.impact {
+  padding: 10px 4px 0;
+}
+
+.impact__kicker {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 18px;
+}
+
+.impact__row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.impact__row:last-child {
+  border-bottom: 0;
+}
+
+.impact__n {
+  flex: 0 0 auto;
+  min-width: 92px;
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-prime);
+  font-variant-numeric: tabular-nums;
+}
+
+.impact__suffix {
+  font-size: 0.45em;
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+.impact__l {
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+@media (max-width: 767px) {
+  .impact__n {
+    min-width: 74px;
+    font-size: 32px;
+  }
+}

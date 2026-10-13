@@ -13,7 +13,6 @@ export default function manifest(): MetadataRoute.Manifest {
     display: "standalone",
     background_color: "#0d1017",
     theme_color: "#f2f0ee",
-    // The "ab." mark on its dark tile, the same as the favicon.
     icons: [
       {
         src: asset("/assets/images/icon-192.png"),

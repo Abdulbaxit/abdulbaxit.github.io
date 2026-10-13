@@ -1,0 +1,248 @@
+.talk-wrapper {
+  position: relative;
+  display: inline-block;
+  transition: translate 0.35s var(--ease-out-soft);
+}
+
+.talk {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 132px;
+  width: 132px;
+  border-radius: 50%;
+  background: var(--color-prime-soft);
+  color: #fff;
+  transition: transform 0.35s var(--ease-out-soft);
+}
+
+button.talk {
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.talk::before {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  background: #cc5449;
+}
+
+.talk:hover,
+.talk:focus-visible {
+  transform: scale(1.06);
+}
+
+.talk__text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 21px;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+
+.talk__l2 {
+  margin-left: 1.15em;
+}
+
+.talk-pulse {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  height: 152px;
+  width: 152px;
+  margin: -76px 0 0 -76px;
+  border-radius: 50%;
+  background: var(--color-prime);
+  opacity: 0;
+  transform: scale(0);
+  pointer-events: none;
+  animation: pulse-out 1.6s ease-out 1.4s forwards;
+}
+
+.talk-wrapper:hover .talk-pulse,
+.talk-wrapper:focus-within .talk-pulse {
+  animation: pulse-out 1.8s ease-out 0.2s infinite;
+}
+
+@keyframes pulse-out {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .contact {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.75rem;
+  }
+}
+
+.contact__panel {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.4rem);
+  transition:
+    opacity 0.22s var(--ease-out-soft),
+    transform 0.28s var(--ease-out-soft),
+    visibility 0s linear 0.28s;
+}
+
+.contact__panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 0.22s var(--ease-out-soft),
+    transform 0.28s var(--ease-spring),
+    visibility 0s;
+}
+
+@media (max-width: 639px) {
+  .contact__panel {
+    max-height: 0;
+    overflow: hidden;
+    margin: 0 -6px;
+    padding: 0 6px;
+    transition:
+      max-height 0.3s var(--ease-out-soft),
+      opacity 0.22s var(--ease-out-soft),
+      transform 0.28s var(--ease-out-soft),
+      visibility 0s linear 0.3s;
+  }
+
+  .contact__panel.is-open {
+    max-height: 24rem;
+    padding-bottom: 6px;
+    transition:
+      max-height 0.35s var(--ease-out-soft),
+      opacity 0.22s var(--ease-out-soft),
+      transform 0.28s var(--ease-spring),
+      visibility 0s;
+  }
+}
+
+.contact__prompt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+
+.contact__reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.contact__reason {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-width: 13rem;
+  padding: 0.5rem 0.85rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-strong);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.contact__reason span {
+  color: var(--text-muted);
+  transition: transform 0.2s var(--ease-out-soft), color 0.2s ease;
+}
+
+.contact__reason:hover,
+.contact__reason:focus-visible {
+  border-color: var(--color-prime);
+  color: var(--color-prime);
+}
+
+.contact__reason:hover span,
+.contact__reason:focus-visible span {
+  color: var(--color-prime);
+  transform: translateX(3px);
+}
+
+.contact__alt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.85rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--rule);
+}
+
+.contact__alt-link {
+  font-size: 12px;
+  color: var(--text-muted);
+  border-bottom: 1px solid transparent;
+  align-self: flex-start;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.contact__alt-link:hover,
+.contact__alt-link:focus-visible {
+  color: var(--color-prime);
+  border-bottom-color: var(--color-prime);
+}
+
+.contact__copy {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.contact__address {
+  border-bottom: 1px dashed var(--rule);
+}
+
+.contact__copy-state {
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 10px;
+  color: var(--color-prime);
+}
+
+@media (min-width: 640px) {
+  .contact__prompt,
+  .contact__copy {
+    text-align: left;
+  }
+}

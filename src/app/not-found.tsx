@@ -2,13 +2,6 @@ import Link from "next/link";
 import { Icon } from "@/components/Sprite";
 import { site } from "@/content/site";
 
-/**
- * The site used to live at /portfolio/ before it became the user site at
- * the root. GitHub Pages answers any unknown path with this page, so links
- * shared under the old prefix land here and are sent on to the same page
- * without it (hash and query kept). Only when serving from the root: under
- * a /portfolio basePath, stripping the prefix would leave the site.
- */
 const legacyRedirect = `(function(){var m=location.pathname.match(/^\\/portfolio(\\/.*)?$/i);if(m){location.replace((m[1]||"/")+location.search+location.hash)}})();`;
 
 export default function NotFound() {
@@ -17,16 +10,8 @@ export default function NotFound() {
       {site.basePath === "" && (
         <script dangerouslySetInnerHTML={{ __html: legacyRedirect }} />
       )}
-      <p
-        className="text-6xl font-black"
-        style={{ color: "var(--color-prime)" }}
-      >
-        404
-      </p>
-      <h1
-        className="mt-2 text-3xl font-bold"
-        style={{ color: "var(--text-strong)" }}
-      >
+      <p className="text-prime text-6xl font-black">404</p>
+      <h1 className="text-strong mt-2 text-3xl font-bold">
         This page doesn&rsquo;t exist
       </h1>
       <div className="kj-border" />

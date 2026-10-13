@@ -1,14 +1,10 @@
 import { Icon } from "./Sprite";
+import { SectionHeading } from "./SectionHeading";
 import { profile } from "@/content/profile";
 import { getContributions } from "@/lib/github";
 
 const monthFmt = new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" });
 
-/**
- * The contribution heatmap, baked in at build time. If GitHub can't be
- * reached the section is left out entirely rather than showing an empty
- * frame.
- */
 export async function GitHubActivity() {
   const user = profile.github;
   if (!user) return null;
@@ -16,7 +12,6 @@ export async function GitHubActivity() {
   const contributions = await getContributions(user);
   if (!contributions) return null;
 
-  // Lay the days out like GitHub does: one column per week, Sunday on top.
   const first = contributions.days[0];
   const offset = first ? new Date(`${first.date}T00:00:00Z`).getUTCDay() : 0;
   const cells = contributions.days.map((day, i) => ({
@@ -26,7 +21,6 @@ export async function GitHubActivity() {
   }));
   const weeks = cells.length ? cells[cells.length - 1].col : 0;
 
-  // A month label over the first week that starts in that month.
   const months: { col: number; label: string }[] = [];
   for (const c of cells) {
     if (c.row !== 1) continue;
@@ -38,23 +32,14 @@ export async function GitHubActivity() {
 
   return (
     <section id="github" className="mt-12 md:mt-32">
-      <h2
-        data-decode
-        className="text-3xl leading-none font-bold md:text-4xl"
-        style={{ color: "var(--text-strong)" }}
-      >
-        On GitHub
-      </h2>
-      <p className="mt-2 text-lg">
-        {contributions.total.toLocaleString("en-US")} contributions in the last
-        year
-      </p>
-      <div className="kj-border" />
+      <SectionHeading
+        title="On GitHub"
+        subtitle={`${contributions.total.toLocaleString("en-US")} contributions in the last year`}
+      />
 
       <figure className="gh-graph">
         <div
           className="gh-graph__grid"
-          // minmax(0, …): a month label overflows its week instead of widening it.
           style={{ gridTemplateColumns: `repeat(${weeks}, minmax(0, 1fr))` }}
           role="img"
           aria-label={`Contribution graph: ${contributions.total} contributions in the last year`}

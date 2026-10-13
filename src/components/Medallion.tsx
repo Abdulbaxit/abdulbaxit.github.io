@@ -4,16 +4,6 @@ import { useRef } from "react";
 import { profile } from "@/content/profile";
 import { asset } from "@/content/site";
 
-/**
- * The hero medallion: the portrait cropped to a circle, or the initials
- * in the accent when no portrait is set.
- *
- * On hover it tilts toward the pointer. This component only reports where
- * the pointer is, as --px / --py from -1 to 1 across the medallion; the
- * tilt, parallax, sheen and ring are all CSS reading those two values.
- * The stage that measures is never transformed itself, so the tilt can't
- * feed back into the measurement.
- */
 export function Medallion() {
   const { portrait, initials, name } = profile;
   const stageRef = useRef<HTMLDivElement>(null);
@@ -23,7 +13,6 @@ export function Medallion() {
     const stage = stageRef.current;
     if (!stage) return;
     cancelAnimationFrame(frame.current);
-    // At most one style write per frame, however fast the pointer moves.
     frame.current = requestAnimationFrame(() => {
       stage.style.setProperty("--px", px.toFixed(3));
       stage.style.setProperty("--py", py.toFixed(3));

@@ -1,0 +1,65 @@
+.has-cursor,
+.has-cursor * {
+  cursor: none !important;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  will-change: translate, transform;
+  transition:
+    opacity 0.3s ease,
+    scale 0.45s var(--ease-out-soft),
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  background: var(--color-prime);
+}
+
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1.5px solid color-mix(in srgb, var(--text-strong) 45%, transparent);
+}
+
+.cursor-visible .cursor-dot,
+.cursor-visible .cursor-ring {
+  opacity: 1;
+}
+
+.cursor-link .cursor-ring {
+  scale: 1.6;
+  border-color: var(--text-strong);
+  background: color-mix(in srgb, var(--color-prime) 14%, transparent);
+}
+
+.cursor-link .cursor-dot {
+  scale: 0.5;
+}
+
+.cursor-down .cursor-ring {
+  scale: 0.8;
+}
+
+.cursor-link.cursor-down .cursor-ring {
+  scale: 1.3;
+}
+
+@media print {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}

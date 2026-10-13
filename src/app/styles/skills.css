@@ -1,0 +1,72 @@
+.illustration {
+  position: relative;
+  width: calc(100% - 3rem);
+  max-width: 34rem;
+  aspect-ratio: 100 / 82;
+  margin: 1.5rem auto;
+  align-self: center;
+  isolation: isolate;
+}
+
+.illustration__img {
+  position: absolute;
+  height: auto;
+  will-change: transform, opacity;
+}
+
+.illustration__img--1 {
+  --fs: 0.6;
+  --d: 0s;
+  left: 39.3%;
+  top: 42.3%;
+  width: 21.4%;
+  z-index: 5;
+  transform-origin: 50% 95%;
+}
+.illustration__img--2 { left: 19%;   top: 58.5%; width: 62%;   z-index: 2; --fy: -24px; --d: 0.1s; }
+.illustration__img--3 { left: 28.2%; top: 21.5%; width: 43.7%; z-index: 3; --fy: -24px; --d: 0.2s; }
+.illustration__img--4 { left: 1%;    top: 3.7%;  width: 24.8%; z-index: 6; --fy: 16px; --d: 0.55s; }
+.illustration__img--6 { left: 5%;    top: 29.9%; width: 17.5%; z-index: 6; --fy: 16px; --d: 0.45s; }
+.illustration__img--5 { left: 76%;   top: 2.4%;  width: 19.9%; z-index: 6; --fy: 16px; --d: 0.35s; }
+.illustration__img--7 { left: 79%;   top: 42.1%; width: 12.6%; z-index: 6; --fy: 16px; --d: 0.65s; }
+
+html:not(.js-skills-pin) .illustration.will-reveal .illustration__img {
+  opacity: 0;
+}
+
+html:not(.js-skills-pin) .illustration.is-visible .illustration__img {
+  animation: layer-in 0.6s var(--ease-out-soft) both;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes layer-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--fy, 0), 0) scale(var(--fs, 1));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.js-skills-pin .see-project-btn,
+.js-skills-pin .data-1,
+.js-skills-pin .data-2 {
+  opacity: 0;
+}
+
+@media (min-width: 1024px) {
+  .js-skills-pin .skills-pin {
+    height: 250vh;
+  }
+
+  .js-skills-pin .skills-sticky {
+    position: sticky;
+    top: 0;
+    margin-top: 0;
+    padding-top: 6rem;
+    padding-bottom: 4rem;
+    background: var(--surface-card);
+  }
+}

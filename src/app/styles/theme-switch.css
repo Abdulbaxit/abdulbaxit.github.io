@@ -1,0 +1,52 @@
+@property --vt-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  -webkit-mask-image: radial-gradient(
+    circle at var(--vt-x, 50%) var(--vt-y, 50%),
+    #000 calc(var(--vt-r) - 56px),
+    transparent var(--vt-r)
+  );
+  mask-image: radial-gradient(
+    circle at var(--vt-x, 50%) var(--vt-y, 50%),
+    #000 calc(var(--vt-r) - 56px),
+    transparent var(--vt-r)
+  );
+}
+
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+
+.theme-switching .cursor-dot,
+.theme-switching .cursor-ring {
+  visibility: hidden;
+}
+
+.theme-switching.has-cursor,
+.theme-switching.has-cursor * {
+  cursor: auto !important;
+}
+
+.theme-fade,
+.theme-fade *,
+.theme-fade *::before,
+.theme-fade *::after {
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease,
+    border-color 0.45s ease,
+    fill 0.45s ease,
+    stroke 0.45s ease !important;
+}

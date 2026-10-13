@@ -11,12 +11,6 @@ import { Contact } from "@/components/Contact";
 import { profile, experience, isCurrentRole } from "@/content/profile";
 import { site, absoluteUrl } from "@/content/site";
 
-/**
- * Structured data for search engines. The page is declared a ProfilePage
- * whose main entity is the Person, which is the shape Google documents
- * for a personal profile and what lets a search for the name resolve to
- * this site.
- */
 export default function Home() {
   const personId = absoluteUrl("/#person");
   const websiteId = absoluteUrl("/#website");
@@ -39,7 +33,6 @@ export default function Home() {
         name: profile.name,
         givenName: "Abdul",
         familyName: "Basit",
-        // The handle used on GitHub and in this site's old URL.
         alternateName: "Abdulbaxit",
         jobTitle: profile.role,
         description: site.description,
@@ -55,7 +48,6 @@ export default function Home() {
           "@type": "CollegeOrUniversity",
           name: "Lahore Garrison University",
         },
-        // Every role still running in the Experience timeline.
         worksFor: experience
           .filter((job) => job.roles.some(isCurrentRole))
           .map((job) => ({

@@ -1,0 +1,10 @@
+@media print {
+  .dock,
+  .talk-wrapper,
+  .skip {
+    display: none !important;
+  }
+  .page-bg {
+    background: #fff;
+  }
+}

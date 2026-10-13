@@ -2,16 +2,8 @@
 
 import { useEffect } from "react";
 
-/** Where on screen the timeline counts as "read": 60% of the way down. */
 const READ_LINE = 0.6;
 
-/**
- * Fills each employer's rail in the Experience timeline as you scroll, and
- * marks each role reached once the read line passes its marker. Writes
- * --fill on .tl__roles and toggles .is-reached on .tl__role; the drawing
- * is in globals.css. Under reduced motion the rails are simply full.
- * Renders nothing itself.
- */
 export function TimelineProgress() {
   useEffect(() => {
     const rails = Array.from(document.querySelectorAll<HTMLElement>("#experience .tl__roles"));
@@ -34,7 +26,6 @@ export function TimelineProgress() {
         rail.style.setProperty("--fill", Math.min(1, Math.max(0, fill)).toFixed(4));
       }
       for (const role of roles) {
-        // The marker sits ~0.35rem below the role's top edge.
         role.classList.toggle("is-reached", role.getBoundingClientRect().top + 6 <= line);
       }
     };

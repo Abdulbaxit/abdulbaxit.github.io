@@ -17,7 +17,6 @@ function Inline({ text }: { text: string }) {
   );
 }
 
-/** Renders a note body written in the small Markdown subset of lib/prose. */
 export function Prose({ source }: { source: string }) {
   return (
     <div className="prose">

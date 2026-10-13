@@ -8,7 +8,6 @@ import { profile } from "@/content/profile";
 import { absoluteUrl } from "@/content/site";
 import { formatDate } from "@/lib/prose";
 
-/** Every note is emitted at build time, as static export requires. */
 export function generateStaticParams() {
   return notes.map((n) => ({ slug: n.slug }));
 }

@@ -1,12 +1,5 @@
 import type { Project } from "./types";
 
-/**
- * The three Voltade apps sit behind a login and belong to the client, so
- * there is nothing publishable to screenshot: they get gradient tiles.
- * The rest show their architecture as an interactive diagram, defined in
- * diagrams.ts. Groups appear in the order their first project does, so
- * AI systems lead.
- */
 export const projects: Project[] = [
   {
     name: "Legiflow",
@@ -59,7 +52,6 @@ export const projects: Project[] = [
   },
 ];
 
-/** Projects grouped by category, in the order categories first appear. */
 export function projectsByCategory() {
   const groups = new Map<string, Project[]>();
   for (const project of projects) {

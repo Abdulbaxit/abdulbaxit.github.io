@@ -1,0 +1,50 @@
+.gh-graph {
+  margin-top: 2.5rem;
+}
+
+.gh-graph__grid {
+  display: grid;
+  grid-template-rows: auto repeat(7, auto);
+  gap: 3px;
+}
+
+.gh-graph__month {
+  margin-bottom: 4px;
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.gh-graph__day {
+  display: block;
+  aspect-ratio: 1;
+  min-width: 0;
+  border-radius: 2px;
+  background: var(--rule);
+}
+
+.gh-graph__day[data-level="1"] { background: color-mix(in srgb, var(--color-prime) 30%, transparent); }
+.gh-graph__day[data-level="2"] { background: color-mix(in srgb, var(--color-prime) 55%, transparent); }
+.gh-graph__day[data-level="3"] { background: color-mix(in srgb, var(--color-prime) 78%, transparent); }
+.gh-graph__day[data-level="4"] { background: var(--color-prime); }
+
+.gh-graph__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.gh-graph__scale {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.gh-graph__scale .gh-graph__day {
+  width: 11px;
+  margin: 0 1px;
+}

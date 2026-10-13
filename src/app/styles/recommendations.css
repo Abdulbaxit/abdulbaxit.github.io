@@ -1,0 +1,62 @@
+.quotes {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .quotes {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+}
+
+.quote {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  background: var(--surface-raised);
+}
+
+.quote__text {
+  position: relative;
+  padding-top: 1.25rem;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-strong);
+}
+
+.quote__text::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2rem;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--color-prime);
+}
+
+.quote__who {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.quote__name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+a.quote__name:hover,
+a.quote__name:focus-visible {
+  color: var(--color-prime);
+}
+
+.quote__role {
+  font-size: 12px;
+  color: var(--text-muted);
+}

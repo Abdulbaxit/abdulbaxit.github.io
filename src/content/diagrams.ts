@@ -1,39 +1,23 @@
-/**
- * The architecture diagrams on the Works cards, as data, so they can be
- * explored: hover, focus or tap a box to read what it does, or play the
- * flow to watch a request move through the system step by step.
- *
- * Coordinates are in an 800 × 500 canvas, matching the original drawings.
- */
-
 export interface DiagramNode {
   id: string;
   x: number;
   y: number;
   w: number;
   h: number;
-  /** Bold first line. Empty for a note box that is only body text. */
   title: string;
   titleSize?: number;
-  /** Smaller lines under the title. */
   lines?: string[];
   lineSize?: number;
-  /** accent: the coral focal box. note: a dashed annotation panel. */
   tone?: "accent" | "note";
-  /** Render the title as a small uppercase label (used by note boxes). */
   kicker?: boolean;
-  /** What this part does, shown on hover, focus or tap. */
   detail: string;
 }
 
 export interface DiagramEdge {
   id: string;
-  /** SVG path data. */
   d: string;
-  /** accent: the main path, in coral. faint: a light dashed relation. */
   tone?: "accent" | "faint";
   dashed?: boolean;
-  /** Arrowhead at the end. Defaults to true. */
   arrow?: boolean;
 }
 
@@ -41,23 +25,18 @@ export interface DiagramLabel {
   x: number;
   y: number;
   text: string;
-  /** kicker: small uppercase section label. caption: a sentence. */
   kind: "kicker" | "caption";
 }
 
 export interface DiagramStep {
-  /** The box this step lands on. */
   node: string;
-  /** Arrows that light up on the way there. */
   edges?: string[];
   caption: string;
 }
 
 export interface Diagram {
   id: string;
-  /** Read by screen readers in place of the drawing. */
   alt: string;
-  /** Text on the play button, e.g. "Follow a request". */
   playLabel: string;
   nodes: DiagramNode[];
   edges: DiagramEdge[];

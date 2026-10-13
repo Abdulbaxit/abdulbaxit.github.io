@@ -4,15 +4,6 @@ import { useEffect, useRef } from "react";
 
 const DURATION_MS = 1400;
 
-/**
- * A number that counts up from 0 when it scrolls into view.
- *
- * The server renders the real value, so without JavaScript (or under
- * reduced motion) the figure is simply correct. On the client it is reset
- * to 0 only if it starts below the fold; a figure already on screen at
- * load is left alone rather than flicking to 0 and back. Non-numeric
- * values are rendered as they are.
- */
 export function CountUp({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
 
@@ -26,7 +17,6 @@ export function CountUp({ value }: { value: string }) {
     const box = el.getBoundingClientRect();
     if (box.top < window.innerHeight && box.bottom > 0) return;
 
-    // Write the text node in place, so React's node stays the one on screen.
     node.nodeValue = "0";
     let frame = 0;
 

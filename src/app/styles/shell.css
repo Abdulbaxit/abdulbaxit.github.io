@@ -1,0 +1,84 @@
+.page-bg {
+  background: var(--surface-card);
+}
+
+@media (min-width: 768px) {
+  .page-bg {
+    background: var(--surface-shell);
+  }
+}
+
+.mark {
+  display: inline-block;
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  padding-bottom: 0.5rem;
+  color: var(--text-body);
+  text-transform: none;
+}
+.mark span {
+  color: var(--color-prime);
+}
+
+.f-link {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s,
+    transform 0.2s;
+}
+.f-link:hover,
+.f-link:focus-visible {
+  background-color: var(--color-prime);
+  color: var(--color-paper);
+  box-shadow: 0 1rem 2rem rgba(43, 41, 41, 0.4);
+  transform: rotate(-5deg) scale(1.1);
+}
+
+.kj-border {
+  position: relative;
+  height: 0.2rem;
+  width: 8rem;
+  background: var(--color-prime);
+  margin-top: 1rem;
+}
+.kj-border::before {
+  content: "";
+  position: absolute;
+  top: -0.2rem;
+  left: -0.2rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--color-prime);
+}
+
+.motion-ok .kj-border {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.motion-ok .kj-border::before {
+  scale: 0;
+}
+
+.motion-ok .kj-border.is-in {
+  transform: none;
+  transition: transform 0.9s var(--ease-out-soft);
+}
+
+.motion-ok .kj-border.is-in::before {
+  scale: 1;
+  transition: scale 0.45s var(--ease-spring) 0.55s;
+}
+
+.color-bar {
+  display: flex;
+  height: 0.75rem;
+  margin-top: 1.25rem;
+}
+.color-bar > * {
+  height: 100%;
+  width: 25%;
+}

@@ -1,0 +1,29 @@
+.svg-btn {
+  display: inline-block;
+  font-weight: 700;
+}
+.svg-btn svg {
+  display: block;
+  overflow: visible;
+}
+.svg-btn rect {
+  transition: width 0.4s var(--ease-spring), fill 0.4s ease, opacity 0.4s ease;
+}
+.svg-btn text {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  fill: var(--text-strong);
+  transition: fill 0.2s linear;
+}
+.svg-btn:hover rect,
+.svg-btn:focus-visible rect {
+  width: var(--pill, 160px);
+  fill: var(--color-prime);
+  opacity: 0.9;
+}
+.svg-btn:hover text,
+.svg-btn:focus-visible text {
+  fill: var(--color-paper);
+}

@@ -3,7 +3,6 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-  # Lets you re-run a deploy from the Actions tab without a new commit.
   workflow_dispatch:
   # Daily rebuild, so the GitHub activity section stays current.
   schedule:
@@ -14,7 +13,6 @@ permissions:
   pages: write
   id-token: write
 
-# Let an in-flight deploy finish rather than cancelling it mid-publish.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -23,9 +21,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -34,10 +32,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        # A project repo is served from /<repo>/, a <user>.github.io repo
-        # from the root. This derives the right basePath either way, so a
-        # rename of the repo does not silently 404 every asset. Compared in
-        # lowercase: the owner is "Abdulbaxit", the repo "abdulbaxit.github.io".
+        # A <user>.github.io repo serves from the root, any other from /<repo>; compared in lowercase.
         run: |
           REPO="${GITHUB_REPOSITORY#*/}"
           USER_SITE="$(echo "${GITHUB_REPOSITORY_OWNER}.github.io" | tr '[:upper:]' '[:lower:]')"
@@ -54,9 +49,9 @@ jobs:
         # Without this, Pages runs Jekyll and drops the _next directory.
         run: touch out/.nojekyll
 
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: out
 
@@ -68,4 +63,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

@@ -13,15 +13,8 @@ import { site, absoluteUrl } from "@/content/site";
 
 export const dynamic = "force-static";
 
-/** "[Implement AI](https://…)" → "Implement AI": llms.txt wants plain prose. */
 const plain = (text: string) => text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
 
-/**
- * /llms.txt (llmstxt.org): a plain-Markdown summary for AI assistants and
- * AI search, so "who is Abdul Basit, software engineer?" in ChatGPT,
- * Claude or Perplexity has a clean, current source to quote. Built from
- * the same content as the page, so the two never disagree.
- */
 export function GET() {
   const lines: string[] = [
     `# ${profile.name}`,
