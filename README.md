@@ -5,10 +5,6 @@ and full-stack applications.
 
 **Live:** [abdulbaxit.github.io](https://abdulbaxit.github.io/)
 
-The homepage layout follows the structure of [kenjimmy.xyz](https://kenjimmy.xyz/)
-(white card on warm paper, Roboto, coral accent), with original content, portrait
-and project art.
-
 ## Tech
 
 Next.js 16 (App Router, static export), React 19, Tailwind CSS 4, TypeScript.
