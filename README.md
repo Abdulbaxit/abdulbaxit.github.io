@@ -47,6 +47,10 @@ Two optional services are switched on in `integrations` in
 - `goatCounter`: your GoatCounter site code (the `name` in
   `name.goatcounter.com`), which adds its cookie-free visitor counter.
 
+Google Search Console is verified with the HTML file method instead:
+`public/google4d039aef351eb7e0.html` must stay, or the site loses its
+verification.
+
 `/llms.txt` is generated from the same content, as a plain summary for AI
 assistants and AI search.
 
