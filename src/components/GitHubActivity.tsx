@@ -3,7 +3,12 @@ import { SectionHeading } from "./SectionHeading";
 import { profile } from "@/content/profile";
 import { getContributions } from "@/lib/github";
 
-const monthFmt = new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" });
+const DAYS_PER_WEEK = 7;
+
+const monthFmt = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  timeZone: "UTC",
+});
 
 export async function GitHubActivity() {
   const user = profile.github;
@@ -16,8 +21,8 @@ export async function GitHubActivity() {
   const offset = first ? new Date(`${first.date}T00:00:00Z`).getUTCDay() : 0;
   const cells = contributions.days.map((day, i) => ({
     ...day,
-    col: Math.floor((i + offset) / 7) + 1,
-    row: ((i + offset) % 7) + 1,
+    col: Math.floor((i + offset) / DAYS_PER_WEEK) + 1,
+    row: ((i + offset) % DAYS_PER_WEEK) + 1,
   }));
   const weeks = cells.length ? cells[cells.length - 1].col : 0;
 

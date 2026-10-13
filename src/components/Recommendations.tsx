@@ -6,7 +6,10 @@ export function Recommendations() {
 
   return (
     <section id="recommendations" className="mt-12 md:mt-32">
-      <SectionHeading title="Kind words" subtitle="From people I’ve worked with" />
+      <SectionHeading
+        title="Kind words"
+        subtitle="From people I’ve worked with"
+      />
 
       <div className="quotes">
         {recommendations.map((r) => (

@@ -8,7 +8,11 @@ export function Marquee() {
     <div className="marquee" role="region" aria-label="Tools I work with">
       <div className="marquee__track">
         {[false, true].map((copy) => (
-          <ul key={String(copy)} className="marquee__list" aria-hidden={copy || undefined}>
+          <ul
+            key={String(copy)}
+            className="marquee__list"
+            aria-hidden={copy || undefined}
+          >
             {tools.map((tool) => (
               <li key={tool}>{tool}</li>
             ))}

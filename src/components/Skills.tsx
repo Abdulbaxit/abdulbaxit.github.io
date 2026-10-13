@@ -5,6 +5,7 @@ import { SvgButton } from "./SvgButton";
 import { SectionHeading } from "./SectionHeading";
 import { asset } from "@/content/site";
 import { skills } from "@/content/profile";
+import { clamp, frameThrottle, prefersReducedMotion } from "@/lib/motion";
 
 const LAYERS = [
   { n: 1, file: "person" },
@@ -29,10 +30,6 @@ interface Step {
   to: Frame;
   a: number;
   b: number;
-}
-
-function clamp(n: number, a: number, b: number) {
-  return Math.max(a, Math.min(b, n));
 }
 
 function mix(from: Frame, to: Frame, t: number): Frame {
@@ -61,10 +58,8 @@ export function Skills() {
     if (!pin || !section || !scene) return;
 
     const root = document.documentElement;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduced = prefersReducedMotion();
     const wide = window.matchMedia("(min-width: 1024px)");
-    let queued = false;
-    let frame = 0;
     let steps: Step[] = [];
     let reveal: IntersectionObserver | null = null;
 
@@ -73,16 +68,76 @@ export function Skills() {
         Array.from(section.querySelectorAll<HTMLElement>(sel));
       const vis: Frame = { scale: 1, opacity: 1, x: 0, y: 0 };
       steps = [
-        { els: q(".illustration__img--1"), from: { scale: 0.5, opacity: 1, x: 0, y: 0 }, to: vis, a: 0, b: 0.12 },
-        { els: q(".illustration__img--2"), from: { scale: 1, opacity: 0, x: 0, y: -50 }, to: vis, a: 0.05, b: 0.16 },
-        { els: q(".illustration__img--3"), from: { scale: 1, opacity: 0, x: 0, y: -50 }, to: vis, a: 0.11, b: 0.22 },
-        { els: q(".data-1"), from: { scale: 1, opacity: 0, x: 0, y: 0 }, to: vis, a: 0.16, b: 0.36 },
-        { els: q(".illustration__img--5"), from: { scale: 1, opacity: 0, x: 100, y: 0 }, to: vis, a: 0.31, b: 0.42 },
-        { els: q(".illustration__img--6"), from: { scale: 1, opacity: 0, x: -100, y: 0 }, to: vis, a: 0.38, b: 0.49 },
-        { els: q(".data-2"), from: { scale: 1, opacity: 0, x: 0, y: 0 }, to: vis, a: 0.42, b: 0.62 },
-        { els: q(".illustration__img--4"), from: { scale: 1, opacity: 0, x: -100, y: 0 }, to: vis, a: 0.58, b: 0.69 },
-        { els: q(".illustration__img--7"), from: { scale: 1, opacity: 0, x: 100, y: 0 }, to: vis, a: 0.64, b: 0.76 },
-        { els: q(".see-project-btn"), from: { scale: 1, opacity: 0, x: 0, y: 0 }, to: vis, a: 0.78, b: 1 },
+        {
+          els: q(".illustration__img--1"),
+          from: { scale: 0.5, opacity: 1, x: 0, y: 0 },
+          to: vis,
+          a: 0,
+          b: 0.12,
+        },
+        {
+          els: q(".illustration__img--2"),
+          from: { scale: 1, opacity: 0, x: 0, y: -50 },
+          to: vis,
+          a: 0.05,
+          b: 0.16,
+        },
+        {
+          els: q(".illustration__img--3"),
+          from: { scale: 1, opacity: 0, x: 0, y: -50 },
+          to: vis,
+          a: 0.11,
+          b: 0.22,
+        },
+        {
+          els: q(".data-1"),
+          from: { scale: 1, opacity: 0, x: 0, y: 0 },
+          to: vis,
+          a: 0.16,
+          b: 0.36,
+        },
+        {
+          els: q(".illustration__img--5"),
+          from: { scale: 1, opacity: 0, x: 100, y: 0 },
+          to: vis,
+          a: 0.31,
+          b: 0.42,
+        },
+        {
+          els: q(".illustration__img--6"),
+          from: { scale: 1, opacity: 0, x: -100, y: 0 },
+          to: vis,
+          a: 0.38,
+          b: 0.49,
+        },
+        {
+          els: q(".data-2"),
+          from: { scale: 1, opacity: 0, x: 0, y: 0 },
+          to: vis,
+          a: 0.42,
+          b: 0.62,
+        },
+        {
+          els: q(".illustration__img--4"),
+          from: { scale: 1, opacity: 0, x: -100, y: 0 },
+          to: vis,
+          a: 0.58,
+          b: 0.69,
+        },
+        {
+          els: q(".illustration__img--7"),
+          from: { scale: 1, opacity: 0, x: 100, y: 0 },
+          to: vis,
+          a: 0.64,
+          b: 0.76,
+        },
+        {
+          els: q(".see-project-btn"),
+          from: { scale: 1, opacity: 0, x: 0, y: 0 },
+          to: vis,
+          a: 0.78,
+          b: 1,
+        },
       ];
     };
 
@@ -97,14 +152,7 @@ export function Skills() {
       });
     };
 
-    const onScroll = () => {
-      if (queued) return;
-      queued = true;
-      frame = requestAnimationFrame(() => {
-        queued = false;
-        tick();
-      });
-    };
+    const { schedule: onScroll, cancel } = frameThrottle(tick);
 
     const reset = () => {
       root.classList.remove("js-skills-pin");
@@ -154,7 +202,7 @@ export function Skills() {
     sync();
 
     return () => {
-      cancelAnimationFrame(frame);
+      cancel();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", sync);
       stopReveal();
@@ -168,13 +216,15 @@ export function Skills() {
       <section ref={sectionRef} className="skills-sticky mt-12 md:mt-32">
         <SectionHeading title="My top skills" subtitle="What I do" />
 
-        <div className="skills-panel bg-raised border-raised mt-10 grid grid-cols-1 rounded-lg border-2 lg:grid-cols-2">
+        <div className="skills-panel mt-10 grid grid-cols-1 rounded-lg border-2 border-raised bg-raised lg:grid-cols-2">
           <div className="p-5 text-center md:mx-8">
             {skills.map((block, i) => {
               const beat = `data-${Math.min(i + 1, 2)}`;
               return (
                 <div key={block.title}>
-                  <h3 className={`text-strong mb-3 text-lg font-black uppercase ${beat}`}>
+                  <h3
+                    className={`mb-3 text-lg font-black text-strong uppercase ${beat}`}
+                  >
                     {block.title}
                   </h3>
                   <p className={`mb-5 ${beat}`}>{block.body}</p>
@@ -183,7 +233,11 @@ export function Skills() {
             })}
 
             <div className="see-project-btn mt-8 flex justify-center">
-              <SvgButton href="/#works" label="SEE MY WORKS" ariaLabel="See my works" />
+              <SvgButton
+                href="/#works"
+                label="SEE MY WORKS"
+                ariaLabel="See my works"
+              />
             </div>
           </div>
 

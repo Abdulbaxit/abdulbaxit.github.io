@@ -2,17 +2,26 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import {
+  frameThrottle,
+  hasFinePointer,
+  prefersReducedMotion,
+} from "@/lib/motion";
 
-const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#%&*+=/<>";
+const GLYPHS =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#%&*+=/<>";
 const DECODE_MS = 650;
+const GLYPH_SWAP_MS = 45;
 
 const MAGNET_REACH = 60;
+const DEFAULT_PULL = 0.3;
+const OFFSCREEN = -1e4;
 
 export function PageMotion() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (prefersReducedMotion()) return;
     const root = document.documentElement;
     root.classList.add("motion-ok");
 
@@ -31,7 +40,9 @@ export function PageMotion() {
       { threshold: 0.6 },
     );
     document
-      .querySelectorAll(".kj-border:not(.is-in), [data-decode]:not([data-decoded])")
+      .querySelectorAll(
+        ".kj-border:not(.is-in), [data-decode]:not([data-decoded])",
+      )
       .forEach((el) => reveal.observe(el));
 
     const stopMagnets = magnets();
@@ -48,7 +59,8 @@ export function PageMotion() {
 function decode(el: HTMLElement) {
   el.setAttribute("data-decoded", "");
   const node = el.firstChild;
-  if (el.childNodes.length !== 1 || !node || node.nodeType !== Node.TEXT_NODE) return;
+  if (el.childNodes.length !== 1 || !node || node.nodeType !== Node.TEXT_NODE)
+    return;
   const text = node.nodeValue ?? "";
   el.setAttribute("aria-label", text);
 
@@ -56,11 +68,13 @@ function decode(el: HTMLElement) {
   let lastSwap = 0;
   const frame = (now: number) => {
     const t = Math.min(1, (now - start) / DECODE_MS);
-    if (now - lastSwap > 45 || t === 1) {
+    if (now - lastSwap > GLYPH_SWAP_MS || t === 1) {
       lastSwap = now;
       const settled = Math.floor(t * text.length);
       node.nodeValue = Array.from(text, (ch, i) =>
-        i < settled || ch === " " ? ch : GLYPHS[Math.floor(Math.random() * GLYPHS.length)],
+        i < settled || ch === " "
+          ? ch
+          : GLYPHS[Math.floor(Math.random() * GLYPHS.length)],
       ).join("");
     }
     if (t < 1) {
@@ -74,14 +88,15 @@ function decode(el: HTMLElement) {
 }
 
 function magnets(): () => void {
-  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return () => {};
-  const els = Array.from(document.querySelectorAll<HTMLElement>("[data-magnetic]"));
+  if (!hasFinePointer()) return () => {};
+  const els = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-magnetic]"),
+  );
   if (!els.length) return () => {};
 
   const pull = new Map<HTMLElement, { x: number; y: number }>();
-  let frame = 0;
-  let px = -1e4;
-  let py = -1e4;
+  let px = OFFSCREEN;
+  let py = OFFSCREEN;
 
   const set = (el: HTMLElement, x: number, y: number) => {
     pull.set(el, { x, y });
@@ -89,7 +104,6 @@ function magnets(): () => void {
   };
 
   const update = () => {
-    frame = 0;
     for (const el of els) {
       const box = el.getBoundingClientRect();
       const cur = pull.get(el) ?? { x: 0, y: 0 };
@@ -103,28 +117,30 @@ function magnets(): () => void {
         if (cur.x || cur.y) set(el, 0, 0);
         continue;
       }
-      const strength = Number(el.dataset.magnetic) || 0.3;
+      const strength = Number(el.dataset.magnetic) || DEFAULT_PULL;
       const falloff = 1 - dist / reach;
       set(el, dx * strength * falloff, dy * strength * falloff);
     }
   };
 
+  const { schedule, cancel } = frameThrottle(update);
+
   const onMove = (e: PointerEvent) => {
     if (e.pointerType !== "mouse") return;
     px = e.clientX;
     py = e.clientY;
-    if (!frame) frame = requestAnimationFrame(update);
+    schedule();
   };
   const onLeave = (e: PointerEvent) => {
     if (e.relatedTarget) return;
-    px = py = -1e4;
-    if (!frame) frame = requestAnimationFrame(update);
+    px = py = OFFSCREEN;
+    schedule();
   };
 
   window.addEventListener("pointermove", onMove, { passive: true });
   document.addEventListener("pointerout", onLeave, { passive: true });
   return () => {
-    cancelAnimationFrame(frame);
+    cancel();
     window.removeEventListener("pointermove", onMove);
     document.removeEventListener("pointerout", onLeave);
     els.forEach((el) => (el.style.translate = ""));

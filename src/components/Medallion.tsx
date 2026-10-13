@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { profile } from "@/content/profile";
 import { asset } from "@/content/site";
+import { prefersReducedMotion } from "@/lib/motion";
 
 export function Medallion() {
   const { portrait, initials, name } = profile;
@@ -21,7 +22,7 @@ export function Medallion() {
 
   function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
     if (e.pointerType !== "mouse") return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (prefersReducedMotion()) return;
     const box = e.currentTarget.getBoundingClientRect();
     setPointer(
       ((e.clientX - box.left) / box.width) * 2 - 1,

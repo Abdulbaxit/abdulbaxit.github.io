@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Icon } from "./Sprite";
 import { BookButton } from "./BookButton";
 import { useDockMagnify } from "@/lib/useDockMagnify";
+import { frameThrottle } from "@/lib/motion";
 import { profile } from "@/content/profile";
 import { asset } from "@/content/site";
 
@@ -16,10 +17,18 @@ interface DockItem {
   href: Route;
 }
 
+const ACTIVE_LINE = 0.3;
+const BOTTOM_SLACK_PX = 120;
+
 const ITEMS: DockItem[] = [
   { id: "home", label: "Home", icon: "home", href: "/#home" },
   { id: "skills", label: "Skills", icon: "layers", href: "/#skills" },
-  { id: "experience", label: "Experience", icon: "briefcase", href: "/#experience" },
+  {
+    id: "experience",
+    label: "Experience",
+    icon: "briefcase",
+    href: "/#experience",
+  },
   { id: "works", label: "Works", icon: "file", href: "/#works" },
   { id: "contact", label: "Contact", icon: "envelope", href: "/#contact" },
 ];
@@ -36,29 +45,25 @@ export function Dock() {
     );
     if (!sections.length) return;
 
-    let frame = 0;
     const update = () => {
-      frame = 0;
-      const line = window.innerHeight * 0.3;
+      const line = window.innerHeight * ACTIVE_LINE;
       let current = sections[0].id;
       for (const el of sections) {
         if (el.getBoundingClientRect().top <= line) current = el.id;
       }
       const nearBottom =
         window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 120;
+        document.documentElement.scrollHeight - BOTTOM_SLACK_PX;
       setActive(nearBottom ? sections[sections.length - 1].id : current);
     };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
+    const { schedule, cancel } = frameThrottle(update);
 
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule, { passive: true });
     update();
 
     return () => {
-      cancelAnimationFrame(frame);
+      cancel();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };

@@ -175,12 +175,16 @@ button.talk {
   font-size: 14px;
   font-weight: 700;
   color: var(--text-strong);
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .contact__reason span {
   color: var(--text-muted);
-  transition: transform 0.2s var(--ease-out-soft), color 0.2s ease;
+  transition:
+    transform 0.2s var(--ease-out-soft),
+    color 0.2s ease;
 }
 
 .contact__reason:hover,
@@ -209,7 +213,9 @@ button.talk {
   color: var(--text-muted);
   border-bottom: 1px solid transparent;
   align-self: flex-start;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .contact__alt-link:hover,

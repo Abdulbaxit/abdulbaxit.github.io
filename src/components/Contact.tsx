@@ -4,15 +4,19 @@ import { profile } from "@/content/profile";
 
 export function Contact() {
   return (
-    <section id="contact" className="m-auto mt-12 max-w-xs text-center md:mt-32">
-      <h2 data-decode className="text-strong text-lg font-bold">
+    <section
+      id="contact"
+      className="m-auto mt-12 max-w-xs text-center md:mt-32"
+    >
+      <h2 data-decode className="text-lg font-bold text-strong">
         Keep in touch
       </h2>
-      <p className="text-muted mt-8 text-sm">
-        {profile.location}
-      </p>
+      <p className="mt-8 text-sm text-muted">{profile.location}</p>
       <p className="mt-4 text-xl font-medium">
-        <a href={`mailto:${profile.email}`} className="underline-offset-4 hover:underline">
+        <a
+          href={`mailto:${profile.email}`}
+          className="underline-offset-4 hover:underline"
+        >
           {profile.email}
         </a>
       </p>

@@ -7,7 +7,10 @@ export function SectionHeading({
 }) {
   return (
     <>
-      <h2 data-decode className="text-strong text-3xl leading-none font-bold md:text-4xl">
+      <h2
+        data-decode
+        className="text-3xl leading-none font-bold text-strong md:text-4xl"
+      >
         {title}
       </h2>
       {subtitle && <p className="mt-2 text-lg">{subtitle}</p>}

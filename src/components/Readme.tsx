@@ -32,7 +32,7 @@ export function Readme() {
   return (
     <div className="m-auto mt-12 px-2 py-4 md:mt-32 md:w-3/4">
       <div className="mb-6 w-full px-4">
-        <div className="bg-raised border-raised rounded-lg border-2 shadow-2xl">
+        <div className="rounded-lg border-2 border-raised bg-raised shadow-2xl">
           <div className="grid grid-cols-1 p-4 md:grid-cols-2 md:gap-5">
             <div className="impact">
               <p className="impact__kicker">Impact</p>

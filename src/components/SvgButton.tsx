@@ -7,6 +7,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 const DISC = 60;
 const GAP = 15;
 const PAD = 24;
+const FALLBACK_CHAR_PX = 11.5;
 
 export function SvgButton({
   href,
@@ -20,7 +21,7 @@ export function SvgButton({
   ariaLabel?: string;
 }) {
   const textRef = useRef<SVGTextElement>(null);
-  const [textW, setTextW] = useState(() => label.length * 11.5);
+  const [textW, setTextW] = useState(() => label.length * FALLBACK_CHAR_PX);
 
   useLayoutEffect(() => {
     const el = textRef.current;

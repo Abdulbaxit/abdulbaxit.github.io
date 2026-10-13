@@ -86,7 +86,10 @@
   visibility: hidden;
   pointer-events: none;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s 0.18s;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0s 0.18s;
 }
 
 .dock__item:hover .dock__tip,
@@ -94,7 +97,10 @@
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0) scale(calc(1 / var(--mag, 1)));
-  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0s;
 }
 
 .dock__sep {
@@ -117,7 +123,9 @@
   font-weight: 700;
   white-space: nowrap;
   cursor: pointer;
-  transition: transform 0.2s var(--ease-out-soft), filter 0.2s ease,
+  transition:
+    transform 0.2s var(--ease-out-soft),
+    filter 0.2s ease,
     translate 0.3s var(--ease-out-soft);
 }
 

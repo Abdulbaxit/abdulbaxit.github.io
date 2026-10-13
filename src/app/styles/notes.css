@@ -68,7 +68,9 @@
   translate: 0 -50%;
   font-size: 1.1rem;
   color: var(--text-muted);
-  transition: transform 0.3s var(--ease-out-soft), color 0.3s ease;
+  transition:
+    transform 0.3s var(--ease-out-soft),
+    color 0.3s ease;
 }
 
 .note-row:hover .note-row__arrow,

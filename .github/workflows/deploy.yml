@@ -31,6 +31,9 @@ jobs:
       - name: Install
         run: npm ci
 
+      - name: Check
+        run: npm run check
+
       - name: Build
         # A <user>.github.io repo serves from the root, any other from /<repo>; compared in lowercase.
         run: |

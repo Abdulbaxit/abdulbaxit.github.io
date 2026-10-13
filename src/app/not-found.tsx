@@ -10,8 +10,8 @@ export default function NotFound() {
       {site.basePath === "" && (
         <script dangerouslySetInnerHTML={{ __html: legacyRedirect }} />
       )}
-      <p className="text-prime text-6xl font-black">404</p>
-      <h1 className="text-strong mt-2 text-3xl font-bold">
+      <p className="text-6xl font-black text-prime">404</p>
+      <h1 className="mt-2 text-3xl font-bold text-strong">
         This page doesn&rsquo;t exist
       </h1>
       <div className="kj-border" />

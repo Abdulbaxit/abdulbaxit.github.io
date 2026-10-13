@@ -7,7 +7,10 @@
   overflow: visible;
 }
 .svg-btn rect {
-  transition: width 0.4s var(--ease-spring), fill 0.4s ease, opacity 0.4s ease;
+  transition:
+    width 0.4s var(--ease-spring),
+    fill 0.4s ease,
+    opacity 0.4s ease;
 }
 .svg-btn text {
   font-family: var(--font-sans);
