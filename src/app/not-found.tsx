@@ -14,7 +14,7 @@ export default function NotFound() {
       <h1 className="mt-2 text-3xl font-bold text-strong">
         This page doesn&rsquo;t exist
       </h1>
-      <div className="kj-border" />
+      <div className="section-rule" />
       <p className="mt-6">
         The link may be out of date, or the page may have moved.
       </p>

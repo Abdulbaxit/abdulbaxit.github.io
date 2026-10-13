@@ -50,6 +50,16 @@ export const projects: Project[] = [
     href: "https://implementai.io/",
     visual: { kind: "diagram", diagram: "implementai" },
   },
+  {
+    name: "Talkspresso",
+    stack: ["Next.js", "React", "Node.js", "PostgreSQL"],
+    category: "Web applications",
+    href: "https://talkspresso.com/",
+    tag: "Sole full-stack developer",
+    blurb:
+      "Booking and payments for coaches, consultants and freelancers: AI-generated sessions, Google and Microsoft calendar sync, and built-in video calls with recordings.",
+    visual: { kind: "gradient", from: "#7a4f8a", to: "#4f3160" },
+  },
 ];
 
 export function projectsByCategory() {

@@ -1,6 +1,7 @@
 import {
   profile,
   experience,
+  education,
   skills,
   readme,
   recommendations,
@@ -29,6 +30,12 @@ export function GET() {
         (role) =>
           `- ${role.title}, ${job.company}${job.terms ? ` (${job.terms})` : ""}, ${role.period}${isCurrentRole(role) ? " (current)" : ""}: ${role.summary}`,
       ),
+    ),
+    "",
+    "## Education",
+    "",
+    ...education.map(
+      (e) => `- ${e.degree}, ${e.school}, ${e.period}: ${e.summary}`,
     ),
     "",
     "## Skills",

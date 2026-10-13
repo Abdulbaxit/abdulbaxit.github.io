@@ -6,7 +6,7 @@ import { Shell } from "@/components/Shell";
 import { Cursor } from "@/components/Cursor";
 import { PageMotion } from "@/components/PageMotion";
 import { themeInitScript } from "@/components/ThemeToggle";
-import { site, asset, absoluteUrl } from "@/content/site";
+import { site, asset, absoluteUrl, integrations } from "@/content/site";
 import { profile } from "@/content/profile";
 
 const roboto = localFont({
@@ -54,6 +54,9 @@ export const metadata: Metadata = {
       "I build AI systems, LLM pipelines and full-stack applications.",
     images: [ogImage.url],
   },
+  ...(integrations.googleSiteVerification && {
+    verification: { google: integrations.googleSiteVerification },
+  }),
 };
 
 export const viewport: Viewport = {
@@ -77,6 +80,13 @@ export default function RootLayout({
         <Shell>{children}</Shell>
         <Cursor />
         <PageMotion />
+        {integrations.goatCounter && (
+          <script
+            data-goatcounter={`https://${integrations.goatCounter}.goatcounter.com/count`}
+            async
+            src="https://gc.zgo.at/count.js"
+          />
+        )}
       </body>
     </html>
   );

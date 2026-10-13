@@ -1,6 +1,7 @@
 import type {
   Profile,
   Job,
+  Education,
   Role,
   Recommendation,
   SkillBlock,
@@ -59,7 +60,7 @@ export const profile: Profile = {
     {
       kind: "linkedin",
       label: "LinkedIn",
-      href: "https://www.linkedin.com/in/abdul-basit-761062199/",
+      href: "https://www.linkedin.com/in/abdulbasit29/",
     },
     {
       kind: "github",
@@ -154,11 +155,36 @@ export const experience: Job[] = [
         summary:
           "AI products for clients, owned end to end: requirements, client communication, deployment and maintenance.",
         highlights: [
-          "Legiflow: entity extraction, structured storage and a chatbot restricted to the case file itself, cutting manual document processing by around 90%",
+          "Legiflow: entity extraction, structured storage and a chatbot restricted to the case file itself, reducing manual review time by 40%",
           "LLM Evaluator (client: Turing): evaluation pipelines that validate database state before and after each tool-calling run",
           "n8n onboarding workflows integrating internal tools and notifications, automating 100+ employee onboardings",
         ],
       },
+      {
+        title: "Intern Associate Software Engineer",
+        period: "Dec 2024 — Feb 2025",
+        summary:
+          "Backend for Sefermion, an e-commerce-style crypto trading platform, in Python/Django and PostgreSQL.",
+        highlights: [
+          "Django models, REST endpoints and structured CRUD workflows",
+          "Google Sheets sync through webhooks and Apps Script",
+        ],
+      },
+    ],
+  },
+];
+
+export const education: Education[] = [
+  {
+    school: "Lahore Garrison University",
+    href: "https://lgu.edu.pk/",
+    degree: "BS Software Engineering",
+    period: "Aug 2020 — Jul 2024",
+    summary:
+      "Final-year project: Autism Emotion Synergy, an AI system combining facial and speech emotion recognition to support emotional analysis for autism. Funded by the National Technology Fund.",
+    highlights: [
+      "End-to-end machine learning pipelines: data processing, feature extraction, model training and inference",
+      "Coursework in data structures and algorithms, databases, web development, machine learning and software engineering",
     ],
   },
 ];
@@ -180,9 +206,9 @@ export const skills: SkillBlock[] = [
 
 export const impact: ImpactStat[] = [
   {
-    value: "90",
+    value: "40",
     suffix: "%",
-    label: "Cut from manual legal document processing on Legiflow",
+    label: "Less manual review time on Legiflow's legal documents",
   },
   {
     value: "100",

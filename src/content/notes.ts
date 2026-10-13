@@ -64,7 +64,7 @@ Every answer comes back with a citation into the case file, so a lawyer can chec
 
 ## What it changed
 
-Together with extraction and structured storage, it cut manual document processing by around 90%.`,
+Together with extraction and structured storage, it reduced manual review time by 40%.`,
   },
 ];
 

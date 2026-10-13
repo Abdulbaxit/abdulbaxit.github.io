@@ -30,7 +30,7 @@ export function PageMotion() {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
           reveal.unobserve(entry.target);
-          if (entry.target.classList.contains("kj-border")) {
+          if (entry.target.classList.contains("section-rule")) {
             entry.target.classList.add("is-in");
           } else {
             decode(entry.target as HTMLElement);
@@ -41,7 +41,7 @@ export function PageMotion() {
     );
     document
       .querySelectorAll(
-        ".kj-border:not(.is-in), [data-decode]:not([data-decoded])",
+        ".section-rule:not(.is-in), [data-decode]:not([data-decoded])",
       )
       .forEach((el) => reveal.observe(el));
 

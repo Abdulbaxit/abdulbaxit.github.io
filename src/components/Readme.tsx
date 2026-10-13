@@ -84,7 +84,7 @@ export function Readme() {
             <div className="mt-10">
               <div className="mb-5 text-lg">
                 <h2 className="font-medium uppercase">README</h2>
-                <div className="kj-border" />
+                <div className="section-rule" />
               </div>
               {readme.map((para, i) => (
                 <p key={i} className={i > 0 ? "mt-2" : undefined}>

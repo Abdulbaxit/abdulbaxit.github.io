@@ -14,7 +14,7 @@ export function SectionHeading({
         {title}
       </h2>
       {subtitle && <p className="mt-2 text-lg">{subtitle}</p>}
-      <div className="kj-border" />
+      <div className="section-rule" />
     </>
   );
 }

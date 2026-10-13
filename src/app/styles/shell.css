@@ -39,14 +39,14 @@
   transform: rotate(-5deg) scale(1.1);
 }
 
-.kj-border {
+.section-rule {
   position: relative;
   height: 0.2rem;
   width: 8rem;
   background: var(--color-prime);
   margin-top: 1rem;
 }
-.kj-border::before {
+.section-rule::before {
   content: "";
   position: absolute;
   top: -0.2rem;
@@ -57,21 +57,21 @@
   background: var(--color-prime);
 }
 
-.motion-ok .kj-border {
+.motion-ok .section-rule {
   transform: scaleX(0);
   transform-origin: left center;
 }
 
-.motion-ok .kj-border::before {
+.motion-ok .section-rule::before {
   scale: 0;
 }
 
-.motion-ok .kj-border.is-in {
+.motion-ok .section-rule.is-in {
   transform: none;
   transition: transform 0.9s var(--ease-out-soft);
 }
 
-.motion-ok .kj-border.is-in::before {
+.motion-ok .section-rule.is-in::before {
   scale: 1;
   transition: scale 0.45s var(--ease-spring) 0.55s;
 }

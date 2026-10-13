@@ -9,6 +9,14 @@ export const site = {
   locale: "en_US",
 } as const;
 
+export const integrations: {
+  googleSiteVerification: string | null;
+  goatCounter: string | null;
+} = {
+  googleSiteVerification: null,
+  goatCounter: null,
+};
+
 export function asset(path: string): string {
   const clean = path.startsWith("/") ? path : `/${path}`;
   return `${site.basePath}${clean}`;
