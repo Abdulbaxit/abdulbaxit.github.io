@@ -2,14 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { SvgButton } from "./SvgButton";
+import { SectionHeading } from "./SectionHeading";
 import { asset } from "@/content/site";
 import { skills } from "@/content/profile";
 
-/**
- * The desk scene's layers. `n` keys the position in globals.css
- * (.illustration__img--n) and the scroll timing below; each SVG is
- * cropped to its own artwork.
- */
 const LAYERS = [
   { n: 1, file: "person" },
   { n: 2, file: "desk" },
@@ -31,7 +27,6 @@ interface Step {
   els: HTMLElement[];
   from: Frame;
   to: Frame;
-  /** Start and end of this step, as a fraction of the pinned scroll. */
   a: number;
   b: number;
 }
@@ -54,12 +49,6 @@ function paint(el: HTMLElement, st: Frame) {
   el.style.opacity = String(st.opacity);
 }
 
-/**
- * On wide screens the section pins and the desk layers assemble as you
- * scroll, same beats as kenjimmy.xyz. On narrower screens the scene sits
- * under the text and assembles once as it scrolls into view. With reduced
- * motion it simply renders finished.
- */
 export function Skills() {
   const pinRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -129,7 +118,6 @@ export function Skills() {
         });
     };
 
-    // Unpinned: hide the layers, then let CSS assemble them on entry.
     const startReveal = () => {
       if (reduced || reveal || scene.classList.contains("is-visible")) return;
       scene.classList.add("will-reveal");
@@ -175,43 +163,18 @@ export function Skills() {
     };
   }, []);
 
-  /*
-    The id sits on the pin, not the sticky section. Jumping to a sticky
-    element lands wherever it is currently stuck, so from below the page
-    landed at the end of the scene, fully assembled. The pin's top is
-    always the start, so every jump lands where the scene begins.
-  */
   return (
     <div id="skills" className="skills-pin" ref={pinRef}>
       <section ref={sectionRef} className="skills-sticky mt-12 md:mt-32">
-        <h2
-          data-decode
-          className="text-3xl leading-none font-bold md:text-4xl"
-          style={{ color: "var(--text-strong)" }}
-        >
-          My top skills
-        </h2>
-        <p className="mt-2 text-lg">What I do</p>
-        <div className="kj-border" />
+        <SectionHeading title="My top skills" subtitle="What I do" />
 
-        <div
-          className="skills-panel mt-10 grid grid-cols-1 rounded-lg border-2 lg:grid-cols-2"
-          style={{
-            background: "var(--surface-raised)",
-            borderColor: "var(--surface-raised)",
-          }}
-        >
+        <div className="skills-panel bg-raised border-raised mt-10 grid grid-cols-1 rounded-lg border-2 lg:grid-cols-2">
           <div className="p-5 text-center md:mx-8">
             {skills.map((block, i) => {
-              // The scene has two text beats; any further blocks share the
-              // second rather than never appearing.
               const beat = `data-${Math.min(i + 1, 2)}`;
               return (
                 <div key={block.title}>
-                  <h3
-                    className={`mb-3 text-lg font-black uppercase ${beat}`}
-                    style={{ color: "var(--text-strong)" }}
-                  >
+                  <h3 className={`text-strong mb-3 text-lg font-black uppercase ${beat}`}>
                     {block.title}
                   </h3>
                   <p className={`mb-5 ${beat}`}>{block.body}</p>

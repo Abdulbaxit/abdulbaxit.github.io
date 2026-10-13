@@ -5,7 +5,6 @@ import { impact, statusLines, funFact, readme } from "@/content/profile";
 
 const LINK = /\[([^\]]+)\]\(([^)\s]+)\)/g;
 
-/** Renders `[text](url)` inside a content string as an external link. */
 function withLinks(text: string) {
   const parts: React.ReactNode[] = [];
   let last = 0;
@@ -29,21 +28,11 @@ function withLinks(text: string) {
   return parts.map((p, i) => <Fragment key={i}>{p}</Fragment>);
 }
 
-/**
- * Impact figures and current status side by side, with the bio beneath,
- * all in one raised card narrower than the sections around it.
- */
 export function Readme() {
   return (
     <div className="m-auto mt-12 px-2 py-4 md:mt-32 md:w-3/4">
       <div className="mb-6 w-full px-4">
-        <div
-          className="rounded-lg border-2 shadow-2xl"
-          style={{
-            background: "var(--surface-raised)",
-            borderColor: "var(--surface-raised)",
-          }}
-        >
+        <div className="bg-raised border-raised rounded-lg border-2 shadow-2xl">
           <div className="grid grid-cols-1 p-4 md:grid-cols-2 md:gap-5">
             <div className="impact">
               <p className="impact__kicker">Impact</p>

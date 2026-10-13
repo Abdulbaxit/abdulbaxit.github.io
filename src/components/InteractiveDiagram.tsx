@@ -5,7 +5,6 @@ import type { Diagram, DiagramNode } from "@/content/diagrams";
 
 const STEP_MS = 1800;
 
-/** Baselines for a box's title and lines, centred as one block. */
 function layout(n: DiagramNode) {
   const titleSize = n.kicker ? 13 : (n.titleSize ?? 15);
   const lineSize = n.lineSize ?? 12;
@@ -24,12 +23,6 @@ function layout(n: DiagramNode) {
   };
 }
 
-/**
- * An architecture diagram you can explore. Hover, focus or tap a box to
- * read what it does; press play to watch the flow step through the system,
- * with the arrows already travelled staying lit. Rendered on the server
- * too, so without JavaScript it is still the full static diagram.
- */
 export function InteractiveDiagram({ diagram }: { diagram: Diagram }) {
   const uid = useId().replace(/[^\w-]/g, "");
   const [hover, setHover] = useState<string | null>(null);
@@ -37,7 +30,6 @@ export function InteractiveDiagram({ diagram }: { diagram: Diagram }) {
   const playing = step >= 0;
   const { flow } = diagram;
 
-  // Advance one step at a time; after the last, hold it, then clear.
   useEffect(() => {
     if (!playing) return;
     const last = step === flow.length - 1;
@@ -150,7 +142,6 @@ export function InteractiveDiagram({ diagram }: { diagram: Diagram }) {
                 onFocus={() => setHover(n.id)}
                 onBlur={() => setHover((h) => (h === n.id ? null : h))}
                 onClick={() => {
-                  // A tap stops the walkthrough and shows this box instead.
                   setStep(-1);
                   setHover(n.id);
                 }}

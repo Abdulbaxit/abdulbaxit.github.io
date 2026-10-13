@@ -1,18 +1,6 @@
-/**
- * GitHub data for the activity section, fetched at build time. The deploy
- * workflow rebuilds daily, so the static page stays at most a day old.
- *
- * Every fetch fails soft: on a network error, a rate limit or a change in
- * GitHub's markup the function returns null and the section is skipped,
- * rather than failing the build.
- */
-
 export interface ContributionDay {
-  /** ISO date, e.g. "2026-10-05". */
   date: string;
-  /** GitHub's own intensity bucket, 0 (none) to 4 (most). */
   level: number;
-  /** e.g. "2 contributions on October 5th." */
   label: string;
 }
 
@@ -23,11 +11,6 @@ export interface Contributions {
 
 const HEADERS = { "User-Agent": "abdulbasit-portfolio-build" };
 
-/**
- * The contribution calendar. GitHub has no public REST endpoint for it, so
- * this reads the same HTML fragment the profile page loads. It needs no
- * token and includes private contributions if the profile shows them.
- */
 export async function getContributions(
   user: string,
 ): Promise<Contributions | null> {
@@ -39,7 +22,6 @@ export async function getContributions(
     if (!res.ok) return null;
     const html = await res.text();
 
-    // Tooltips carry the readable count, keyed by the day cell's id.
     const labels = new Map<string, string>();
     for (const m of html.matchAll(/<tool-tip\b[^>]*\bfor="([^"]+)"[^>]*>([^<]*)<\/tool-tip>/g)) {
       labels.set(m[1], m[2].trim());

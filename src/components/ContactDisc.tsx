@@ -3,16 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { profile } from "@/content/profile";
 
-/**
- * The "email me" disc, with the blank compose window removed.
- *
- * A bare `mailto:` asks the visitor to write an email from nothing, and
- * silently does nothing at all for anyone using webmail without a
- * registered handler. Here the disc opens a small panel of reasons; each
- * one hands the mail client a subject and a starter body, so the sender
- * only fills in blanks. Copying the address is offered alongside, which
- * is the fallback when `mailto:` goes nowhere.
- */
 export function ContactDisc() {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -26,16 +16,6 @@ export function ContactDisc() {
     return `mailto:${profile.email}?${q}`;
   }
 
-  /**
-   * Gmail's web compose, prefilled the same way as the mailto:.
-   *
-   * mailto: only does anything when the operating system has a mail
-   * client registered for it. Someone reading webmail in a browser tab
-   * clicks and nothing happens at all, with no error to explain it, so
-   * the reasons led nowhere for most visitors. This opens in a tab
-   * instead, and the mailto: stays available below for anyone who
-   * prefers their own client.
-   */
   function gmail(subject: string, body: string) {
     const q = new URLSearchParams({
       view: "cm",
@@ -47,13 +27,10 @@ export function ContactDisc() {
     return `https://mail.google.com/mail/?${q.toString()}`;
   }
 
-  // Close on outside click or Escape, and hand focus back to the disc.
   useEffect(() => {
     if (!open) return;
     const disc = discRef.current;
 
-    // The panel is still `inert` on this tick; focus lands once React has
-    // painted the open state.
     const focusFrame = requestAnimationFrame(() => {
       panelRef.current?.querySelector<HTMLElement>("a, button")?.focus();
     });
@@ -87,8 +64,6 @@ export function ContactDisc() {
     try {
       await navigator.clipboard.writeText(profile.email);
     } catch {
-      // Clipboard blocked (insecure context, denied permission). Fall
-      // back to a selection the visitor can copy by hand.
       const range = document.createRange();
       const node = panelRef.current?.querySelector(".contact__address");
       if (node) {
@@ -114,8 +89,6 @@ export function ContactDisc() {
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="contact-panel"
-          /* The label is split across two lines for the circle, which
-             would otherwise be announced as one run-together word. */
           aria-label="Email me"
         >
           <span className="talk__text" aria-hidden="true">
@@ -126,12 +99,6 @@ export function ContactDisc() {
         <div className="talk-pulse" aria-hidden="true" />
       </div>
 
-      {/*
-        Kept in the DOM so it can animate out; `inert` takes a closed
-        panel out of the tab order and hides it from assistive tech,
-        which `hidden` used to do before the exit transition needed it
-        to stay rendered.
-      */}
       <div
         id="contact-panel"
         ref={panelRef}

@@ -5,11 +5,6 @@ import { Dock } from "./Dock";
 import { ThemeToggle } from "./ThemeToggle";
 import { profile } from "@/content/profile";
 
-/**
- * The signature frame: a white card floating on warm paper, with a narrow
- * left rail carrying the wordmark and vertical socials. The footer sits on
- * the paper below the card; navigation lives in the floating dock.
- */
 export function Shell({ children }: { children: ReactNode }) {
   return (
     <>
@@ -18,10 +13,7 @@ export function Shell({ children }: { children: ReactNode }) {
       </a>
 
       <div className="page-bg md:pt-16">
-        <div
-          className="mx-auto max-w-shell p-2 sm:rounded-lg md:p-8 md:shadow-2xl"
-          style={{ background: "var(--surface-card)" }}
-        >
+        <div className="bg-surface mx-auto max-w-shell p-2 sm:rounded-lg md:p-8 md:shadow-2xl">
           <div className="flex flex-col md:flex-row">
             <div className="flex shrink-0 items-start justify-between md:w-32 md:block">
               <Link href="/" className="mark" aria-label={profile.name}>
@@ -62,10 +54,7 @@ export function Shell({ children }: { children: ReactNode }) {
 
 function SiteFooter() {
   return (
-    <div
-      className="dock-offset mx-auto max-w-shell p-2 md:p-8"
-      style={{ color: "var(--text-body)" }}
-    >
+    <div className="dock-offset text-body mx-auto max-w-shell p-2 md:p-8">
       <footer className="mt-10 md:flex">
         <div className="mb-3 text-center text-xs uppercase md:mb-0 md:w-1/4 md:text-left">
           <Link href="/" className="mark" aria-label={profile.name}>
@@ -73,11 +62,6 @@ function SiteFooter() {
             <span>.</span>
           </Link>
         </div>
-        {/*
-          The dock already carries works, resume and contact, so
-          repeating them here was pure duplication. The socials are not
-          in the dock, so this is where they earn their place.
-        */}
         <div className="mb-3 flex justify-center gap-5 md:mb-0 md:w-2/4">
           {profile.socials.map((social) => (
             <a
@@ -100,10 +84,10 @@ function SiteFooter() {
       </footer>
 
       <div className="color-bar">
-        <div style={{ background: "var(--color-prime)" }} />
-        <div style={{ background: "var(--color-gold)" }} />
-        <div style={{ background: "var(--color-prime-light)" }} />
-        <div style={{ background: "var(--color-secondary)" }} />
+        <div className="bg-prime" />
+        <div className="bg-gold" />
+        <div className="bg-prime-light" />
+        <div className="bg-secondary" />
       </div>
     </div>
   );

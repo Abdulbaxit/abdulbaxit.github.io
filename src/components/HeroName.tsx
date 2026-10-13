@@ -2,25 +2,13 @@
 
 import { Fragment, useEffect, useRef } from "react";
 
-/** Weight far from the pointer, and right under it. Roboto is variable. */
 const MIN_WEIGHT = 400;
 const MAX_WEIGHT = 900;
-/** How far, in px, the swell reaches from the pointer. */
 const RADIUS = 150;
 
-/**
- * The hero name, typed out letter by letter on load. On a mouse it also
- * reacts to the pointer: letters near it stay black-weight and the rest
- * thin out, so a heavy patch follows the cursor across the name. At rest,
- * and whenever the pointer is away from the letters, the name is solid
- * black as designed. Weights go straight to each letter's --w; nothing
- * re-renders while the pointer moves.
- */
 export function HeroName({ name, lines }: { name: string; lines: string[] }) {
   const ref = useRef<HTMLHeadingElement>(null);
 
-  // Each letter's entrance delay continues from the last line's, so the
-  // name types out as one run across both lines.
   const letterLines = lines.map((line, li) => {
     const before = lines.slice(0, li).reduce((sum, l) => sum + l.length, 0);
     return Array.from(line).map((char, ci) => ({
@@ -45,13 +33,10 @@ export function HeroName({ name, lines }: { name: string; lines: string[] }) {
 
     const paint = () => {
       frame = 0;
-      // Measured per frame: letters change width as their weight changes.
       const dists = letters.map((el) => {
         const r = el.getBoundingClientRect();
         return Math.hypot(px - (r.left + r.width / 2), py - (r.top + r.height / 2));
       });
-      // Only react once the pointer is actually near the letters, not just
-      // anywhere over the heading's full-width box.
       if (Math.min(...dists) > RADIUS) {
         reset();
         return;
@@ -92,15 +77,9 @@ export function HeroName({ name, lines }: { name: string; lines: string[] }) {
   return (
     <h1
       ref={ref}
-      className="hero__name"
+      className="hero__name text-strong"
       aria-label={name}
-      style={{ color: "var(--text-strong)" }}
     >
-      {/*
-        The space between lines is invisible (the lines are blocks) but
-        keeps the heading's text "Abdul Basit" for search engines, rather
-        than "AbdulBasit".
-      */}
       {letterLines.map((letters, li) => (
         <Fragment key={li}>
           {li > 0 && " "}

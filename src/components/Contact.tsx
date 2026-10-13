@@ -5,10 +5,10 @@ import { profile } from "@/content/profile";
 export function Contact() {
   return (
     <section id="contact" className="m-auto mt-12 max-w-xs text-center md:mt-32">
-      <h2 data-decode className="text-lg font-bold" style={{ color: "var(--text-strong)" }}>
+      <h2 data-decode className="text-strong text-lg font-bold">
         Keep in touch
       </h2>
-      <p className="mt-8 text-sm" style={{ color: "var(--text-muted)" }}>
+      <p className="text-muted mt-8 text-sm">
         {profile.location}
       </p>
       <p className="mt-4 text-xl font-medium">
@@ -31,7 +31,7 @@ export function Contact() {
               aria-label={s.label}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors hover:text-[var(--color-prime)]"
+              className="transition-colors hover:text-prime"
             >
               <Icon id={s.kind} className="text-2xl" />
             </a>

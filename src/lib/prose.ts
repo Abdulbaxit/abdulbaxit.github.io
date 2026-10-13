@@ -1,9 +1,3 @@
-/**
- * A deliberately small block parser for post bodies. Enough structure for
- * headings, lists and code without pulling in an MDX toolchain that would
- * then need wiring into static export.
- */
-
 export type Block =
   | { type: "heading"; text: string }
   | { type: "paragraph"; text: string }
@@ -78,7 +72,6 @@ export function parseProse(source: string): Block[] {
     paragraph.push(line.trim());
   }
 
-  // An unterminated fence still yields its content rather than vanishing.
   if (code !== null) {
     blocks.push({ type: "code", code: code.join("\n"), lang: codeLang });
   }
@@ -87,7 +80,6 @@ export function parseProse(source: string): Block[] {
   return blocks;
 }
 
-/** "2026-09-18" -> "18 September 2026", stable regardless of server locale. */
 export function formatDate(iso: string): string {
   const [y, m, d] = iso.split("-").map(Number);
   if (!y || !m || !d) return iso;
@@ -100,7 +92,6 @@ export function formatDate(iso: string): string {
 
 export type Inline = { code: boolean; text: string };
 
-/** Splits a run of text on `backticks` into plain and inline-code parts. */
 export function parseInline(text: string): Inline[] {
   return text
     .split(/(`[^`]+`)/)

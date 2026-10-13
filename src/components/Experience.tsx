@@ -1,26 +1,13 @@
 import { TimelineProgress } from "./TimelineProgress";
+import { SectionHeading } from "./SectionHeading";
 import { experience, isCurrentRole } from "@/content/profile";
 
-/**
- * Employment as a timeline, current roles first. Roles nest under their
- * employer, so two titles at one company read as a promotion rather than
- * as separate jobs. The rail and its markers are drawn in CSS and hidden
- * from assistive tech; the heading levels carry the structure.
- */
 export function Experience() {
   if (experience.length === 0) return null;
 
   return (
     <section id="experience" className="mt-12 md:mt-32">
-      <h2
-        data-decode
-        className="text-3xl leading-none font-bold md:text-4xl"
-        style={{ color: "var(--text-strong)" }}
-      >
-        Experience
-      </h2>
-      <p className="mt-2 text-lg">Where I&rsquo;ve worked</p>
-      <div className="kj-border" />
+      <SectionHeading title="Experience" subtitle="Where I’ve worked" />
       <TimelineProgress />
 
       <ol className="tl">

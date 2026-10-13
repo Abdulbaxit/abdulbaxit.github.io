@@ -1,0 +1,7 @@
+.local-time {
+  min-height: 3rem;
+  margin-top: 0.75rem;
+  font-size: 13px;
+  line-height: 1.5rem;
+  color: var(--text-muted);
+}

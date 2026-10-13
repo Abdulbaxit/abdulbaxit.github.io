@@ -3,10 +3,6 @@ import { HeroName } from "./HeroName";
 import { Medallion } from "./Medallion";
 import { profile } from "@/content/profile";
 
-/**
- * Everything animates in on its own CSS delay (--d), so the hero is fully
- * in place about a second after first paint, with no loader in front of it.
- */
 export function Hero() {
   return (
     <header id="home" className="hero mt-8 md:mt-12">

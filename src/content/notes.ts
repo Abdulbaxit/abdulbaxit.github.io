@@ -1,10 +1,5 @@
 import type { Note } from "./types";
 
-/**
- * Short technical notes, newest first. Each becomes /notes/<slug>/ and an
- * entry in the Notes section, the sitemap and llms.txt. Bodies use the
- * Markdown subset described on the Note type.
- */
 export const notes: Note[] = [
   {
     slug: "testing-llm-tool-calls-against-the-database",

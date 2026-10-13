@@ -2,26 +2,12 @@
 
 import { useEffect, useRef } from "react";
 
-/** How long the ring takes to catch up: higher trails further and softer. */
 const FOLLOW_SECONDS = 0.11;
-/** How much the ring stretches along its motion at full speed. */
 const MAX_STRETCH = 0.18;
 
-/** What counts as clickable: the ring grows over these. */
 const INTERACTIVE =
   'a, button, [role="button"], summary, label, input, select, textarea';
 
-/**
- * The site's cursor: a coral dot exactly at the pointer, so clicking stays
- * precise, and a ring that trails it a little and swells over anything
- * clickable.
- *
- * Only for a real mouse or trackpad, and not under reduced motion; there
- * the native cursor is left alone. State lives in classes on <html>
- * (has-cursor, cursor-visible, cursor-link, cursor-down) and the look is
- * in globals.css. Positions are written straight to style, never through
- * React state, so moving the mouse never re-renders anything.
- */
 export function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
@@ -44,13 +30,6 @@ export function Cursor() {
     let last = 0;
     let shown = false;
 
-    /*
-      The ring eases toward the pointer on a time constant, not a fixed
-      fraction per frame: a per-frame fraction moves twice as fast on a
-      120 Hz display as on 60 Hz. While it travels it stretches a little
-      along its direction of motion and relaxes back to a circle as it
-      settles. The loop stops once the ring has arrived.
-    */
     const follow = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
@@ -85,7 +64,6 @@ export function Cursor() {
       y = e.clientY;
       dot.style.translate = `${x}px ${y}px`;
       if (!shown) {
-        // Appear where the pointer is, rather than flying in from a corner.
         rx = x;
         ry = y;
         shown = true;
@@ -99,8 +77,6 @@ export function Cursor() {
       root.classList.toggle("cursor-link", Boolean(target?.closest(INTERACTIVE)));
     };
 
-    // No relatedTarget: the pointer left the window, or went into an
-    // iframe (the Cal.com booking window), which draws its own cursor.
     const onOut = (e: PointerEvent) => {
       if (e.relatedTarget) return;
       shown = false;

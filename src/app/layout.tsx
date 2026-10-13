@@ -9,8 +9,6 @@ import { themeInitScript } from "@/components/ThemeToggle";
 import { site, asset, absoluteUrl } from "@/content/site";
 import { profile } from "@/content/profile";
 
-// Self-hosted variable Roboto (latin subset). next/font emits the
-// @font-face and the preload, and prefixes the URL with the basePath.
 const roboto = localFont({
   src: "./fonts/roboto-latin-var.woff2",
   weight: "100 900",
@@ -19,7 +17,6 @@ const roboto = localFont({
   variable: "--font-roboto",
 });
 
-/** The "ab." icon set; see the icons note in metadata below. */
 const ICON_VERSION = 2;
 
 const ogImage = {
@@ -37,9 +34,6 @@ export const metadata: Metadata = {
   description: site.description,
   authors: [{ name: profile.name }],
   alternates: { canonical: absoluteUrl("/") },
-  // Declaring any icon here turns off the automatic app/favicon.ico tag,
-  // so the favicon is listed explicitly too. Browsers cache icons hard:
-  // bump ?v= whenever the icon changes so returning visitors get it.
   icons: {
     icon: asset(`/favicon.ico?v=${ICON_VERSION}`),
     apple: asset(`/assets/images/apple-touch-icon.png?v=${ICON_VERSION}`),
@@ -66,7 +60,6 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: light)", color: "#f2f0ee" },
     { media: "(prefers-color-scheme: dark)", color: "#0d1017" },
   ],
-  // Lets the dock clear the home indicator via env(safe-area-inset-bottom).
   viewportFit: "cover",
 };
 

@@ -9,18 +9,6 @@ import { useDockMagnify } from "@/lib/useDockMagnify";
 import { profile } from "@/content/profile";
 import { asset } from "@/content/site";
 
-/**
- * A floating dock, fixed to the bottom of the viewport, replacing the
- * top nav bar.
- *
- * It highlights the section you are in: the last dock section whose top
- * has scrolled past a line 30% down the viewport. Working from positions
- * rather than intersection events means it is right on any load, even
- * one that lands mid-page on a section the dock doesn't list (Notes,
- * GitHub), where Works is still the one you've reached.
- *
- * Home tracks the hero, not <main>: main contains every section.
- */
 interface DockItem {
   id: string;
   label: string;
@@ -56,14 +44,11 @@ export function Dock() {
       for (const el of sections) {
         if (el.getBoundingClientRect().top <= line) current = el.id;
       }
-      // The last section is short and the page runs out of scroll before
-      // its top reaches the line; near the bottom, it is what you see.
       const nearBottom =
         window.innerHeight + window.scrollY >=
         document.documentElement.scrollHeight - 120;
       setActive(nearBottom ? sections[sections.length - 1].id : current);
     };
-    // One measurement per frame, however many scroll events arrive.
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };

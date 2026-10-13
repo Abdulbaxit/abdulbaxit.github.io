@@ -1,23 +1,15 @@
 import Link from "next/link";
 import type { Route } from "next";
+import { SectionHeading } from "./SectionHeading";
 import { notes } from "@/content/notes";
 import { formatDate } from "@/lib/prose";
 
-/** The list of notes on the home page; each row opens /notes/<slug>/. */
 export function Notes() {
   if (notes.length === 0) return null;
 
   return (
     <section id="notes" className="mt-12 md:mt-32">
-      <h2
-        data-decode
-        className="text-3xl leading-none font-bold md:text-4xl"
-        style={{ color: "var(--text-strong)" }}
-      >
-        Notes
-      </h2>
-      <p className="mt-2 text-lg">Short write-ups on things I&rsquo;ve built</p>
-      <div className="kj-border" />
+      <SectionHeading title="Notes" subtitle="Short write-ups on things I’ve built" />
 
       <ul className="note-list">
         {notes.map((note) => (

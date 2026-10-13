@@ -1,0 +1,39 @@
+:root {
+  --surface-page: var(--color-card);
+  --surface-shell: var(--color-paper);
+  --surface-card: var(--color-card);
+  --surface-raised: var(--color-paper);
+  --surface-tile: var(--color-card);
+  --surface-diagram: #f7f6f4;
+  --text-body: var(--color-ink);
+  --text-strong: var(--color-dark);
+  --text-muted: #6b7280;
+  --rule: rgba(88, 89, 91, 0.16);
+  --portrait-bg: radial-gradient(circle at 38% 30%, #efeae4, #d5cec4 72%);
+  --callout-bg: var(--color-dark);
+  --callout-text: var(--color-paper);
+  --dock-bg: rgba(255, 255, 255, 0.82);
+  --dock-border: rgba(88, 89, 91, 0.14);
+  --dock-hover: rgba(88, 89, 91, 0.09);
+  color-scheme: light;
+}
+
+.dark {
+  --surface-page: var(--color-night);
+  --surface-shell: var(--color-night);
+  --surface-card: #14171d;
+  --surface-raised: #1b1f26;
+  --surface-tile: #1b1f26;
+  --surface-diagram: #eef0f2;
+  --text-body: var(--color-paper);
+  --text-strong: var(--color-paper);
+  --text-muted: #9aa3af;
+  --rule: rgba(242, 240, 238, 0.14);
+  --portrait-bg: radial-gradient(circle at 38% 30%, #5a4f4a, #2e2826 74%);
+  --callout-bg: var(--color-paper);
+  --callout-text: var(--color-dark);
+  --dock-bg: rgba(22, 25, 31, 0.86);
+  --dock-border: rgba(242, 240, 238, 0.12);
+  --dock-hover: rgba(242, 240, 238, 0.1);
+  color-scheme: dark;
+}

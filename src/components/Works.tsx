@@ -1,5 +1,6 @@
 import { SvgButton } from "./SvgButton";
 import { InteractiveDiagram } from "./InteractiveDiagram";
+import { SectionHeading } from "./SectionHeading";
 import { projectsByCategory } from "@/content/projects";
 import { diagrams } from "@/content/diagrams";
 import { profile } from "@/content/profile";
@@ -28,13 +29,6 @@ function Bar({ project, link }: { project: Project; link?: boolean }) {
   );
 }
 
-/**
- * Title sits in its own bar under the art, always visible: painted over
- * the art it collided with the diagrams' own labels.
- *
- * A gradient card is one link. A diagram card can't be, since its boxes
- * are interactive, so its link moves into the bar instead.
- */
 function ProjectCard({ project }: { project: Project }) {
   const { visual } = project;
 
@@ -79,22 +73,11 @@ function ProjectCard({ project }: { project: Project }) {
 export function Works() {
   return (
     <section id="works" className="mt-12 md:mt-32">
-      <h2
-        data-decode
-        className="text-3xl leading-none font-bold md:text-4xl"
-        style={{ color: "var(--text-strong)" }}
-      >
-        My works
-      </h2>
-      <p className="mt-2 text-lg">A few of my past and present projects</p>
-      <div className="kj-border" />
+      <SectionHeading title="My works" subtitle="A few of my past and present projects" />
 
       {projectsByCategory().map((group) => (
         <div key={group.category}>
-          <h3
-            className="mt-6 text-2xl font-bold"
-            style={{ color: "var(--text-strong)" }}
-          >
+          <h3 className="text-strong mt-6 text-2xl font-bold">
             {group.category}
           </h3>
           <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">

@@ -1,14 +1,4 @@
-/**
- * Deployment-level facts. `basePath` mirrors next.config.ts, which reads
- * NEXT_PUBLIC_BASE_PATH from the deploy workflow (empty for this user
- * site, which serves from the domain root, and in local dev).
- */
 export const site = {
-  /**
-   * Public address, used for canonical URLs, OG tags and the sitemap.
-   * No trailing slash. Change it here when the site moves to a custom
-   * domain (e.g. https://abdulbasit.is-a.dev).
-   */
   url: "https://abdulbaxit.github.io",
   basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? "",
   title: "Abdul Basit · Software Engineer",
@@ -19,13 +9,11 @@ export const site = {
   locale: "en_US",
 } as const;
 
-/** Prefixes a /public path with the basePath so it resolves on Pages. */
 export function asset(path: string): string {
   const clean = path.startsWith("/") ? path : `/${path}`;
   return `${site.basePath}${clean}`;
 }
 
-/** Absolute URL for canonical + OG metadata. */
 export function absoluteUrl(path = "/"): string {
   const clean = path.startsWith("/") ? path : `/${path}`;
   return `${site.url}${clean}`;
