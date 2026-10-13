@@ -5,6 +5,7 @@ import { Sprite } from "@/components/Sprite";
 import { Shell } from "@/components/Shell";
 import { Cursor } from "@/components/Cursor";
 import { PageMotion } from "@/components/PageMotion";
+import { PageViews } from "@/components/PageViews";
 import { themeInitScript } from "@/components/ThemeToggle";
 import { site, asset, absoluteUrl, integrations } from "@/content/site";
 import { profile } from "@/content/profile";
@@ -80,6 +81,7 @@ export default function RootLayout({
         <Shell>{children}</Shell>
         <Cursor />
         <PageMotion />
+        {integrations.goatCounter && <PageViews />}
         {integrations.goatCounter && (
           <script
             data-goatcounter={`https://${integrations.goatCounter}.goatcounter.com/count`}

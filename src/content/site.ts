@@ -14,7 +14,7 @@ export const integrations: {
   goatCounter: string | null;
 } = {
   googleSiteVerification: null,
-  goatCounter: null,
+  goatCounter: "abdulbasit",
 };
 
 export function asset(path: string): string {
