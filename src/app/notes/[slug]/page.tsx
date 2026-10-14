@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Icon } from "@/components/Sprite";
 import { Prose } from "@/components/Prose";
+import { PageSlide, NoteTitle } from "@/components/PageSlide";
 import { notes, getNote } from "@/content/notes";
 import { profile } from "@/content/profile";
 import { absoluteUrl } from "@/content/site";
@@ -71,42 +72,54 @@ export default async function NotePage({
   };
 
   return (
-    <article className="note mt-10 max-w-3xl">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+    <PageSlide>
+      <article className="note mt-10 max-w-3xl">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
 
-      <Link href="/#notes" className="f-link text-sm">
-        <Icon id="arrow-left" className="mr-1" />
-        All notes
-      </Link>
-
-      <header className="mt-8">
-        <p className="note__meta">
-          <time dateTime={note.date}>{formatDate(note.date)}</time>
-          {note.tags.map((tag) => (
-            <span key={tag} className="note__tag">
-              {tag}
-            </span>
-          ))}
-        </p>
-        <h1 className="note__title">{note.title}</h1>
-        <div className="section-rule" />
-        <p className="note__lede">{note.description}</p>
-      </header>
-
-      <Prose source={note.body} />
-
-      <footer className="note__foot">
-        <p>
-          Written by {profile.name}, {profile.role.toLowerCase()} in{" "}
-          {profile.location.split(",")[0]}.
-        </p>
-        <Link href="/#contact" className="f-link font-bold">
-          Get in touch
+        <Link
+          href="/#notes"
+          transitionTypes={["nav-back"]}
+          className="f-link text-sm"
+        >
+          <Icon id="arrow-left" className="mr-1" />
+          All notes
         </Link>
-      </footer>
-    </article>
+
+        <header className="mt-8">
+          <p className="note__meta">
+            <time dateTime={note.date}>{formatDate(note.date)}</time>
+            {note.tags.map((tag) => (
+              <span key={tag} className="note__tag">
+                {tag}
+              </span>
+            ))}
+          </p>
+          <NoteTitle slug={note.slug}>
+            <h1 className="note__title">{note.title}</h1>
+          </NoteTitle>
+          <div className="section-rule" />
+          <p className="note__lede">{note.description}</p>
+        </header>
+
+        <Prose source={note.body} />
+
+        <footer className="note__foot">
+          <p>
+            Written by {profile.name}, {profile.role.toLowerCase()} in{" "}
+            {profile.location.split(",")[0]}.
+          </p>
+          <Link
+            href="/#contact"
+            transitionTypes={["nav-back"]}
+            className="f-link font-bold"
+          >
+            Get in touch
+          </Link>
+        </footer>
+      </article>
+    </PageSlide>
   );
 }

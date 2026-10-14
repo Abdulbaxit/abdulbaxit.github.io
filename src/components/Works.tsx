@@ -34,7 +34,7 @@ function ProjectCard({ project }: { project: Project }) {
 
   if (visual.kind === "diagram") {
     return (
-      <div className="proj">
+      <div className="proj" data-spotlight="">
         <InteractiveDiagram diagram={diagrams[visual.diagram]} />
         <Bar project={project} link />
       </div>
@@ -59,6 +59,7 @@ function ProjectCard({ project }: { project: Project }) {
   return project.href ? (
     <a
       className="proj"
+      data-spotlight=""
       href={project.href}
       target="_blank"
       rel="noopener noreferrer"
@@ -66,7 +67,9 @@ function ProjectCard({ project }: { project: Project }) {
       {body}
     </a>
   ) : (
-    <div className="proj">{body}</div>
+    <div className="proj" data-spotlight="">
+      {body}
+    </div>
   );
 }
 

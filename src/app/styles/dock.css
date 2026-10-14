@@ -156,6 +156,17 @@
   }
 }
 
+@media (max-width: 22.5rem) {
+  .dock__item {
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+  .dock__book {
+    height: 2.1rem;
+    padding-inline: 0.6rem;
+  }
+}
+
 .dock-offset {
   padding-bottom: 6rem;
 }

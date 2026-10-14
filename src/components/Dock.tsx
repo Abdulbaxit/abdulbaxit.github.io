@@ -109,6 +109,25 @@ export function Dock() {
           </li>
         )}
 
+        <li>
+          <button
+            type="button"
+            className="dock__item"
+            data-magnify=""
+            data-magnetic="0.2"
+            aria-label="Open command menu"
+            aria-haspopup="dialog"
+            onClick={() =>
+              document.dispatchEvent(new Event("command-menu:open"))
+            }
+          >
+            <Icon id="search" className="dock__icon" />
+            <span className="dock__tip" aria-hidden="true">
+              Search
+            </span>
+          </button>
+        </li>
+
         {profile.calLink && (
           <>
             <li className="dock__sep" aria-hidden="true" />

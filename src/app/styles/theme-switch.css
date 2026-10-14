@@ -4,13 +4,13 @@
   initial-value: 0px;
 }
 
-::view-transition-old(root),
-::view-transition-new(root) {
+.theme-switching::view-transition-old(root),
+.theme-switching::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
 
-::view-transition-new(root) {
+.theme-switching::view-transition-new(root) {
   -webkit-mask-image: radial-gradient(
     circle at var(--vt-x, 50%) var(--vt-y, 50%),
     #000 calc(var(--vt-r) - 56px),

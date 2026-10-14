@@ -18,8 +18,11 @@
 @import "./styles/diagrams.css";
 @import "./styles/experience.css";
 @import "./styles/works.css";
+@import "./styles/spotlight.css";
 @import "./styles/dock.css";
+@import "./styles/command-menu.css";
 @import "./styles/cursor.css";
+@import "./styles/page-transitions.css";
 @import "./styles/reduced-motion.css";
 @import "./styles/print.css";
 

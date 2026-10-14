@@ -60,7 +60,7 @@ assistants and AI search.
 Hero          name, role · location, stack, "Email me" disc, portrait
 Tool strip    the stack I work with, scrolling under the hero
 Skills        backend / frontend + scroll-assembled illustration
-Readme        impact figures, status lines, fun fact, bio
+About me      bento grid: bio, impact figures, location and local time, status, fun fact
 Experience    timeline of roles, current ones highlighted
 Education     degree and final-year project
 Works         project cards with interactive architecture diagrams, resume
@@ -68,7 +68,8 @@ Kind words    recommendations (hidden until there are some)
 Notes         short technical write-ups
 On GitHub     contribution heatmap, rebuilt daily
 Contact       email, links, local time in Lahore
-Dock          floating nav: sections, resume, Book a call
+Dock          floating nav: sections, resume, search, Book a call
+⌘K menu       search and jump to sections, notes and projects, plus quick actions
 ```
 
 ## Design system
@@ -92,9 +93,11 @@ section title goes through `SectionHeading`.
 | Type             | Self-hosted variable Roboto via `next/font/local`, 16px body |
 
 Motion (decoding headings, magnetic buttons, the name ripple, count-ups, the
-timeline fill, the cursor and the theme reveal) lives in `PageMotion` and the
-small client components beside it, which share the helpers in
-`src/lib/motion.ts`. All of it stands down under `prefers-reduced-motion`.
+timeline fill, the card spotlight, the cursor and the theme reveal) lives in
+`PageMotion` and the small client components beside it, which share the
+helpers in `src/lib/motion.ts`. Moving between the home page and a note uses
+React's `<ViewTransition>` (React 19.3+): the page slides and the note's title
+morphs into place. All of it stands down under `prefers-reduced-motion`.
 
 ## Deploying
 

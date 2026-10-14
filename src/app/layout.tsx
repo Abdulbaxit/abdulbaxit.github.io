@@ -6,6 +6,7 @@ import { Shell } from "@/components/Shell";
 import { Cursor } from "@/components/Cursor";
 import { PageMotion } from "@/components/PageMotion";
 import { PageViews } from "@/components/PageViews";
+import { CommandMenu } from "@/components/CommandMenu";
 import { themeInitScript } from "@/components/ThemeToggle";
 import { site, asset, absoluteUrl, integrations } from "@/content/site";
 import { profile } from "@/content/profile";
@@ -72,7 +73,12 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={roboto.variable} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={roboto.variable}
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
@@ -81,6 +87,7 @@ export default function RootLayout({
         <Shell>{children}</Shell>
         <Cursor />
         <PageMotion />
+        <CommandMenu />
         {integrations.goatCounter && <PageViews />}
         {integrations.goatCounter && (
           <script
