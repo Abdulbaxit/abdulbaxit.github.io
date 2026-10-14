@@ -8,7 +8,7 @@ import {
   profile,
   recommendations,
 } from "./profile";
-import { projects, projectsByCategory } from "./projects";
+import { getProject, projects, projectsByCategory } from "./projects";
 import { absoluteUrl, asset, site } from "./site";
 
 describe("diagrams", () => {
@@ -37,6 +37,32 @@ describe("diagrams", () => {
 });
 
 describe("projects", () => {
+  it("have unique, URL-safe slugs that find them", () => {
+    const slugs = projects.map((p) => p.slug);
+    expect(new Set(slugs).size).toBe(slugs.length);
+    for (const p of projects) {
+      expect(p.slug).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
+      expect(getProject(p.slug)).toBe(p);
+    }
+    expect(getProject("missing")).toBeUndefined();
+  });
+
+  it("each tell a full case study", () => {
+    for (const { caseStudy: c } of projects) {
+      expect(c.summary.length).toBeGreaterThan(30);
+      expect(c.role).toBeTruthy();
+      expect(c.problem.length).toBeGreaterThan(30);
+      expect(c.built.length).toBeGreaterThan(0);
+      expect(c.results.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("only link to notes that exist", () => {
+    for (const { caseStudy: c } of projects) {
+      if (c.note) expect(getNote(c.note)).toBeDefined();
+    }
+  });
+
   it("each have a name, a category and a stack", () => {
     for (const p of projects) {
       expect(p.name).toBeTruthy();

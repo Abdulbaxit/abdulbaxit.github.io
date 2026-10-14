@@ -8,7 +8,6 @@ import {
   isCurrentRole,
 } from "@/content/profile";
 import { projects } from "@/content/projects";
-import { diagrams } from "@/content/diagrams";
 import { notes } from "@/content/notes";
 import { site, absoluteUrl } from "@/content/site";
 
@@ -47,13 +46,10 @@ export function GET() {
     "",
     "## Projects",
     "",
-    ...projects.map((p) => {
-      const name = p.href ? `[${p.name}](${p.href})` : p.name;
-      const about =
-        p.blurb ??
-        (p.visual.kind === "diagram" ? diagrams[p.visual.diagram].alt : "");
-      return `- ${name} (${p.stack.join(", ")}): ${about}`;
-    }),
+    ...projects.map(
+      (p) =>
+        `- [${p.name}](${absoluteUrl(`/work/${p.slug}/`)}) (${p.stack.join(", ")}): ${p.caseStudy.summary}`,
+    ),
     "",
   ];
 

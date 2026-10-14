@@ -86,6 +86,14 @@ a.proj:focus-visible {
 }
 
 .proj__visit:hover,
-.proj__visit:focus-visible {
+.proj__visit:focus-visible,
+a.proj:hover .proj__visit {
   color: var(--color-prime);
+}
+
+.proj__actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 1rem;
 }

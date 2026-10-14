@@ -45,17 +45,15 @@ function buildCommands(): Command[] {
       kind: "route",
       target: `/notes/${n.slug}/`,
     })),
-    ...projects
-      .filter((p) => p.href)
-      .map((p): Command => ({
-        id: `project-${p.name}`,
-        group: "Projects",
-        label: p.name,
-        keywords: `${p.category} ${p.stack.join(" ")}`,
-        icon: "arrow-up-right",
-        kind: "external",
-        target: p.href!,
-      })),
+    ...projects.map((p): Command => ({
+      id: `project-${p.slug}`,
+      group: "Projects",
+      label: p.name,
+      keywords: `case study ${p.category} ${p.stack.join(" ")}`,
+      icon: "layers",
+      kind: "route",
+      target: `/work/${p.slug}/`,
+    })),
     {
       id: "copy-email",
       group: "Actions",

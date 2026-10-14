@@ -2,3 +2,7 @@ Roboto — Apache License 2.0 — https://github.com/googlefonts/roboto
 
 Latin subset retrieved from Google Fonts and self-hosted so no
 third-party request sits on the critical rendering path.
+
+og/roboto-latin-{400,700,900}-normal.woff — Roboto static weights from
+@fontsource/roboto 5.3.0 (SIL Open Font License 1.1), used only to draw the
+share images; the image renderer cannot read woff2 or variable fonts.

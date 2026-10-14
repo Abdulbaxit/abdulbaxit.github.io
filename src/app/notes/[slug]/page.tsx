@@ -8,6 +8,7 @@ import { notes, getNote } from "@/content/notes";
 import { profile } from "@/content/profile";
 import { absoluteUrl } from "@/content/site";
 import { formatDate } from "@/lib/prose";
+import { ogImageMeta } from "@/lib/og";
 
 export function generateStaticParams() {
   return notes.map((n) => ({ slug: n.slug }));
@@ -23,6 +24,7 @@ export async function generateMetadata({
   if (!note) return {};
 
   const url = absoluteUrl(`/notes/${note.slug}/`);
+  const image = ogImageMeta(`/og/note-${note.slug}.png`, note.title);
   return {
     title: note.title,
     description: note.description,
@@ -35,11 +37,13 @@ export async function generateMetadata({
       publishedTime: note.date,
       authors: [profile.name],
       tags: note.tags,
+      images: [image],
     },
     twitter: {
       card: "summary_large_image",
       title: note.title,
       description: note.description,
+      images: [image.url],
     },
   };
 }

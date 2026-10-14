@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Icon } from "./Sprite";
 import { BookButton } from "./BookButton";
 import { useDockMagnify } from "@/lib/useDockMagnify";
@@ -36,6 +37,9 @@ const ITEMS: DockItem[] = [
 export function Dock() {
   const [active, setActive] = useState<string>("home");
   const listRef = useRef<HTMLUListElement>(null);
+  const pathname = usePathname();
+  const current =
+    pathname === "/" ? active : pathname.startsWith("/work/") ? "works" : null;
 
   useDockMagnify(listRef);
 
@@ -67,7 +71,7 @@ export function Dock() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <nav className="dock" aria-label="Sections">
@@ -80,8 +84,8 @@ export function Dock() {
               data-magnify=""
               data-magnetic="0.2"
               aria-label={item.label}
-              aria-current={active === item.id ? "true" : undefined}
-              data-active={active === item.id ? "" : undefined}
+              aria-current={current === item.id ? "true" : undefined}
+              data-active={current === item.id ? "" : undefined}
             >
               <Icon id={item.icon} className="dock__icon" />
               <span className="dock__tip" aria-hidden="true">
