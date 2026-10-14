@@ -1,9 +1,18 @@
 import { Fragment } from "react";
 import { Icon } from "./Sprite";
 import { CountUp } from "./CountUp";
-import { impact, statusLines, funFact, readme } from "@/content/profile";
+import { LocalTime } from "./LocalTime";
+import { SectionHeading } from "./SectionHeading";
+import {
+  profile,
+  impact,
+  statusLines,
+  funFact,
+  readme,
+} from "@/content/profile";
 
 const LINK = /\[([^\]]+)\]\(([^)\s]+)\)/g;
+const STAT_AREAS = ["s1", "s2", "s3"];
 
 function withLinks(text: string) {
   const parts: React.ReactNode[] = [];
@@ -28,73 +37,88 @@ function withLinks(text: string) {
   return parts.map((p, i) => <Fragment key={i}>{p}</Fragment>);
 }
 
+function Tile({
+  area,
+  kicker,
+  className = "",
+  children,
+}: {
+  area?: string;
+  kicker?: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={`bento__tile ${area ? `bento__tile--${area}` : ""} ${className}`}
+      data-spotlight=""
+      data-reveal=""
+    >
+      {kicker && <p className="bento__kicker">{kicker}</p>}
+      {children}
+    </div>
+  );
+}
+
 export function Readme() {
   return (
-    <div className="m-auto mt-12 px-2 py-4 md:mt-32 md:w-3/4">
-      <div className="mb-6 w-full px-4">
-        <div className="rounded-lg border-2 border-raised bg-raised shadow-2xl">
-          <div className="grid grid-cols-1 p-4 md:grid-cols-2 md:gap-5">
-            <div className="impact">
-              <p className="impact__kicker">Impact</p>
-              <ul>
-                {impact.map((stat) => (
-                  <li key={stat.label} className="impact__row">
-                    <span className="impact__n">
-                      <CountUp value={stat.value} />
-                      {stat.suffix && (
-                        <span className="impact__suffix">{stat.suffix}</span>
-                      )}
-                    </span>
-                    <span className="impact__l">{stat.label}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+    <section id="about" className="mt-12 md:mt-32">
+      <SectionHeading title="About me" subtitle="The short version" />
 
-            <div className="pt-10">
-              {statusLines.map((line, i) => (
-                <div key={line.text} className={i > 0 ? "mt-2" : undefined}>
-                  <Icon id={line.icon} className="inline-block text-lg" />
-                  <p className="ml-1 inline-block">
-                    {line.verb && <>{line.verb} </>}
-                    {line.href ? (
-                      <a
-                        href={line.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-bold underline"
-                      >
-                        {line.text}
-                      </a>
-                    ) : (
-                      line.text
-                    )}
-                  </p>
-                </div>
-              ))}
-              <div className="mt-2">
-                <p className="ml-1 inline-block">
-                  <span className="font-bold">Fun Fact:</span> {funFact}
-                </p>
-              </div>
-            </div>
-          </div>
+      <div className="bento">
+        <Tile area="bio" kicker="README" className="bento__bio">
+          {readme.map((para, i) => (
+            <p key={i}>{withLinks(para)}</p>
+          ))}
+        </Tile>
 
-          <div className="p-4">
-            <div className="mt-10">
-              <div className="mb-5 text-lg">
-                <h2 className="font-medium uppercase">README</h2>
-                <div className="section-rule" />
-              </div>
-              {readme.map((para, i) => (
-                <p key={i} className={i > 0 ? "mt-2" : undefined}>
-                  {withLinks(para)}
-                </p>
-              ))}
-            </div>
-          </div>
-        </div>
+        {impact.map((stat, i) => (
+          <Tile key={stat.label} area={STAT_AREAS[i]} className="bento__stat">
+            <span className="impact__n">
+              <CountUp value={stat.value} />
+              {stat.suffix && (
+                <span className="impact__suffix">{stat.suffix}</span>
+              )}
+            </span>
+            <span className="bento__label">{stat.label}</span>
+          </Tile>
+        ))}
+
+        <Tile area="loc" kicker="Based in">
+          <p className="bento__big">{profile.location}</p>
+          <LocalTime
+            timeZone={profile.timeZone}
+            place={profile.location.split(",")[0]}
+          />
+        </Tile>
+
+        <Tile area="now" kicker="Right now">
+          <ul className="bento__now">
+            {statusLines.map((line) => (
+              <li key={line.text}>
+                <Icon id={line.icon} className="text-lg" />
+                {line.verb && <>{line.verb} </>}
+                {line.href ? (
+                  <a
+                    href={line.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold underline"
+                  >
+                    {line.text}
+                  </a>
+                ) : (
+                  line.text
+                )}
+              </li>
+            ))}
+          </ul>
+        </Tile>
+
+        <Tile area="fun" kicker="Fun fact">
+          <p>{funFact}</p>
+        </Tile>
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,4 +1,5 @@
 import { Hero } from "@/components/Hero";
+import { PageSlide } from "@/components/PageSlide";
 import { Marquee } from "@/components/Marquee";
 import { Skills } from "@/components/Skills";
 import { Readme } from "@/components/Readme";
@@ -93,7 +94,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <PageSlide>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -110,6 +111,6 @@ export default function Home() {
       <Notes />
       <GitHubActivity />
       <Contact />
-    </>
+    </PageSlide>
   );
 }

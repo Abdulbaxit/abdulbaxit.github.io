@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { SvgButton } from "./SvgButton";
 import { SectionHeading } from "./SectionHeading";
 import { asset } from "@/content/site";
@@ -51,7 +51,7 @@ export function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const pin = pinRef.current;
     const section = sectionRef.current;
     const scene = sceneRef.current;
@@ -200,6 +200,11 @@ export function Skills() {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", sync, { passive: true });
     sync();
+    if (location.hash) {
+      document
+        .getElementById(decodeURIComponent(location.hash.slice(1)))
+        ?.scrollIntoView({ behavior: "instant" });
+    }
 
     return () => {
       cancel();

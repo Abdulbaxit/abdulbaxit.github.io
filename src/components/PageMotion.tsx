@@ -14,6 +14,7 @@ const DECODE_MS = 650;
 const GLYPH_SWAP_MS = 45;
 
 const MAGNET_REACH = 60;
+const REVEAL_STAGGER_S = 0.07;
 const DEFAULT_PULL = 0.3;
 const OFFSCREEN = -1e4;
 
@@ -45,11 +46,34 @@ export function PageMotion() {
       )
       .forEach((el) => reveal.observe(el));
 
+    const tiles = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          tiles.unobserve(entry.target);
+          entry.target.classList.add("is-in");
+        }
+      },
+      { threshold: 0.15 },
+    );
+    document
+      .querySelectorAll<HTMLElement>("[data-reveal]:not(.is-in)")
+      .forEach((el, i) => {
+        el.style.setProperty(
+          "--reveal-delay",
+          `${(i % 8) * REVEAL_STAGGER_S}s`,
+        );
+        tiles.observe(el);
+      });
+
     const stopMagnets = magnets();
+    const stopSpotlight = spotlight();
 
     return () => {
       reveal.disconnect();
+      tiles.disconnect();
       stopMagnets();
+      stopSpotlight();
     };
   }, [pathname]);
 
@@ -144,5 +168,63 @@ function magnets(): () => void {
     window.removeEventListener("pointermove", onMove);
     document.removeEventListener("pointerout", onLeave);
     els.forEach((el) => (el.style.translate = ""));
+  };
+}
+
+function spotlight(): () => void {
+  if (!hasFinePointer()) return () => {};
+  const els = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-spotlight]"),
+  );
+  if (!els.length) return () => {};
+
+  const root = document.documentElement;
+  const visible = new Set<HTMLElement>();
+  const watch = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const el = entry.target as HTMLElement;
+      if (entry.isIntersecting) visible.add(el);
+      else visible.delete(el);
+    }
+  });
+  els.forEach((el) => watch.observe(el));
+
+  let px = OFFSCREEN;
+  let py = OFFSCREEN;
+  const { schedule, cancel } = frameThrottle(() => {
+    for (const el of visible) {
+      const box = el.getBoundingClientRect();
+      el.style.setProperty("--mx", `${Math.round(px - box.left)}px`);
+      el.style.setProperty("--my", `${Math.round(py - box.top)}px`);
+    }
+  });
+
+  const onMove = (e: PointerEvent) => {
+    if (e.pointerType !== "mouse") return;
+    px = e.clientX;
+    py = e.clientY;
+    schedule();
+  };
+  const onLeave = (e: PointerEvent) => {
+    if (e.relatedTarget) return;
+    px = py = OFFSCREEN;
+    schedule();
+  };
+
+  root.classList.add("spotlight-on");
+  window.addEventListener("pointermove", onMove, { passive: true });
+  window.addEventListener("scroll", schedule, { passive: true });
+  document.addEventListener("pointerout", onLeave, { passive: true });
+  return () => {
+    cancel();
+    watch.disconnect();
+    window.removeEventListener("pointermove", onMove);
+    window.removeEventListener("scroll", schedule);
+    document.removeEventListener("pointerout", onLeave);
+    root.classList.remove("spotlight-on");
+    els.forEach((el) => {
+      el.style.removeProperty("--mx");
+      el.style.removeProperty("--my");
+    });
   };
 }

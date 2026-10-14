@@ -1,0 +1,113 @@
+::view-transition {
+  pointer-events: none;
+}
+
+.dock {
+  view-transition-name: site-dock;
+}
+
+.cursor-dot {
+  view-transition-name: cursor-dot;
+}
+
+.cursor-ring {
+  view-transition-name: cursor-ring;
+}
+
+.theme-switching .dock,
+.theme-switching .cursor-dot,
+.theme-switching .cursor-ring {
+  view-transition-name: none;
+}
+
+::view-transition-group(site-dock),
+::view-transition-group(cursor-dot),
+::view-transition-group(cursor-ring) {
+  z-index: 100;
+  animation: none;
+}
+
+::view-transition-old(site-dock),
+::view-transition-old(cursor-dot),
+::view-transition-old(cursor-ring) {
+  display: none;
+}
+
+::view-transition-new(site-dock),
+::view-transition-new(cursor-dot),
+::view-transition-new(cursor-ring) {
+  animation: none;
+}
+
+::view-transition-old(.nav-forward) {
+  --slide-offset: -60px;
+  animation:
+    150ms ease-in both page-fade reverse,
+    400ms ease-in-out both page-slide reverse;
+}
+
+::view-transition-new(.nav-forward) {
+  --slide-offset: 60px;
+  animation:
+    210ms ease-out 150ms both page-fade,
+    400ms ease-in-out both page-slide;
+}
+
+::view-transition-old(.nav-back) {
+  --slide-offset: 60px;
+  animation:
+    150ms ease-in both page-fade reverse,
+    400ms ease-in-out both page-slide reverse;
+}
+
+::view-transition-new(.nav-back) {
+  --slide-offset: -60px;
+  animation:
+    210ms ease-out 150ms both page-fade,
+    400ms ease-in-out both page-slide;
+}
+
+::view-transition-group(.morph) {
+  animation-duration: 400ms;
+  animation-timing-function: var(--ease-out-soft);
+}
+
+::view-transition-image-pair(.morph) {
+  animation-name: morph-blur;
+}
+
+@keyframes page-fade {
+  from {
+    filter: blur(3px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@keyframes page-slide {
+  from {
+    translate: var(--slide-offset);
+  }
+  to {
+    translate: 0;
+  }
+}
+
+@keyframes morph-blur {
+  30% {
+    filter: blur(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*),
+  ::view-transition-image-pair(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

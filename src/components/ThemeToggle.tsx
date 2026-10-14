@@ -43,62 +43,67 @@ const isDark = () => document.documentElement.classList.contains("dark");
 
 const serverSnapshot = () => false;
 
+function apply() {
+  const next = !isDark();
+  document.documentElement.classList.toggle("dark", next);
+  try {
+    localStorage.setItem("theme", next ? "dark" : "light");
+  } catch {}
+}
+
+export function switchTheme(
+  x = window.innerWidth / 2,
+  y = window.innerHeight / 2,
+) {
+  const root = document.documentElement;
+  if (prefersReducedMotion()) {
+    apply();
+    return;
+  }
+  if (!document.startViewTransition) {
+    root.classList.add("theme-fade");
+    apply();
+    window.setTimeout(() => root.classList.remove("theme-fade"), FADE_MS);
+    return;
+  }
+
+  const r =
+    Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    ) + FEATHER_PX;
+
+  root.style.setProperty("--vt-x", `${x}px`);
+  root.style.setProperty("--vt-y", `${y}px`);
+  root.classList.add("theme-switching");
+
+  const transition = document.startViewTransition(apply);
+  transition.ready
+    .then(() => {
+      root.animate(
+        { "--vt-r": ["0px", `${r}px`] },
+        {
+          duration: REVEAL_MS,
+          easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+          fill: "forwards",
+          pseudoElement: "::view-transition-new(root)",
+        },
+      );
+    })
+    .catch(() => {});
+  transition.finished.finally(() => {
+    root.classList.remove("theme-switching");
+    root.style.removeProperty("--vt-x");
+    root.style.removeProperty("--vt-y");
+  });
+}
+
 export function ThemeToggle({ className = "" }: { className?: string }) {
   const dark = useSyncExternalStore(subscribe, isDark, serverSnapshot);
 
-  function apply() {
-    const next = !document.documentElement.classList.contains("dark");
-    document.documentElement.classList.toggle("dark", next);
-    try {
-      localStorage.setItem("theme", next ? "dark" : "light");
-    } catch {}
-  }
-
   function toggle(e: React.MouseEvent<HTMLButtonElement>) {
-    const root = document.documentElement;
-    if (prefersReducedMotion()) {
-      apply();
-      return;
-    }
-    if (!document.startViewTransition) {
-      root.classList.add("theme-fade");
-      apply();
-      window.setTimeout(() => root.classList.remove("theme-fade"), FADE_MS);
-      return;
-    }
-
     const box = e.currentTarget.getBoundingClientRect();
-    const x = box.left + box.width / 2;
-    const y = box.top + box.height / 2;
-    const r =
-      Math.hypot(
-        Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y),
-      ) + FEATHER_PX;
-
-    root.style.setProperty("--vt-x", `${x}px`);
-    root.style.setProperty("--vt-y", `${y}px`);
-    root.classList.add("theme-switching");
-
-    const transition = document.startViewTransition(apply);
-    transition.ready
-      .then(() => {
-        root.animate(
-          { "--vt-r": ["0px", `${r}px`] },
-          {
-            duration: REVEAL_MS,
-            easing: "cubic-bezier(0.4, 0, 0.2, 1)",
-            fill: "forwards",
-            pseudoElement: "::view-transition-new(root)",
-          },
-        );
-      })
-      .catch(() => {});
-    transition.finished.finally(() => {
-      root.classList.remove("theme-switching");
-      root.style.removeProperty("--vt-x");
-      root.style.removeProperty("--vt-y");
-    });
+    switchTheme(box.left + box.width / 2, box.top + box.height / 2);
   }
 
   return (

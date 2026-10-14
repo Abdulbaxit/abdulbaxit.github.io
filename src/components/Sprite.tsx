@@ -15,6 +15,11 @@ export const iconIds = [
   "briefcase",
   "layers",
   "calendar",
+  "search",
+  "copy",
+  "arrow-up-right",
+  "hash",
+  "download",
 ] as const;
 
 export type IconId = (typeof iconIds)[number];
@@ -140,6 +145,63 @@ export function Sprite() {
           fill="currentColor"
           d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"
         />
+      </symbol>
+      <symbol
+        id="i-search"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-4.2-4.2" />
+      </symbol>
+      <symbol
+        id="i-copy"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="9" y="9" width="11" height="11" rx="2" />
+        <path d="M15 5H6a2 2 0 0 0-2 2v9" />
+      </symbol>
+      <symbol
+        id="i-arrow-up-right"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M7 17 17 7M8 7h9v9" />
+      </symbol>
+      <symbol
+        id="i-hash"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M5 9h14M5 15h14M10 4 8 20M16 4l-2 16" />
+      </symbol>
+      <symbol
+        id="i-download"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14" />
       </symbol>
     </svg>
   );
