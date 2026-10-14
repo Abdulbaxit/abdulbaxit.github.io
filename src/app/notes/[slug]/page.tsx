@@ -7,7 +7,7 @@ import { PageSlide, NoteTitle } from "@/components/PageSlide";
 import { notes, getNote } from "@/content/notes";
 import { profile } from "@/content/profile";
 import { absoluteUrl } from "@/content/site";
-import { formatDate } from "@/lib/prose";
+import { formatDate, readingMinutes } from "@/lib/prose";
 import { ogImageMeta } from "@/lib/og";
 
 export function generateStaticParams() {
@@ -78,6 +78,7 @@ export default async function NotePage({
   return (
     <PageSlide>
       <article className="note mt-10 max-w-3xl">
+        <div className="read-progress" aria-hidden="true" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -95,6 +96,7 @@ export default async function NotePage({
         <header className="mt-8">
           <p className="note__meta">
             <time dateTime={note.date}>{formatDate(note.date)}</time>
+            <span>{readingMinutes(note.body)} min read</span>
             {note.tags.map((tag) => (
               <span key={tag} className="note__tag">
                 {tag}

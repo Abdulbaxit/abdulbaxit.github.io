@@ -91,11 +91,9 @@ export function ContactDisc() {
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="contact-panel"
-          aria-label="Email me"
         >
-          <span className="talk__text" aria-hidden="true">
-            <span>Email</span>
-            <span className="talk__l2">me</span>
+          <span className="talk__text">
+            <span>Email</span> <span className="talk__l2">me</span>
           </span>
         </button>
         <div className="talk-pulse" aria-hidden="true" />

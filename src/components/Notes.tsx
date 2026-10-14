@@ -3,7 +3,8 @@ import type { Route } from "next";
 import { SectionHeading } from "./SectionHeading";
 import { NoteTitle } from "./PageSlide";
 import { notes } from "@/content/notes";
-import { formatDate } from "@/lib/prose";
+import { formatDate, readingMinutes } from "@/lib/prose";
+import { asset } from "@/content/site";
 
 export function Notes() {
   if (notes.length === 0) return null;
@@ -26,6 +27,8 @@ export function Notes() {
               <span className="note-row__meta">
                 <time dateTime={note.date}>{formatDate(note.date)}</time>
                 <span aria-hidden="true"> · </span>
+                {readingMinutes(note.body)} min read
+                <span aria-hidden="true"> · </span>
                 {note.tags.join(" · ")}
               </span>
               <NoteTitle slug={note.slug}>
@@ -39,6 +42,10 @@ export function Notes() {
           </li>
         ))}
       </ul>
+
+      <a href={asset("/feed.xml")} className="notes-rss f-link">
+        Follow via RSS
+      </a>
     </section>
   );
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatDate, parseInline, parseProse } from "./prose";
+import { formatDate, parseInline, parseProse, readingMinutes } from "./prose";
 
 describe("parseProse", () => {
   it("splits headings, paragraphs, lists and code into blocks", () => {
@@ -73,5 +73,17 @@ describe("parseInline", () => {
 
   it("leaves a lone backtick as text", () => {
     expect(parseInline("a ` b")).toEqual([{ code: false, text: "a ` b" }]);
+  });
+});
+
+describe("readingMinutes", () => {
+  it("rounds to whole minutes at 220 words a minute", () => {
+    expect(readingMinutes("word ".repeat(660))).toBe(3);
+    expect(readingMinutes("word ".repeat(770))).toBe(4);
+  });
+
+  it("never says zero minutes", () => {
+    expect(readingMinutes("short")).toBe(1);
+    expect(readingMinutes("")).toBe(1);
   });
 });

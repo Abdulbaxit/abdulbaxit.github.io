@@ -51,6 +51,9 @@ Google Search Console is verified with the HTML file method instead:
 `public/google4d039aef351eb7e0.html` must stay, or the site loses its
 verification.
 
+Notes are also published as an RSS feed at `/feed.xml`, built by
+`src/app/feed.xml/route.ts`.
+
 Each note and case study gets its own share image, drawn at build time by
 `src/app/og/[image]/route.ts` and served as `/og/<note|work>-<slug>.png`.
 
@@ -60,7 +63,8 @@ assistants and AI search.
 ## Structure
 
 ```
-Hero          name, role · location, stack, "Email me" disc, portrait
+Hero          name, role · location, stack, "Email me" disc, portrait;
+              eases away as you scroll (CSS scroll-driven animation)
 Tool strip    the stack I work with, scrolling under the hero
 Skills        backend / frontend + scroll-assembled illustration
 About me      bento grid: bio, impact figures, location and local time, status, fun fact
@@ -69,7 +73,8 @@ Education     degree and final-year project
 Works         project cards with interactive architecture diagrams, resume;
               each card opens a case study at /work/<slug>/
 Kind words    recommendations (hidden until there are some)
-Notes         short technical write-ups
+Notes         short technical write-ups with read time and a reading
+              progress bar; RSS at /feed.xml
 On GitHub     contribution heatmap, rebuilt daily
 Contact       email, links, local time in Lahore
 Dock          floating nav: sections, resume, search, Book a call
