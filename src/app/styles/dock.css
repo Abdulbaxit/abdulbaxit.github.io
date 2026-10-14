@@ -117,7 +117,7 @@
   height: 2.6rem;
   padding-inline: 0.95rem;
   border-radius: 999px;
-  background: var(--color-prime);
+  background: var(--color-prime-deep);
   color: #fff;
   font-size: 13px;
   font-weight: 700;
@@ -132,7 +132,7 @@
 .dock__book:hover,
 .dock__book:focus-visible {
   transform: translateY(-1px);
-  filter: brightness(1.06);
+  filter: brightness(0.94);
 }
 
 @media (max-width: 30rem) {

@@ -16,7 +16,11 @@ export function Shell({ children }: { children: ReactNode }) {
         <div className="mx-auto max-w-shell bg-surface p-2 sm:rounded-lg md:p-8 md:shadow-2xl">
           <div className="flex flex-col md:flex-row">
             <div className="flex shrink-0 items-start justify-between md:block md:w-32">
-              <Link href="/" className="mark" aria-label={profile.name}>
+              <Link
+                href="/"
+                className="mark"
+                aria-label={`${profile.initials}. ${profile.name}, home`}
+              >
                 {profile.initials}
                 <span>.</span>
               </Link>
@@ -57,7 +61,11 @@ function SiteFooter() {
     <div className="dock-offset mx-auto max-w-shell p-2 text-body md:p-8">
       <footer className="mt-10 md:flex">
         <div className="mb-3 text-center text-xs uppercase md:mb-0 md:w-1/4 md:text-left">
-          <Link href="/" className="mark" aria-label={profile.name}>
+          <Link
+            href="/"
+            className="mark"
+            aria-label={`${profile.initials}. ${profile.name}, home`}
+          >
             {profile.initials}
             <span>.</span>
           </Link>

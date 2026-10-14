@@ -241,3 +241,39 @@
     gap: 1.75rem;
   }
 }
+
+@supports (animation-timeline: scroll()) {
+  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+    .hero__copy,
+    .hero__figure {
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 100vh;
+    }
+
+    .hero__copy {
+      animation-name: hero-copy-out;
+    }
+
+    .hero__figure {
+      animation-name: hero-figure-out;
+    }
+  }
+}
+
+@keyframes hero-copy-out {
+  to {
+    translate: 0 -40px;
+    opacity: 0.45;
+  }
+}
+
+@keyframes hero-figure-out {
+  to {
+    translate: 0 48px;
+    scale: 0.9;
+    opacity: 0.5;
+  }
+}

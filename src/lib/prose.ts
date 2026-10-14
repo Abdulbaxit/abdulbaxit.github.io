@@ -112,3 +112,8 @@ export function parseInline(text: string): Inline[] {
         : { code: false, text: part },
     );
 }
+
+export function readingMinutes(text: string, wordsPerMinute = 220): number {
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / wordsPerMinute));
+}

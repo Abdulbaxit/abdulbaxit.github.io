@@ -187,3 +187,43 @@
   font-size: 14px;
   color: var(--text-muted);
 }
+
+.notes-rss {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.read-progress {
+  display: none;
+}
+
+@supports (animation-timeline: view()) {
+  .note {
+    view-timeline-name: --note;
+  }
+
+  .read-progress {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 60;
+    display: block;
+    height: 3px;
+    background: var(--color-prime);
+    transform-origin: 0 50%;
+    scale: 0 1;
+    animation-name: read-progress;
+    animation-duration: auto;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --note;
+    animation-range: contain 0% contain 100%;
+  }
+}
+
+@keyframes read-progress {
+  to {
+    scale: 1 1;
+  }
+}

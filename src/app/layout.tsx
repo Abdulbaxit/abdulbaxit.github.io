@@ -81,6 +81,12 @@ export default function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`${profile.name} — Notes`}
+          href={absoluteUrl("/feed.xml")}
+        />
       </head>
       <body>
         <Sprite />

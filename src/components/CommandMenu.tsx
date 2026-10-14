@@ -99,6 +99,15 @@ function buildCommands(): Command[] {
         ]
       : []),
     {
+      id: "rss",
+      group: "Actions",
+      label: "Follow notes via RSS",
+      keywords: "feed subscribe",
+      icon: "file",
+      kind: "external",
+      target: asset("/feed.xml"),
+    },
+    {
       id: "switch-theme",
       group: "Actions",
       label: "Switch theme",
