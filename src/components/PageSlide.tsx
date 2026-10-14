@@ -14,6 +14,20 @@ export function PageSlide({ children }: { children: React.ReactNode }) {
   );
 }
 
+export function Morph({
+  name,
+  children,
+}: {
+  name: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <ViewTransition name={name} share="morph" default="none">
+      {children}
+    </ViewTransition>
+  );
+}
+
 export function NoteTitle({
   slug,
   children,
@@ -21,9 +35,5 @@ export function NoteTitle({
   slug: string;
   children: React.ReactNode;
 }) {
-  return (
-    <ViewTransition name={`note-title-${slug}`} share="morph" default="none">
-      {children}
-    </ViewTransition>
-  );
+  return <Morph name={`note-title-${slug}`}>{children}</Morph>;
 }

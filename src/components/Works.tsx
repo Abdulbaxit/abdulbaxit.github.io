@@ -1,4 +1,7 @@
+import Link from "next/link";
+import type { Route } from "next";
 import { SvgButton } from "./SvgButton";
+import { Morph } from "./PageSlide";
 import { InteractiveDiagram } from "./InteractiveDiagram";
 import { SectionHeading } from "./SectionHeading";
 import { projectsByCategory } from "@/content/projects";
@@ -7,23 +10,45 @@ import { profile } from "@/content/profile";
 import { asset } from "@/content/site";
 import type { Project } from "@/content/types";
 
-function Bar({ project, link }: { project: Project; link?: boolean }) {
+function caseStudyHref(project: Project) {
+  return `/work/${project.slug}/` as Route;
+}
+
+function Bar({ project, links }: { project: Project; links?: boolean }) {
   return (
     <div className="proj__bar">
       <div>
-        <h4 className="proj__name">{project.name}</h4>
+        <Morph name={`project-title-${project.slug}`}>
+          <h4 className="proj__name">{project.name}</h4>
+        </Morph>
         <p className="proj__stack">{project.stack.join(" · ")}</p>
       </div>
-      {link && project.href && (
-        <a
-          className="proj__visit"
-          href={project.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Visit ${project.name}`}
-        >
-          Visit ↗
-        </a>
+      {links ? (
+        <div className="proj__actions">
+          <Link
+            href={caseStudyHref(project)}
+            transitionTypes={["nav-forward"]}
+            className="proj__visit"
+            aria-label={`${project.name} case study`}
+          >
+            Case study →
+          </Link>
+          {project.href && (
+            <a
+              className="proj__visit"
+              href={project.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Visit ${project.name}`}
+            >
+              Visit ↗
+            </a>
+          )}
+        </div>
+      ) : (
+        <span className="proj__visit" aria-hidden="true">
+          Case study →
+        </span>
       )}
     </div>
   );
@@ -35,41 +60,34 @@ function ProjectCard({ project }: { project: Project }) {
   if (visual.kind === "diagram") {
     return (
       <div className="proj" data-spotlight="">
-        <InteractiveDiagram diagram={diagrams[visual.diagram]} />
-        <Bar project={project} link />
+        <Morph name={`project-visual-${project.slug}`}>
+          <InteractiveDiagram diagram={diagrams[visual.diagram]} />
+        </Morph>
+        <Bar project={project} links />
       </div>
     );
   }
 
-  const body = (
-    <>
-      <div
-        className="proj__media"
-        style={{
-          background: `linear-gradient(140deg, ${visual.from}, ${visual.to})`,
-        }}
-      >
-        {project.tag && <span className="proj__tag">{project.tag}</span>}
-        {project.blurb && <p className="proj__blurb">{project.blurb}</p>}
-      </div>
-      <Bar project={project} />
-    </>
-  );
-
-  return project.href ? (
-    <a
+  return (
+    <Link
       className="proj"
       data-spotlight=""
-      href={project.href}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={caseStudyHref(project)}
+      transitionTypes={["nav-forward"]}
     >
-      {body}
-    </a>
-  ) : (
-    <div className="proj" data-spotlight="">
-      {body}
-    </div>
+      <Morph name={`project-visual-${project.slug}`}>
+        <div
+          className="proj__media"
+          style={{
+            background: `linear-gradient(140deg, ${visual.from}, ${visual.to})`,
+          }}
+        >
+          {project.tag && <span className="proj__tag">{project.tag}</span>}
+          {project.blurb && <p className="proj__blurb">{project.blurb}</p>}
+        </div>
+      </Morph>
+      <Bar project={project} />
+    </Link>
   );
 }
 

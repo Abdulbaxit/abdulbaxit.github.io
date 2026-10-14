@@ -29,7 +29,7 @@ not mean touching a component.
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | `src/content/site.ts`     | Public URL, title, description                                                                                            |
 | `src/content/profile.ts`  | Name, role, tagline, email, socials, hero stack, contact reasons, Cal.com link, skills, impact figures, status lines, bio |
-| `src/content/projects.ts` | Works cards, grouped by `category`                                                                                        |
+| `src/content/projects.ts` | Works cards, grouped by `category`, and each project's case study at `/work/<slug>/`                                      |
 | `src/content/notes.ts`    | Technical notes, each at `/notes/<slug>/`                                                                                 |
 | `src/content/diagrams.ts` | The interactive architecture diagrams on the Works cards                                                                  |
 | `src/content/types.ts`    | The shape of all of the above                                                                                             |
@@ -51,6 +51,9 @@ Google Search Console is verified with the HTML file method instead:
 `public/google4d039aef351eb7e0.html` must stay, or the site loses its
 verification.
 
+Each note and case study gets its own share image, drawn at build time by
+`src/app/og/[image]/route.ts` and served as `/og/<note|work>-<slug>.png`.
+
 `/llms.txt` is generated from the same content, as a plain summary for AI
 assistants and AI search.
 
@@ -63,7 +66,8 @@ Skills        backend / frontend + scroll-assembled illustration
 About me      bento grid: bio, impact figures, location and local time, status, fun fact
 Experience    timeline of roles, current ones highlighted
 Education     degree and final-year project
-Works         project cards with interactive architecture diagrams, resume
+Works         project cards with interactive architecture diagrams, resume;
+              each card opens a case study at /work/<slug>/
 Kind words    recommendations (hidden until there are some)
 Notes         short technical write-ups
 On GitHub     contribution heatmap, rebuilt daily

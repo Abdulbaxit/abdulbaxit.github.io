@@ -97,7 +97,17 @@ export type ProjectVisual =
   | { kind: "diagram"; diagram: DiagramId }
   | { kind: "gradient"; from: string; to: string };
 
+export interface CaseStudy {
+  summary: string;
+  role: string;
+  problem: string;
+  built: string[];
+  results: string[];
+  note?: string;
+}
+
 export interface Project {
+  slug: string;
   name: string;
   stack: string[];
   category: string;
@@ -105,4 +115,5 @@ export interface Project {
   tag?: string;
   blurb?: string;
   visual: ProjectVisual;
+  caseStudy: CaseStudy;
 }
