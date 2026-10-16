@@ -85,6 +85,7 @@ export default function Home() {
         "@type": "WebSite",
         "@id": websiteId,
         name: profile.name,
+        alternateName: [`${profile.name} · ${profile.role}`, "ab."],
         url: absoluteUrl("/"),
         inLanguage: "en",
         description: site.description,
