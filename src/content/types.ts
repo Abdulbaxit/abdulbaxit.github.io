@@ -70,7 +70,6 @@ export interface Education {
   school: string;
   href?: string;
   degree: string;
-  period: string;
   summary: string;
   highlights?: string[];
 }

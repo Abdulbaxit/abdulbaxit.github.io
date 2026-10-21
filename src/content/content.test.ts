@@ -1,13 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { diagrams } from "./diagrams";
 import { getNote, notes } from "./notes";
-import {
-  education,
-  experience,
-  isCurrentRole,
-  profile,
-  recommendations,
-} from "./profile";
+import { experience, isCurrentRole, profile, recommendations } from "./profile";
 import { getProject, projects, projectsByCategory } from "./projects";
 import { absoluteUrl, asset, site } from "./site";
 
@@ -108,7 +102,6 @@ describe("experience", () => {
   it("writes every period the same way", () => {
     for (const job of experience)
       for (const role of job.roles) expect(role.period).toMatch(period);
-    for (const entry of education) expect(entry.period).toMatch(period);
   });
 
   it("lists each company's roles newest first", () => {
