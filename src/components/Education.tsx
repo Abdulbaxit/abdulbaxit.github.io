@@ -1,6 +1,6 @@
 import { SectionHeading } from "./SectionHeading";
 import { Timeline } from "./Timeline";
-import { certificates, education, leadership } from "@/content/profile";
+import { certificates, education } from "@/content/profile";
 import type { Credential } from "@/content/types";
 
 function CredentialList({
@@ -47,7 +47,6 @@ export function Education() {
         }))}
       />
       <div className="credentials-grid">
-        <CredentialList kicker="Leadership & activities" items={leadership} />
         <CredentialList kicker="Certificates & training" items={certificates} />
       </div>
     </section>
