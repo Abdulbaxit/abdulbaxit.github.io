@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import { diagrams } from "./diagrams";
 import { getNote, notes } from "./notes";
 import {
-  certificates,
   education,
   experience,
   isCurrentRole,
@@ -131,15 +130,6 @@ describe("experience", () => {
     expect(isCurrentRole({ ...role, period: "Mar 2025 — Apr 2026" })).toBe(
       false,
     );
-  });
-});
-
-describe("credentials", () => {
-  it("each name a title and where it is from", () => {
-    for (const c of certificates) {
-      expect(c.title).toBeTruthy();
-      expect(c.from).toBeTruthy();
-    }
   });
 });
 

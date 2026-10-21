@@ -1,30 +1,6 @@
 import { SectionHeading } from "./SectionHeading";
 import { Timeline } from "./Timeline";
-import { certificates, education } from "@/content/profile";
-import type { Credential } from "@/content/types";
-
-function CredentialList({
-  kicker,
-  items,
-}: {
-  kicker: string;
-  items: Credential[];
-}) {
-  if (items.length === 0) return null;
-  return (
-    <div className="bento__tile" data-spotlight="" data-reveal="">
-      <p className="bento__kicker">{kicker}</p>
-      <ul className="credentials">
-        {items.map((item) => (
-          <li key={item.title}>
-            <span className="credentials__title">{item.title}</span>
-            <span className="credentials__from">{item.from}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+import { education } from "@/content/profile";
 
 export function Education() {
   if (education.length === 0) return null;
@@ -46,9 +22,6 @@ export function Education() {
           ],
         }))}
       />
-      <div className="credentials-grid">
-        <CredentialList kicker="Certificates & training" items={certificates} />
-      </div>
     </section>
   );
 }
