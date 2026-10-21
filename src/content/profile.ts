@@ -7,7 +7,6 @@ import type {
   SkillBlock,
   ImpactStat,
   StatusLine,
-  Credential,
 } from "./types";
 
 export const profile: Profile = {
@@ -188,14 +187,6 @@ export const education: Education[] = [
       "Coursework in data structures and algorithms, databases, web development, machine learning and software engineering",
     ],
   },
-];
-
-export const certificates: Credential[] = [
-  { title: "Certificate of Contribution", from: "Google I/O Extended" },
-  { title: "Git & GitHub Workshop", from: "GitHub Campus Expert Program" },
-  { title: "Pygame & Tkinter", from: "Udemy" },
-  { title: "Code Camp", from: "Certificate of completion" },
-  { title: "React Native app development", from: "Two-month training" },
 ];
 
 export function isCurrentRole(role: Role): boolean {
