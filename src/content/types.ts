@@ -75,6 +75,11 @@ export interface Education {
   highlights?: string[];
 }
 
+export interface Credential {
+  title: string;
+  from: string;
+}
+
 export interface SkillBlock {
   title: string;
   body: string;

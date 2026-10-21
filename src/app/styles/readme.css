@@ -147,3 +147,32 @@
     font-size: 38px;
   }
 }
+
+.credentials-grid {
+  display: grid;
+  align-items: start;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .credentials-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.credentials li + li {
+  margin-top: 0.85rem;
+}
+
+.credentials__title {
+  display: block;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.credentials__from {
+  display: block;
+  font-size: 14px;
+  color: var(--text-muted);
+}
