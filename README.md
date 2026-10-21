@@ -70,7 +70,8 @@ Skills        backend / frontend + scroll-assembled illustration
 About me      bento grid: bio, impact figures, location and local time, status, fun fact
 Experience    timeline of roles, current ones highlighted
 Education     degree and final-year project
-Works         project cards with interactive architecture diagrams, resume;
+Works         project cards with interactive architecture diagrams or
+              looping app sketches (ProjectScene), resume;
               each card opens a case study at /work/<slug>/
 Kind words    recommendations (hidden until there are some)
 Notes         short technical write-ups with read time and a reading

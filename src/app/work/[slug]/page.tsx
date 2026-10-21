@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Icon } from "@/components/Sprite";
 import { InteractiveDiagram } from "@/components/InteractiveDiagram";
+import { ProjectScene } from "@/components/ProjectScene";
 import { Morph, PageSlide } from "@/components/PageSlide";
 import { projects, getProject } from "@/content/projects";
 import { diagrams } from "@/content/diagrams";
@@ -140,13 +141,17 @@ export default async function CaseStudyPage({
             </div>
           ) : (
             <div
-              className="case__visual case__visual--gradient"
+              className="case__visual case__visual--scene"
               style={{
                 background: `linear-gradient(140deg, ${visual.from}, ${visual.to})`,
               }}
             >
+              <ProjectScene
+                scene={visual.scene}
+                accent={visual.from}
+                label={project.blurb}
+              />
               {project.tag && <span className="proj__tag">{project.tag}</span>}
-              {project.blurb && <p>{project.blurb}</p>}
             </div>
           )}
         </Morph>

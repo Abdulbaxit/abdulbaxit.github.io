@@ -92,9 +92,11 @@ export interface StatusLine {
   href?: string;
 }
 
+export type SceneId = "subscriptions" | "inventory" | "bookings" | "sessions";
+
 export type ProjectVisual =
   | { kind: "diagram"; diagram: DiagramId }
-  | { kind: "gradient"; from: string; to: string };
+  | { kind: "scene"; scene: SceneId; from: string; to: string };
 
 export interface CaseStudy {
   summary: string;

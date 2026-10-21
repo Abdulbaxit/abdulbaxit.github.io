@@ -36,18 +36,8 @@
   background: var(--surface-diagram);
 }
 
-.case__visual--gradient {
-  display: flex;
-  align-items: center;
-  min-height: 18rem;
-  padding: 3rem 2.5rem;
-  color: #fff;
-}
-
-.case__visual--gradient p {
-  max-width: 36ch;
-  font-size: 1.35rem;
-  line-height: 1.5;
+.case__visual--scene {
+  aspect-ratio: 16 / 9;
 }
 
 .case__body {

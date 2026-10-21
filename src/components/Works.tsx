@@ -3,6 +3,7 @@ import type { Route } from "next";
 import { SvgButton } from "./SvgButton";
 import { Morph } from "./PageSlide";
 import { InteractiveDiagram } from "./InteractiveDiagram";
+import { ProjectScene } from "./ProjectScene";
 import { SectionHeading } from "./SectionHeading";
 import { projectsByCategory } from "@/content/projects";
 import { diagrams } from "@/content/diagrams";
@@ -77,13 +78,17 @@ function ProjectCard({ project }: { project: Project }) {
     >
       <Morph name={`project-visual-${project.slug}`}>
         <div
-          className="proj__media"
+          className="proj__media proj__media--scene"
           style={{
             background: `linear-gradient(140deg, ${visual.from}, ${visual.to})`,
           }}
         >
+          <ProjectScene
+            scene={visual.scene}
+            accent={visual.from}
+            label={project.blurb}
+          />
           {project.tag && <span className="proj__tag">{project.tag}</span>}
-          {project.blurb && <p className="proj__blurb">{project.blurb}</p>}
         </div>
       </Morph>
       <Bar project={project} />

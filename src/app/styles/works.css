@@ -30,13 +30,6 @@ a.proj:focus-visible {
   padding: 22px;
 }
 
-.proj__blurb {
-  max-width: 42ch;
-  font-size: 15px;
-  line-height: 1.6;
-  color: #fff;
-}
-
 .proj__media--diagram {
   background: var(--surface-diagram);
   padding: 0;

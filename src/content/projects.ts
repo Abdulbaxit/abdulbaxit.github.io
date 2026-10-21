@@ -92,7 +92,12 @@ export const projects: Project[] = [
     tag: "Client work · access restricted",
     blurb:
       "Customer and subscription management for a live client platform — features across the frontend and an optimised PostgreSQL layer behind it.",
-    visual: { kind: "gradient", from: "#4a6fb5", to: "#2f4a7d" },
+    visual: {
+      kind: "scene",
+      scene: "subscriptions",
+      from: "#4a6fb5",
+      to: "#2f4a7d",
+    },
     caseStudy: {
       summary:
         "Customer and subscription management for a live client platform, built at Voltade.",
@@ -119,7 +124,12 @@ export const projects: Project[] = [
     tag: "Client work · access restricted",
     blurb:
       "Replaced a legacy ERP with a mobile-first portal covering inventory tracking and order fulfilment across the client's branches.",
-    visual: { kind: "gradient", from: "#3f7a6d", to: "#26514a" },
+    visual: {
+      kind: "scene",
+      scene: "inventory",
+      from: "#3f7a6d",
+      to: "#26514a",
+    },
     caseStudy: {
       summary:
         "A mobile-first portal that replaced a client's legacy ERP for inventory and orders across its branches.",
@@ -146,7 +156,12 @@ export const projects: Project[] = [
     tag: "Client work · access restricted",
     blurb:
       "Student bookings, resource delivery and internal comms in one dashboard, with role-based access replacing manual scheduling.",
-    visual: { kind: "gradient", from: "#ab5838", to: "#743722" },
+    visual: {
+      kind: "scene",
+      scene: "bookings",
+      from: "#ab5838",
+      to: "#743722",
+    },
     caseStudy: {
       summary:
         "One dashboard for student bookings, resource delivery and internal comms, built at Voltade.",
@@ -199,7 +214,12 @@ export const projects: Project[] = [
     tag: "Sole full-stack developer",
     blurb:
       "Booking and payments for coaches, consultants and freelancers: AI-generated sessions, Google and Microsoft calendar sync, and built-in video calls with recordings.",
-    visual: { kind: "gradient", from: "#7a4f8a", to: "#4f3160" },
+    visual: {
+      kind: "scene",
+      scene: "sessions",
+      from: "#7a4f8a",
+      to: "#4f3160",
+    },
     caseStudy: {
       summary:
         "An AI-powered booking and payments platform for coaches, consultants and freelancers, built end to end as the only developer.",
