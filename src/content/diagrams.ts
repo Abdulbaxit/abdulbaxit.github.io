@@ -470,6 +470,138 @@ export const diagrams = {
       },
     ],
   },
+  doorman: {
+    id: "doorman",
+    alt: "The Doorman Game architecture: a player's message goes to a FastAPI backend, which keeps conversation memory, asks a hidden judge model to score the message and move an influence meter, and asks the doorman model to reply in character.",
+    playLabel: "Play a turn",
+    labels: [
+      {
+        x: 400,
+        y: 86,
+        text: "Talk your way in: a hidden judge decides whether it worked.",
+        kind: "caption",
+      },
+    ],
+    nodes: [
+      {
+        id: "player",
+        x: 34,
+        y: 184,
+        w: 140,
+        h: 84,
+        title: "Player",
+        lines: ["React · Vite"],
+        detail: "You, trying to talk your way past the doorman.",
+      },
+      {
+        id: "api",
+        x: 226,
+        y: 170,
+        w: 170,
+        h: 112,
+        title: "FastAPI",
+        titleSize: 19,
+        lines: ["sessions", "via OpenRouter"],
+        tone: "accent",
+        detail:
+          "The backend: it keeps each game session and calls both models through OpenRouter.",
+      },
+      {
+        id: "doorman",
+        x: 452,
+        y: 184,
+        w: 170,
+        h: 84,
+        title: "Arthur",
+        lines: ["Llama 3.1 8B", "the doorman"],
+        detail:
+          "The doorman, played in character. He never reveals the rules and ignores attempts to override them.",
+      },
+      {
+        id: "memory",
+        x: 226,
+        y: 340,
+        w: 170,
+        h: 96,
+        title: "Memory",
+        lines: ["last 16 messages", "+ a running summary"],
+        detail:
+          "Recent messages are kept in full and older ones are summarised, so long conversations stay consistent.",
+      },
+      {
+        id: "judge",
+        x: 452,
+        y: 340,
+        w: 170,
+        h: 96,
+        title: "Judge",
+        lines: ["Llama 3.3 70B", "scores −6 to +6"],
+        detail:
+          "A hidden model that scores each message against Arthur's secret profile and returns strict JSON.",
+      },
+      {
+        id: "meter",
+        x: 660,
+        y: 340,
+        w: 118,
+        h: 96,
+        title: "Meter",
+        lines: ["+30 wins", "−30 loses"],
+        detail:
+          "Each score moves the influence meter until you get in or get turned away.",
+      },
+    ],
+    edges: [
+      { id: "player-api", d: "M174 226 H216", tone: "accent" },
+      { id: "api-doorman", d: "M396 226 H442", tone: "accent" },
+      { id: "api-memory", d: "M311 282 V330" },
+      { id: "api-judge", d: "M396 262 H424 V388 H442" },
+      { id: "judge-meter", d: "M622 388 H650" },
+      {
+        id: "doorman-player",
+        d: "M537 184 V140 H104 V174",
+        tone: "faint",
+        dashed: true,
+      },
+    ],
+    flow: [
+      {
+        node: "player",
+        caption: "You try to talk your way past Arthur, the doorman.",
+      },
+      {
+        node: "api",
+        edges: ["player-api"],
+        caption: "FastAPI takes your message and the game so far.",
+      },
+      {
+        node: "memory",
+        edges: ["api-memory"],
+        caption: "Older turns are summarised, so long chats stay consistent.",
+      },
+      {
+        node: "judge",
+        edges: ["api-judge"],
+        caption: "A hidden judge scores your message from −6 to +6.",
+      },
+      {
+        node: "meter",
+        edges: ["judge-meter"],
+        caption:
+          "The score moves the meter: +30 gets you in, −30 gets you turned away.",
+      },
+      {
+        node: "doorman",
+        edges: ["api-doorman"],
+        caption: "Arthur replies in character, without revealing the rules.",
+      },
+      {
+        node: "player",
+        edges: ["doorman-player"],
+        caption: "His reply comes back, and it's your move again.",
+      },
+    ],
+  },
 } satisfies Record<string, Diagram>;
 
 export type DiagramId = keyof typeof diagrams;

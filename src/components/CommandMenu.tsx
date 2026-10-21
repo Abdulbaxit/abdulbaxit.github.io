@@ -55,6 +55,15 @@ function buildCommands(): Command[] {
       target: `/work/${p.slug}/`,
     })),
     {
+      id: "uses",
+      group: "Go to",
+      label: "What I use",
+      keywords: "uses setup tools stack",
+      icon: "layers",
+      kind: "route",
+      target: "/uses/",
+    },
+    {
       id: "copy-email",
       group: "Actions",
       label: "Copy email address",
