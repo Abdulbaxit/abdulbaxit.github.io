@@ -227,3 +227,43 @@
     scale: 1 1;
   }
 }
+
+.uses {
+  max-width: 68ch;
+  margin-top: 2.5rem;
+}
+
+.uses__group + .uses__group {
+  margin-top: 2.25rem;
+}
+
+.uses__title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.uses__list {
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+}
+
+.uses__item {
+  display: grid;
+  gap: 0.15rem 1.5rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.uses__item dt {
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+@media (min-width: 640px) {
+  .uses__item {
+    grid-template-columns: 14rem 1fr;
+  }
+}

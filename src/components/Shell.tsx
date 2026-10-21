@@ -88,6 +88,12 @@ function SiteFooter() {
           <p className="px-2 py-1">
             © {new Date().getFullYear()} {profile.name}. All rights reserved
           </p>
+          <Link
+            href="/uses"
+            className="px-2 py-1 transition-colors hover:text-prime"
+          >
+            What I use
+          </Link>
         </div>
       </footer>
 

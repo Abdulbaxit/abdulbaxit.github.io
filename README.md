@@ -79,6 +79,8 @@ On GitHub     contribution heatmap, rebuilt daily
 Contact       email, links, local time in Lahore
 Dock          floating nav: sections, resume, search, Book a call
 ⌘K menu       search and jump to sections, notes and projects, plus quick actions
+/uses         the hardware, tools and stack I work with
+404           a small terminal: help, ls, cd, open, cv, theme
 ```
 
 ## Design system

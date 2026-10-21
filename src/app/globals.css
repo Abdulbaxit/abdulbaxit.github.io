@@ -22,6 +22,7 @@
 @import "./styles/spotlight.css";
 @import "./styles/dock.css";
 @import "./styles/command-menu.css";
+@import "./styles/terminal.css";
 @import "./styles/cursor.css";
 @import "./styles/page-transitions.css";
 @import "./styles/reduced-motion.css";

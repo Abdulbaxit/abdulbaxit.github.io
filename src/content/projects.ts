@@ -56,6 +56,34 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "doorman-game",
+    name: "The Doorman Game",
+    stack: ["FastAPI", "React", "Llama"],
+    category: "AI systems",
+    href: "https://github.com/Abdulbaxit/club-gatekeeper-ai",
+    visual: { kind: "diagram", diagram: "doorman" },
+    caseStudy: {
+      summary:
+        "A two-agent LLM game: talk your way past an AI doorman while a hidden judge model scores every message.",
+      role: "Personal project",
+      problem:
+        "A persuasion game needs two jobs done well at once: a doorman who stays in character, and a fair judge of how convincing each message is. Asking one model to do both mixes them up, so the game splits the roles between two models.",
+      built: [
+        "Arthur, the doorman: a Llama 3.1 8B persona with a hidden profile of values, soft spots and triggers",
+        "A judge on Llama 3.3 70B that scores each message from −6 to +6 against that profile and returns strict JSON",
+        "An influence meter: reach +30 to get in, fall to −30 and you are turned away",
+        "Conversation memory that keeps the last 16 messages and summarises older ones",
+        "Guards against prompt injection, fallback models, and game sessions saved to disk",
+        "A FastAPI backend calling the models through OpenRouter, with a React and Vite frontend",
+      ],
+      results: [
+        "Two models with separate roles in one conversation",
+        "Attempts to reveal or override the rules are ignored by design",
+        "Open source on GitHub",
+      ],
+    },
+  },
+  {
     slug: "happy-fish",
     name: "Happy Fish",
     stack: ["React", "Vite", "PostgreSQL"],
