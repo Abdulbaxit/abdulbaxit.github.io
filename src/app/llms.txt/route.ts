@@ -33,9 +33,7 @@ export function GET() {
     "",
     "## Education",
     "",
-    ...education.map(
-      (e) => `- ${e.degree}, ${e.school}, ${e.period}: ${e.summary}`,
-    ),
+    ...education.map((e) => `- ${e.degree}, ${e.school}: ${e.summary}`),
     "",
     "## Skills",
     "",

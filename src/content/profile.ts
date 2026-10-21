@@ -179,7 +179,6 @@ export const education: Education[] = [
     school: "Lahore Garrison University",
     href: "https://lgu.edu.pk/",
     degree: "BS Software Engineering",
-    period: "Aug 2020 — Jul 2024",
     summary:
       "Final-year project: Autism Emotion Synergy, an AI system combining facial and speech emotion recognition to support emotional analysis for autism. Funded by the National Technology Fund.",
     highlights: [
@@ -189,7 +188,7 @@ export const education: Education[] = [
   },
 ];
 
-export function isCurrentRole(role: Role): boolean {
+export function isCurrentRole(role: Pick<Role, "period">): boolean {
   return /present$/i.test(role.period);
 }
 

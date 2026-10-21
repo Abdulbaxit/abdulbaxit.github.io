@@ -15,7 +15,6 @@ export function Education() {
           entries: [
             {
               title: entry.degree,
-              period: entry.period,
               summary: entry.summary,
               highlights: entry.highlights,
             },

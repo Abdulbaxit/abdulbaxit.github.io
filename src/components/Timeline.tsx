@@ -1,11 +1,13 @@
 import { isCurrentRole } from "@/content/profile";
 import type { Role } from "@/content/types";
 
+export type TimelineEntry = Omit<Role, "period"> & { period?: string };
+
 export interface TimelineGroup {
   name: string;
   href?: string;
   terms?: string;
-  entries: Role[];
+  entries: TimelineEntry[];
 }
 
 export function Timeline({ groups }: { groups: TimelineGroup[] }) {
@@ -36,12 +38,12 @@ export function Timeline({ groups }: { groups: TimelineGroup[] }) {
               <li
                 key={entry.title}
                 className={
-                  isCurrentRole(entry)
+                  entry.period && isCurrentRole({ period: entry.period })
                     ? "tl__role tl__role--current"
                     : "tl__role"
                 }
               >
-                <p className="tl__period">{entry.period}</p>
+                {entry.period && <p className="tl__period">{entry.period}</p>}
                 <h4 className="tl__title">{entry.title}</h4>
                 <p className="tl__summary">{entry.summary}</p>
 
