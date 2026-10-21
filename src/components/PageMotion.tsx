@@ -66,12 +66,24 @@ export function PageMotion() {
         tiles.observe(el);
       });
 
+    const scenes = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries)
+          entry.target.classList.toggle("is-playing", entry.isIntersecting);
+      },
+      { threshold: 0.2 },
+    );
+    document
+      .querySelectorAll("[data-scene]")
+      .forEach((el) => scenes.observe(el));
+
     const stopMagnets = magnets();
     const stopSpotlight = spotlight();
 
     return () => {
       reveal.disconnect();
       tiles.disconnect();
+      scenes.disconnect();
       stopMagnets();
       stopSpotlight();
     };
