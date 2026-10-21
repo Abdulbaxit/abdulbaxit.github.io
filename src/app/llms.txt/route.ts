@@ -2,7 +2,6 @@ import {
   profile,
   experience,
   education,
-  leadership,
   certificates,
   skills,
   readme,
@@ -38,7 +37,7 @@ export function GET() {
     ...education.map(
       (e) => `- ${e.degree}, ${e.school}, ${e.period}: ${e.summary}`,
     ),
-    ...[...leadership, ...certificates].map((c) => `- ${c.title}, ${c.from}`),
+    ...certificates.map((c) => `- ${c.title}, ${c.from}`),
     "",
     "## Skills",
     "",

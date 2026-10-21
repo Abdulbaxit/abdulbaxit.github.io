@@ -190,17 +190,6 @@ export const education: Education[] = [
   },
 ];
 
-export const leadership: Credential[] = [
-  {
-    title: "Co-Lead, Google Developer Student Clubs",
-    from: "Lahore Garrison University",
-  },
-  {
-    title: "Badminton champion, two years running",
-    from: "Govt. Shalimar Graduate College",
-  },
-];
-
 export const certificates: Credential[] = [
   { title: "Certificate of Contribution", from: "Google I/O Extended" },
   { title: "Git & GitHub Workshop", from: "GitHub Campus Expert Program" },

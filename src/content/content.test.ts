@@ -5,7 +5,6 @@ import {
   certificates,
   education,
   experience,
-  leadership,
   isCurrentRole,
   profile,
   recommendations,
@@ -137,7 +136,7 @@ describe("experience", () => {
 
 describe("credentials", () => {
   it("each name a title and where it is from", () => {
-    for (const c of [...leadership, ...certificates]) {
+    for (const c of certificates) {
       expect(c.title).toBeTruthy();
       expect(c.from).toBeTruthy();
     }
